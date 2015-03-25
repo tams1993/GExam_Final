@@ -2,6 +2,8 @@ package gko.app.gexam;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -14,7 +16,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -47,18 +49,22 @@ public class QRActivity extends Activity implements OnClickListener{
         Button button1 = (Button) findViewById(R.id.button1);
         button1.setOnClickListener(this);
 
+        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        String UserName = sp.getString("USER", String.valueOf(-1));
 
+        GenerateQRCode(UserName);
+
+
+//                SharedPreferences.Editor editor = sp.edit();
+//                editor.remove("QR_Code");
+//                editor.commit();
 
 
 //        refresh = new Runnable() {
 //            @Override
 //            public void run() {
 //
-//                SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-//                String qrText = sp.getString("QR_Code", String.valueOf(-1));
-//                SharedPreferences.Editor editor = sp.edit();
-//                editor.remove("QR_Code");
-//                editor.commit();
+//
 //
 //                if (qrText.equals("admin")) {
 //
@@ -87,7 +93,44 @@ public class QRActivity extends Activity implements OnClickListener{
 
     }
 
+    private void GenerateQRCode(String qrText) {
+
+
+
+        //Find screen size
+        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        int width = point.x;
+        int height = point.y;
+        int smallerDimension = width < height ? width : height;
+        smallerDimension = smallerDimension * 3/4;
+
+
+
+        //Encode with a QR Code image
+        QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrText,
+                null,
+                Contents.Type.TEXT,
+                BarcodeFormat.QR_CODE.toString(),
+                smallerDimension);
+        try {
+            Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
+            ImageView myImage = (ImageView) findViewById(R.id.imageView1);
+            myImage.setImageBitmap(bitmap);
+
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+
+        Toast.makeText(getApplicationContext(),qrText,Toast.LENGTH_LONG).show();
+    }
+
     public void onClick(View v) {
+
+
 
         switch (v.getId()) {
             case R.id.button1:
@@ -101,32 +144,7 @@ public class QRActivity extends Activity implements OnClickListener{
 
                 Log.v(LOG_TAG, qrInputText);
 
-                //Find screen size
-                WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                Point point = new Point();
-                display.getSize(point);
-                int width = point.x;
-                int height = point.y;
-                int smallerDimension = width < height ? width : height;
-                smallerDimension = smallerDimension * 3/4;
-
-
-
-                //Encode with a QR Code image
-                QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(qrInputText,
-                        null,
-                        Contents.Type.TEXT,
-                        BarcodeFormat.QR_CODE.toString(),
-                        smallerDimension);
-                try {
-                    Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
-                    ImageView myImage = (ImageView) findViewById(R.id.imageView1);
-                    myImage.setImageBitmap(bitmap);
-
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
+                GenerateQRCode(qrInputText);
 
 
                 break;

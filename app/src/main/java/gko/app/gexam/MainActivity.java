@@ -1,13 +1,16 @@
 package gko.app.gexam;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,6 +19,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Button btnLogin;
     private Spinner spinner;
+    private EditText edtUser, edtPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,14 @@ public class MainActivity extends ActionBarActivity {
         FontsOverride.setDefaultFont(this, "SERIF", "phetsarath.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "phetsarath.ttf");
 
+        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+
+
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        edtUser = (EditText) findViewById(R.id.edtUser);
+        edtPass = (EditText) findViewById(R.id.edtPass);
         spinner = (Spinner) findViewById(R.id.spinner);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -52,8 +63,21 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                Intent intent = new Intent(MainActivity.this, RuleActivity.class);
-                startActivity(intent);
+                editor.putString("USER", edtUser.getText().toString());
+                editor.commit();
+
+                if (edtUser.getText().toString().isEmpty()) {
+
+                    Toast.makeText(getApplicationContext(), "Type Something", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Intent intent = new Intent(MainActivity.this, RuleActivity.class);
+                    startActivity(intent);
+
+
+                }
+
 
 
             }
