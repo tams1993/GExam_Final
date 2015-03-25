@@ -3,6 +3,7 @@ package gko.app.gexam;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -52,6 +53,9 @@ public class QRActivity extends Activity implements OnClickListener{
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         String UserName = sp.getString("USER", String.valueOf(-1));
 
+
+        Refresh();
+
         GenerateQRCode(UserName);
 
 
@@ -90,6 +94,23 @@ public class QRActivity extends Activity implements OnClickListener{
 
 
 
+
+    }
+
+    private void Refresh() {
+
+        refresh = new Runnable() {
+            @Override
+            public void run() {
+
+                startActivity(new Intent(QRActivity.this, CoureseDetail_Activity.class));
+                handler.postDelayed(refresh, 3000);
+
+            }
+        };
+
+
+        handler.post(refresh);
 
     }
 

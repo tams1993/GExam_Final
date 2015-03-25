@@ -24,6 +24,10 @@
             android:name=".QRActivity"
             android:label="@string/title_activity_qr" >
         </activity>
+        <activity
+            android:name=".CoureseDetail_Activity"
+            android:label="@string/title_activity_courese_detail_" >
+        </activity>
     </application>
 
 </manifest>

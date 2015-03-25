@@ -13,6 +13,12 @@
     <string name="committee"><u>ກຳມະການ </u></string>
     <string name="rule">ກົດລະບຽບ:  </string>
     <string name="Next">ຕໍ່ໄປ </string>
+    <string name="course_detail">ລາຍລະອຽດ Course: </string>
+    <string name="course_name">ຊື່ Course: </string>
+    <string name="detail">ລາຍລະອຽດ: </string>
+    <string name="confirm">ຢືນຢັນ: </string>
+    <string name="tick_to_confirm">ຕິກເພື່ອຢືນຢັນເລີ່ມສອບເສັງ </string>
+    <string name="start">ເລີ່ມເສັງ </string>
 
     <string name="country_prompt">Choose a country</string>
     <string-array name="country_arrays">
@@ -28,5 +34,6 @@
     <string name="title_activity_rule">RuleActivity</string>
     <string name="active">Active:</string>
     <string name="title_activity_qr">QRActivity</string>
+    <string name="title_activity_courese_detail_">CoureseDetail_Activity</string>
 
 </resources>
