@@ -1,15 +1,16 @@
-package gko.app.gexam;
+package gko.app.gexam.student;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import gko.app.gexam.R;
 
 
 public class CoureseDetail_Activity extends ActionBarActivity {
@@ -32,7 +33,11 @@ public class CoureseDetail_Activity extends ActionBarActivity {
 
                 if (cbConfirm.isChecked()) {
 
+
+                    startActivity(new Intent(CoureseDetail_Activity.this, QuestionPageActivity.class ));
+
                     Toast.makeText(getApplicationContext(),"CheckBox is Checked",Toast.LENGTH_LONG).show();
+
 
 
 

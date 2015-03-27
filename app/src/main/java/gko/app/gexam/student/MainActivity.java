@@ -1,4 +1,4 @@
-package gko.app.gexam;
+package gko.app.gexam.student;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import gko.app.gexam.R;
 
 
 public class MainActivity extends ActionBarActivity {

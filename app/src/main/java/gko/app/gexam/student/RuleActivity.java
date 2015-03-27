@@ -1,4 +1,4 @@
-package gko.app.gexam;
+package gko.app.gexam.student;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
+
+import gko.app.gexam.R;
 
 
 public class RuleActivity extends ActionBarActivity {
@@ -31,6 +33,8 @@ public class RuleActivity extends ActionBarActivity {
                 if (cbActive.isChecked()) {
 
                     Intent intent = new Intent(RuleActivity.this, QRActivity.class);
+
+
                     startActivity(intent);
 
                     Toast.makeText(getApplicationContext(), "Course is Active ", Toast.LENGTH_LONG).show();

@@ -1,4 +1,4 @@
-package gko.app.gexam;
+package gko.app.gexam.student;
 
 
 import android.app.Activity;
@@ -22,8 +22,9 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
-import gko.app.gexam.generator.Contents;
-import gko.app.gexam.generator.QRCodeEncoder;
+import gko.app.gexam.R;
+import gko.app.gexam.student.generator.Contents;
+import gko.app.gexam.student.generator.QRCodeEncoder;
 
 public class QRActivity extends Activity implements OnClickListener{
 

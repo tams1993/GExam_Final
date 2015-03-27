@@ -1,4 +1,4 @@
-package gko.app.gexam.generator;
+package gko.app.gexam.student.generator;
 /*
  * Copyright (C) 2008 ZXing authors
  *

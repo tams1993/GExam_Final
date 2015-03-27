@@ -1,4 +1,4 @@
-package gko.app.gexam;
+package gko.app.gexam.student;
 
 import android.content.Context;
 import android.graphics.Typeface;

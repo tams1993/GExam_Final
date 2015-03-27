@@ -1,4 +1,4 @@
-package gko.app.gexam.generator;
+package gko.app.gexam.student.generator;
 
 /**
  * Created by tams1993 on 3/5/2015.
