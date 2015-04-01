@@ -32,6 +32,14 @@
             android:name=".student.QuestionPageActivity"
             android:label="@string/title_activity_question_page" >
         </activity>
+        <activity
+            android:name=".committed.Committy_login"
+            android:label="@string/title_activity_committy_login" >
+        </activity>
+        <activity
+            android:name=".committed.com_fragment.ComFragActivity"
+            android:label="@string/title_activity_com_frag" >
+        </activity>
     </application>
 
 </manifest>

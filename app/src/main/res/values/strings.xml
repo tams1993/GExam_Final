@@ -19,6 +19,7 @@
     <string name="confirm">ຢືນຢັນ: </string>
     <string name="tick_to_confirm">ຕິກເພື່ອຢືນຢັນເລີ່ມສອບເສັງ </string>
     <string name="start">ເລີ່ມເສັງ </string>
+    <string name="course_code">ລະຫັດ Course:  </string>
 
     <string name="country_prompt">Choose a country</string>
     <string-array name="country_arrays">
@@ -33,8 +34,14 @@
     </string-array>
     <string name="title_activity_rule">RuleActivity</string>
     <string name="active">Active:</string>
+    <string name="active_course">ເປີດ Course ສອບເສັງ</string>
     <string name="title_activity_qr">QRActivity</string>
     <string name="title_activity_courese_detail_">CoureseDetail_Activity</string>
     <string name="title_activity_question_page">QuestionPageActivity</string>
+    <string name="title_activity_committy_login">Committy_login</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_com_frag">ComFragActivity</string>
 
 </resources>

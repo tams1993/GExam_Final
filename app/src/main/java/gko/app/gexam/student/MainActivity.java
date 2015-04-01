@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import gko.app.gexam.R;
+import gko.app.gexam.committed.Committy_login;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
     private Button btnLogin;
     private Spinner spinner;
     private EditText edtUser, edtPass;
+    private TextView txtCom;
     private Handler mHandler = new Handler();
 
     private Runnable decor_view_settings = new Runnable()
@@ -102,6 +105,18 @@ public class MainActivity extends ActionBarActivity {
         edtUser = (EditText) findViewById(R.id.edtUser);
         edtPass = (EditText) findViewById(R.id.edtPass);
         spinner = (Spinner) findViewById(R.id.spinner);
+        txtCom = (TextView) findViewById(R.id.txtCommittee);
+
+        txtCom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, Committy_login.class);
+                startActivity(intent);
+
+
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
