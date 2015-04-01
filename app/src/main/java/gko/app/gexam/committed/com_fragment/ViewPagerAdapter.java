@@ -1,24 +1,30 @@
 package gko.app.gexam.committed.com_fragment;
 
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.text.style.ImageSpan;
+
+import gko.app.gexam.R;
 
 /**
  * Created by hp1 on 21-01-2015.
  */
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
+    int icons[] = {R.drawable.ic_action_paste,R.drawable.ic_action_info,R.drawable.ic_action_group};
     CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
     int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb) {
+    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumbOfTabsumb, int mIcons[]) {
         super(fm);
 
         this.Titles = mTitles;
         this.NumbOfTabs = mNumbOfTabsumb;
+        this.icons = mIcons;
 
     }
 
@@ -48,8 +54,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     // This method return the titles for the Tabs in the Tab Strip
 
+
     @Override
     public CharSequence getPageTitle(int position) {
+
+
+
+
         return Titles[position];
     }
 
