@@ -49,6 +49,15 @@
             android:name=".committed.com_fragment.ScannerActivity"
             android:label="@string/title_activity_com_frag" >
         </activity>
+
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:screenOrientation="landscape" >
+
+            </activity>
+
+
+
     </application>
 
 </manifest>

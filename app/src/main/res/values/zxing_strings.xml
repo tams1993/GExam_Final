@@ -20,5 +20,6 @@
   <string name="contents_text">Plain text</string>
   <string name="result_text">Found plain text</string>
   <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
-  <string name="msg_default_status">Place a barcode inside the viewfinder rectangle to scan it.</string>
+  <string name="msg_default_scan_again">ກົດ "ສະແກນ" ເພື່ອສະແກນອີກຄັ້ງ</string>
+  <string name="msg_default_status">ໃຫ້ຕຳແໜ່ງຂອງ QR code ຢຼ່ໃນຂອບສີ່ຫຼ່ຽມເພື່ອສະແກນ</string>
 </resources>

@@ -28,8 +28,12 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -64,7 +68,7 @@ import gko.app.gexam.R;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends Activity implements SurfaceHolder.Callback {
+public final class CaptureActivity extends ActionBarActivity implements SurfaceHolder.Callback {
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
@@ -97,11 +101,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     @Override
     public void onCreate(Bundle icicle) {
-	    requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    super.onCreate(icicle);
-	    
-	    Window window = getWindow();
-	    window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(icicle);
+
+
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.capture);
 
         hasSurface = false;
@@ -126,7 +132,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     @SuppressWarnings("deprecation")
-	@Override
+    @Override
     protected void onResume() {
         super.onResume();
 
@@ -218,6 +224,35 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_qr, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_bar_scan) {
+
+            Intent intent = getIntent();
+            finish();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
         // Bitmap isn't used yet -- will be used soon
         if (handler == null) {
@@ -263,6 +298,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
      * @param barcode     A greyscale bitmap of the camera data which was decoded.
      */
     public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+
         inactivityTimer.onActivity();
         lastResult = rawResult;
         ParsedResult result = parseResult(rawResult);
@@ -275,11 +311,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         }
 
         handleDecodeInternally(rawResult, result, barcode);
+
+
     }
-	
-	private static ParsedResult parseResult(Result rawResult) {
-		return ResultParser.parseResult(rawResult);
-	}
+
+    private static ParsedResult parseResult(Result rawResult) {
+        return ResultParser.parseResult(rawResult);
+    }
 
     /**
      * Superimpose a line for 1D or dots for 2D to highlight the key features of the barcode.
@@ -298,8 +336,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                 paint.setStrokeWidth(4.0f);
                 drawLine(canvas, paint, points[0], points[1], scaleFactor);
             } else if (points.length == 4 &&
-                                 (rawResult.getBarcodeFormat() == BarcodeFormat.UPC_A ||
-                                    rawResult.getBarcodeFormat() == BarcodeFormat.EAN_13)) {
+                    (rawResult.getBarcodeFormat() == BarcodeFormat.UPC_A ||
+                            rawResult.getBarcodeFormat() == BarcodeFormat.EAN_13)) {
                 // Hacky special case -- draw two lines, for the barcode and metadata
                 drawLine(canvas, paint, points[0], points[1], scaleFactor);
                 drawLine(canvas, paint, points[2], points[3], scaleFactor);
@@ -314,29 +352,29 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
         if (a != null && b != null) {
-            canvas.drawLine(scaleFactor * a.getX(), 
-                                            scaleFactor * a.getY(), 
-                                            scaleFactor * b.getX(), 
-                                            scaleFactor * b.getY(), 
-                                            paint);
+            canvas.drawLine(scaleFactor * a.getX(),
+                    scaleFactor * a.getY(),
+                    scaleFactor * b.getX(),
+                    scaleFactor * b.getY(),
+                    paint);
         }
     }
 
     // Put up our own UI for how to handle the decoded contents.
     private void handleDecodeInternally(Result rawResult, ParsedResult resultHandler, Bitmap barcode) {
-        statusView.setText("Press Scan to Scan again");
+        statusView.setText(R.string.msg_default_scan_again);
         viewfinderView.setVisibility(View.GONE);
         //resultView.setVisibility(View.VISIBLE);
-        
+
         Intent intent = new Intent();
-		intent.putExtra("FORMAT", rawResult.getBarcodeFormat().toString());
-		intent.putExtra("TYPE", resultHandler.getType().toString());
-		intent.putExtra("CONTENT", resultHandler.getDisplayResult());
+        intent.putExtra("FORMAT", rawResult.getBarcodeFormat().toString());
+        intent.putExtra("TYPE", resultHandler.getType().toString());
+        intent.putExtra("CONTENT", resultHandler.getDisplayResult());
 
 //        finish();
 //        startActivity(getIntent());
 
-		setResult(RESULT_OK, intent);
+        setResult(RESULT_OK, intent);
 
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -348,7 +386,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {
-	if (surfaceHolder == null) {
+        if (surfaceHolder == null) {
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {

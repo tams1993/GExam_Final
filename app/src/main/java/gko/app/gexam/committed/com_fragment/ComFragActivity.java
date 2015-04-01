@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.zxing.client.android.CaptureActivity;
+
 import gko.app.gexam.R;
 import gko.app.gexam.committed.com_fragment.tab.SlidingTabLayout;
 
@@ -85,7 +87,7 @@ public class ComFragActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.qr_scan) {
-            startActivity(new Intent(this, ScannerActivity.class));
+            startActivity(new Intent(this, CaptureActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
