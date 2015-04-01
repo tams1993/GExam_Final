@@ -1,42 +1,68 @@
 package gko.app.gexam.committed.com_fragment;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
+import android.content.Intent;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import gko.app.gexam.R;
+import gko.app.gexam.committed.com_fragment.tab.SlidingTabLayout;
 
-public class ComFragActivity extends FragmentActivity implements ActionBar.TabListener {
 
-    ActionBar actionBar;
+public class ComFragActivity extends ActionBarActivity {
+
+    // Declaring Your View and Variables
+
+    Toolbar toolbar;
+    ViewPager pager;
+    ViewPagerAdapter adapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[]={"ກົດລະບຽບ","ລາຍລະອຽດ","ລາຍຊື່ນັກສຶກສາ"};
+    int Numboftabs = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_com_frag);
 
-        actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        ActionBar.Tab tabRule = actionBar.newTab();
-        tabRule.setText("Rule");
-        tabRule.setTabListener(this);
 
-        ActionBar.Tab tabDetail = actionBar.newTab();
-        tabRule.setText("Detail");
-        tabRule.setTabListener(this);
 
-        ActionBar.Tab tabStudentList = actionBar.newTab();
-        tabRule.setText("Rule");
-        tabRule.setTabListener(this);
+        // Creating The Toolbar and setting it as the Toolbar for the activity
 
-        actionBar.addTab(tabRule);
-        actionBar.addTab(tabDetail);
-        actionBar.addTab(tabStudentList);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(toolbar);
+
+
+        getSupportActionBar().setTitle("ກຳມະການ");
+
+
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(adapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+
+
 
     }
 
@@ -55,26 +81,13 @@ public class ComFragActivity extends FragmentActivity implements ActionBar.TabLi
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.qr_scan) {
+            startActivity(new Intent(this, ScannerActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-    }
-
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
     }
 }

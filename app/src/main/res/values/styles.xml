@@ -2,21 +2,39 @@
 
     <!-- Base application theme. -->
 
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
-        <item name="android:windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
         <item name="android:textColor">@color/black</item>
 
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
         <item name="android:typeface">monospace</item>
 
     </style>
 
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:windowNoTitle">true</item>
 
-        <!--<item name="android:typeface">monospace</item>-->
+
+
+    </style>
+
+    <style name="ToolbarTheme" parent="Base.ThemeOverlay.AppCompat.Light" >
+
+        <item name="android:textColorPrimary">@color/ToolbarTextPrimary</item>
+        <item name="android:textColorSecondary">@color/ToolbarTextSecondary</item>
+        <item name="android:windowNoTitle">true</item>
+
+    </style>
+
+
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+
 
     <!--</style>-->
 

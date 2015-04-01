@@ -20,6 +20,12 @@
     <string name="tick_to_confirm">ຕິກເພື່ອຢືນຢັນເລີ່ມສອບເສັງ </string>
     <string name="start">ເລີ່ມເສັງ </string>
     <string name="course_code">ລະຫັດ Course:  </string>
+    <string name="qr_scan">ສະແກນ</string>
+    <string name="com_rule">ກົດລະບຽບ</string>
+    <string name="com_detail">ລາຍລະອຽດ</string>
+    <string name="com_student_list">ລາຍຊື່ນັກສຶກສາ</string>
+    <string name="com_student_come">ມີໜ້າ</string>
+    <string name="com_student_cheat">ຜິດກົດລະບຽບ</string>
 
     <string name="country_prompt">Choose a country</string>
     <string-array name="country_arrays">
@@ -43,5 +49,6 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_com_frag">ComFragActivity</string>
+    <string name="title_activity_com_scan">ScannerActivity</string>
 
 </resources>
