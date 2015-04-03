@@ -24,15 +24,19 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.Table;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
-import gko.app.gexam.network.VolleySingleton;
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -42,10 +46,10 @@ public class MainActivity extends ActionBarActivity {
     private EditText edtUser, edtPass;
     private TextView txtCom;
     private Handler mHandler = new Handler();
-    private VolleySingleton volleySingleton;
-    private RequestQueue requestQueue;
 
-    public static final String URL_JSON = "http://192.168.1.8/gexam/db_connect.php";
+    private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
+
+    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -112,6 +116,8 @@ public class MainActivity extends ActionBarActivity {
         new SimpleTask().execute(URL_JSON);
 
         Table classroomsTable = new Table(this);
+
+
 
 
 
@@ -221,6 +227,11 @@ public class MainActivity extends ActionBarActivity {
             Log.d("Emergency", jsonString);
             Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
+            json_to_sQlite.Classrooms(jsonString, MainActivity.this);
+            json_to_sQlite.Course(jsonString, MainActivity.this);
+            json_to_sQlite.Exam_Question(jsonString, MainActivity.this);
+
+
 
         }
     }
@@ -267,9 +278,12 @@ public class MainActivity extends ActionBarActivity {
             Log.d("Emergency", "Error Convert To JSON :" + e.toString());
         }
 
+
         return strJSON;
 
     }
+
+//
 
 
 
