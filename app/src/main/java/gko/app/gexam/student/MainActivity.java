@@ -230,6 +230,9 @@ public class MainActivity extends ActionBarActivity {
             json_to_sQlite.Classrooms(jsonString, MainActivity.this);
             json_to_sQlite.Course(jsonString, MainActivity.this);
             json_to_sQlite.Exam_Question(jsonString, MainActivity.this);
+            json_to_sQlite.Exam_Rule(jsonString, MainActivity.this);
+            json_to_sQlite.Questions(jsonString, MainActivity.this);
+            json_to_sQlite.Students(jsonString, MainActivity.this);
 
 
 

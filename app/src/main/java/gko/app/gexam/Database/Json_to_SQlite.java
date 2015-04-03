@@ -104,6 +104,100 @@ public class Json_to_SQlite {
 
     }
 
+     public void Exam_Rule(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("exam_rule");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                int test_code = jsonObject1.getInt("test_code");
+                String rule = jsonObject1.getString("rule");
+                String teacher_name = jsonObject1.getString("teacher_name");
+
+                new Table(context).addExam_Rule(id, test_code,rule,teacher_name);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void Questions(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("questions");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                String question = jsonObject1.getString("question");
+                String photo = jsonObject1.getString("photo");
+                String subject_code = jsonObject1.getString("subject_code");
+                String teacher_name = jsonObject1.getString("teacher_name");
+                String ans_option_id = jsonObject1.getString("ans_option_id");
+
+                new Table(context).addQuestion(id, question,photo,subject_code,teacher_name,ans_option_id);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+public void Students(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("students");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                String name = jsonObject1.getString("name");
+                String surname = jsonObject1.getString("surname");
+                int phone = jsonObject1.getInt("phone");
+                String email = jsonObject1.getString("email");
+                String username = jsonObject1.getString("username");
+                String password = jsonObject1.getString("password");
+                String photo = jsonObject1.getString("photo");
+                String student_id = jsonObject1.getString("student_id");
+                String class_name = jsonObject1.getString("class_name");
+
+                new Table(context).addStudents(id, name,surname,phone,email,username,password,photo,student_id,class_name);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
 
 
 
