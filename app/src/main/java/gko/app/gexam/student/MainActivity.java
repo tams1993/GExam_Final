@@ -21,24 +21,18 @@ import com.android.volley.RequestQueue;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
+import gko.app.gexam.Database.Table;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
 import gko.app.gexam.network.VolleySingleton;
-
-import com.google.gson.Gson;
-
 
 
 public class MainActivity extends ActionBarActivity {
@@ -113,7 +107,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
         new SimpleTask().execute(URL_JSON);
+
+        Table classroomsTable = new Table(this);
 
 
 
