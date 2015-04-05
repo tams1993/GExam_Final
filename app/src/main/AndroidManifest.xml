@@ -40,6 +40,7 @@
         </activity>
         <activity
             android:name=".committed.Committy_login"
+            android:theme="@style/PopupTheme"
             android:label="@string/title_activity_committy_login" >
         </activity>
         <activity

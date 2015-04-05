@@ -3,6 +3,7 @@ package gko.app.gexam.Database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,64 @@ public class Json_to_SQlite {
                 new Table(context).addClassrooms(strClassroomsID, strClassName);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void Student_Answer(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("student_answer");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int student_answer_idID = jsonObject1.getInt("id");
+                int question_id = jsonObject1.getInt("question_id");
+                int ans_option_id = jsonObject1.getInt("ans_option_id");
+
+                new Table(context).addStudent_Answer(student_answer_idID, question_id, ans_option_id);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void Student_Illegal(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("student_illegal");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                int status = jsonObject1.getInt("status");
+                String std_id = jsonObject1.getString("std_id");
+                int test_id = jsonObject1.getInt("test_code");
+
+                new Table(context).addStudent_Illegal(id, status, std_id, test_id);
+
+                Log.d("ERROR", "JSON to SQLITE student_illegal: COMPLETE");
+                Toast.makeText(context,"student_illegal",Toast.LENGTH_LONG).show();
 
             }
 

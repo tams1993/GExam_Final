@@ -1,6 +1,8 @@
 package gko.app.gexam.student;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,16 +39,19 @@ import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.Table;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
-
+import gko.app.gexam.committed.com_fragment.ComFragActivity;
 
 
 public class MainActivity extends ActionBarActivity {
 
     private Button btnLogin;
-    private Spinner spinner;
+    private Spinner spinner,spnCom;
     private EditText edtUser, edtPass;
     private TextView txtCom;
     private Handler mHandler = new Handler();
+    private CheckBox chbActiveCourse;
+    private String CourseName;
+
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
@@ -140,14 +146,18 @@ public class MainActivity extends ActionBarActivity {
         edtPass = (EditText) findViewById(R.id.edtPass);
         spinner = (Spinner) findViewById(R.id.spinner);
         txtCom = (TextView) findViewById(R.id.txtCommittee);
+        chbActiveCourse = (CheckBox) findViewById(R.id.chbActiveCourse);
+        spnCom = (Spinner) findViewById(R.id.spnCom);
+
 
         txtCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, Committy_login.class);
+                                Intent intent = new Intent(MainActivity.this, Committy_login.class);
                 startActivity(intent);
 
+//                callLoginDialog();
 
             }
         });
@@ -227,12 +237,15 @@ public class MainActivity extends ActionBarActivity {
             Log.d("Emergency", jsonString);
             Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
+            json_to_sQlite.Student_Illegal(jsonString, MainActivity.this);
+
             json_to_sQlite.Classrooms(jsonString, MainActivity.this);
             json_to_sQlite.Course(jsonString, MainActivity.this);
             json_to_sQlite.Exam_Question(jsonString, MainActivity.this);
             json_to_sQlite.Exam_Rule(jsonString, MainActivity.this);
             json_to_sQlite.Questions(jsonString, MainActivity.this);
             json_to_sQlite.Students(jsonString, MainActivity.this);
+            json_to_sQlite.Student_Answer(jsonString, MainActivity.this);
 
 
 
@@ -287,6 +300,63 @@ public class MainActivity extends ActionBarActivity {
     }
 
 //
+
+    private void callLoginDialog()
+    {
+        Dialog myDialog = new Dialog(this);
+        myDialog.setContentView(R.layout.activity_committy_login);
+        myDialog.setCancelable(true);
+        Button login = (Button) myDialog.findViewById(R.id.btnComLogin);
+
+        edtUser = (EditText) myDialog.findViewById(R.id.edtComUser);
+        edtPass = (EditText) myDialog.findViewById(R.id.edtComPass);
+        myDialog.show();
+
+
+        new Committy_login();
+
+        spnCom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                CourseName = parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (chbActiveCourse.isChecked() && CourseName != null) {
+
+
+                    Intent intent = new Intent(MainActivity.this, ComFragActivity.class);
+                    startActivity(intent);
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Check Active Please", Toast.LENGTH_LONG).show();
+
+
+                }
+
+            }
+        });
+
+
+    }
+
+
+
+
+
 
 
 

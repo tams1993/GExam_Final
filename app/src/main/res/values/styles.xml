@@ -18,6 +18,9 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/accentColor</item>
+        <item name="android:windowNoTitle">true</item>
+
+
 
 
 
@@ -29,6 +32,13 @@
         <item name="android:textColorSecondary">@color/ToolbarTextSecondary</item>
 
 
+    </style>
+    <style name="PopupTheme" parent="Base.Theme.AppCompat.Light.Dialog" >
+
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="colorAccent">@color/accentColor</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 

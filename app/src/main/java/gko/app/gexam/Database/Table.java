@@ -40,6 +40,16 @@ public class Table {
     public static final String COLUMN_EXAM_RULE_RULE = "rule";
     public static final String COLUMN_EXAM_RULE_TEACHER_NAME= "teacher_name";
 
+    public static final String COLUMN_STUDENT_ANSWER_ID = "_id";
+    public static final String COLUMN_STUDENT_ANSWER_ANS_OPTION_ID = "question_id";
+    public static final String COLUMN_STUDENT_ANSWER_QUESTION_ID = "ans_option_id";
+
+    public static final String COLUMN_STUDENT_ILLEGAL_ID = "_id";
+    public static final String COLUMN_STUDENT_ILLEGAL_STATUS = "status";
+    public static final String COLUMN_STUDENT_ILLEGAL_STD_ID = "std_id";
+    public static final String COLUMN_STUDENT_ILLEGAL_TEST_ID = "test_code";
+
+
 
     public static final String COLUMN_STUDENTS_ID = "_id";
     public static final String COLUMN_STUDENTS_NAME = "name";
@@ -70,6 +80,35 @@ public class Table {
 
 
         return writeSQlite.insert("classrooms", null, contentValues);
+
+
+    }
+
+    public long addStudent_Answer(int student_answer_id, int question_id, int ans_option_id) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_STUDENT_ANSWER_ID, student_answer_id);
+        contentValues.put(COLUMN_STUDENT_ANSWER_QUESTION_ID, question_id);
+        contentValues.put(COLUMN_STUDENT_ANSWER_ANS_OPTION_ID, ans_option_id);
+
+
+
+        return writeSQlite.insert("student_answer", null, contentValues);
+
+
+    }
+
+    public long addStudent_Illegal(int id, int status, String std_id, int test_code) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_STUDENT_ILLEGAL_ID, id);
+        contentValues.put(COLUMN_STUDENT_ILLEGAL_STATUS, status);
+        contentValues.put(COLUMN_STUDENT_ILLEGAL_STD_ID, std_id);
+        contentValues.put(COLUMN_STUDENT_ILLEGAL_TEST_ID, test_code);
+
+
+
+        return writeSQlite.insert("student_illegal", null, contentValues);
 
 
     }
