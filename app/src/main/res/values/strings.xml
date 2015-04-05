@@ -10,7 +10,7 @@
     <string name="login">ເຂົ້າລະບົບ</string>
     <string name="register"><u>ລົງທະບຽນ?</u></string>
     <string name="or">ຫຼືວ່າ </string>
-    <string name="committee"><u>ກຳມະການ </u></string>
+    <string name="committee"><u>ກຳມະການ</u></string>
     <string name="committee_no_underscore">ກຳມະການ</string>
     <string name="rule">ກົດລະບຽບ:  </string>
     <string name="Next">ຕໍ່ໄປ </string>
