@@ -28,6 +28,11 @@ public class Table {
     public static final String COLUMN_EXAM_QUESTION_QUESTION_ID = "question_id";
     public static final String COLUMN_EXAM_QUESTION_STUDENT_ANS_ID = "student_ans_id";
 
+
+    public static final String COLUMN_SUBJECT_ID= "_id";
+    public static final String COLUMN_SUBJECT_SUBJECT_NAME = "subject_name";
+    public static final String COLUMN_SUBJECT_CREDIT = "credit";
+
     public static final String COLUMN_QUESTION_ID = "_id";
     public static final String COLUMN_QUESTION_QUESTION = "question";
     public static final String COLUMN_QUESTION_PHOTO = "photo";
@@ -43,6 +48,10 @@ public class Table {
     public static final String COLUMN_STUDENT_ANSWER_ID = "_id";
     public static final String COLUMN_STUDENT_ANSWER_ANS_OPTION_ID = "question_id";
     public static final String COLUMN_STUDENT_ANSWER_QUESTION_ID = "ans_option_id";
+
+    public static final String COLUMN_STUDENT_UNBLOCK_ID = "_id";
+    public static final String COLUMN_STUDENT_UNBLOCK_STD_ID = "std_id";
+    public static final String COLUMN_STUDENT_UNBLOCK_TESTCODE= "test_code";
 
     public static final String COLUMN_STUDENT_ILLEGAL_ID = "_id";
     public static final String COLUMN_STUDENT_ILLEGAL_STATUS = "status";
@@ -63,6 +72,18 @@ public class Table {
     public static final String COLUMN_STUDENTS_STUDENT_CLASS_NAME = "class_name";
 
 
+    public static final String COLUMN_TEACHER_ID = "_id";
+    public static final String COLUMN_TEACHER_TEACHER_NAME = "name";
+    public static final String COLUMN_TEACHER_SURNAME = "surname";
+    public static final String COLUMN_TEACHER_PHONE = "phone";
+    public static final String COLUMN_TEACHER_EMAIL = "email";
+    public static final String COLUMN_TEACHER_USERNAME = "username";
+    public static final String COLUMN_TEACHER_PASSWORD = "password";
+    public static final String COLUMN_TEACHER_INVITE_CODE = "invite_code";
+    public static final String COLUMN_TEACHER_ACTIVE = "active";
+
+
+
     public Table(Context context) {
 
         openHelper = new OpenHelper(context);
@@ -80,6 +101,20 @@ public class Table {
 
 
         return writeSQlite.insert("classrooms", null, contentValues);
+
+
+    }
+
+    public long addStudent_unblock(int id, String std_id, String test_code) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_STUDENT_UNBLOCK_ID, id);
+        contentValues.put(COLUMN_STUDENT_UNBLOCK_STD_ID, std_id);
+        contentValues.put(COLUMN_STUDENT_UNBLOCK_TESTCODE, test_code);
+
+
+
+        return writeSQlite.insert("student_unblock", null, contentValues);
 
 
     }
@@ -113,6 +148,21 @@ public class Table {
 
     }
 
+    public long addSubject(int id, String subject_name, int credit, String test_code) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_SUBJECT_ID, id);
+        contentValues.put(COLUMN_SUBJECT_SUBJECT_NAME, subject_name);
+        contentValues.put(COLUMN_SUBJECT_CREDIT, credit);
+        contentValues.put(COLUMN_SUBJECT_CODE, test_code);
+
+
+
+        return writeSQlite.insert("subject", null, contentValues);
+
+
+    }
+
     public long addCourse(int course_id, String strdate, String strInterval_time, int question_amount, String test_code, int status, String teacher_name, String subject_code) {
 
         ContentValues contentValues = new ContentValues();
@@ -128,6 +178,26 @@ public class Table {
 
 
         return writeSQlite.insert("course", null, contentValues);
+
+
+    }
+
+    public long addTeacher(int id, String name, String surname, int phone,String email, String username, String password, String invite_code, int active) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TEACHER_ID, id);
+        contentValues.put(COLUMN_TEACHER_TEACHER_NAME, name);
+        contentValues.put(COLUMN_TEACHER_SURNAME, surname);
+        contentValues.put(COLUMN_TEACHER_PHONE, phone);
+        contentValues.put(COLUMN_TEACHER_EMAIL, email);
+        contentValues.put(COLUMN_TEACHER_USERNAME, username);
+        contentValues.put(COLUMN_TEACHER_PASSWORD, password);
+        contentValues.put(COLUMN_TEACHER_INVITE_CODE, invite_code);
+        contentValues.put(COLUMN_TEACHER_ACTIVE, active);
+
+
+
+        return writeSQlite.insert("teacher", null, contentValues);
 
 
     }

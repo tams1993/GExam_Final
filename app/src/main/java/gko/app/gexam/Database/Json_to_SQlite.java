@@ -70,6 +70,66 @@ public class Json_to_SQlite {
 
     }
 
+
+    public void Student_Unblock(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("student_unblock");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int student_unblock_id = jsonObject1.getInt("id");
+                String std_id = jsonObject1.getString("std_id");
+                String test_code = jsonObject1.getString("test_code");
+
+                new Table(context).addStudent_unblock(student_unblock_id, std_id, test_code);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    public void Subject(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("subject");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                String subject_name = jsonObject1.getString("subject_name");
+                int credit = jsonObject1.getInt("credit");
+                String code = jsonObject1.getString("code");
+
+                new Table(context).addSubject(id, subject_name, credit,code);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+
     public void Student_Illegal(String strJSON, Context context) {
 
         try {
@@ -119,6 +179,41 @@ public class Json_to_SQlite {
                 int status = jsonObject1.getInt("status");
 
                 new Table(context).addCourse(strCourseID, strDate, strIntervalTime, question_amount, test_code, status, teacher_name, subject_code);
+
+                Log.d("ERROR","JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    public void Teacher(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("teacher");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int id = jsonObject1.getInt("id");
+                String name = jsonObject1.getString("name");
+                String surname = jsonObject1.getString("surname");
+                int phone = jsonObject1.getInt("phone");
+                String email = jsonObject1.getString("email");
+                String username = jsonObject1.getString("username");
+                String password = jsonObject1.getString("password");
+                String invite_code = jsonObject1.getString("invite_code");
+                int active = jsonObject1.getInt("active");
+
+                new Table(context).addTeacher(id, name, surname, phone, email, username, password, invite_code,active);
 
                 Log.d("ERROR","JSON to SQLITE: COMPLETE");
 
