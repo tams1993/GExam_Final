@@ -117,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-
+        this.deleteDatabase("GExam.db");
 
         new SimpleTask().execute(URL_JSON);
 
