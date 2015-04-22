@@ -1,10 +1,12 @@
 package gko.app.gexam.student;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -50,12 +53,12 @@ public class MainActivity extends ActionBarActivity {
     private TextView txtCom;
     private Handler mHandler = new Handler();
     private CheckBox chbActiveCourse;
-    private String CourseName;
+    private String CourseName, strStudentUser, strStudentPass, strTruePass;
 
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.9/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -162,6 +165,14 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+//        Table table = new Table(this);
+//        String arrayCourse[] = table.SpinnerCourseList();
+//        String CourseList = arrayCourse[1];
+        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
+
+//        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, );
+//        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+//        spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -185,15 +196,20 @@ public class MainActivity extends ActionBarActivity {
 
                 editor.putString("USER", edtUser.getText().toString());
                 editor.commit();
+                 strStudentUser = edtUser.getText().toString();
+                 strStudentPass = edtPass.getText().toString();
 
-                if (edtUser.getText().toString().isEmpty()) {
+                if ((strStudentUser.equals("")) | (strStudentPass.equals(""))) {
 
-                    Toast.makeText(getApplicationContext(), "Type Something", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "ກະລຸນາປ້ອນ ຊື່ຜູ້ໃຊ້ ແລະ ລະຫັດຜ່ານໃຫ້ຄົບຖ້ວນ", Toast.LENGTH_LONG).show();
+
+
+
 
                 } else {
 
-                    Intent intent = new Intent(MainActivity.this, RuleActivity.class);
-                    startActivity(intent);
+                    CheckUserPassword();
+
 
 
                 }
@@ -201,6 +217,33 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
+
+
+    }
+
+    private void CheckUserPassword() {
+
+
+        try {
+
+            Table table = new Table(this);
+
+
+            String arrayData[] = table.AuthenStudent(strStudentUser);
+            strTruePass = arrayData[2];
+
+            if (strStudentPass.equals(strTruePass)) {
+
+                Intent intent = new Intent(MainActivity.this, RuleActivity.class);
+                startActivity(intent);
+
+            }
+
+        } catch (Exception e) {
+
+            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
+
+        }
 
 
     }
@@ -220,9 +263,22 @@ public class MainActivity extends ActionBarActivity {
 
     private class SimpleTask extends AsyncTask<String, Void, String> {
 
+
+        ProgressDialog objPD;
         @Override
         protected void onPreExecute() {
             // Create Show ProgressBar
+
+
+            objPD = new ProgressDialog(MainActivity.this);
+            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            objPD.setTitle("Loading...");
+            objPD.setMessage("ກຳລັງໂຫຼດຂໍ້ມູນ...");
+            objPD.setCancelable(false);
+            objPD.setIndeterminate(false);
+
+            objPD.show();
+
         }
 
         protected String doInBackground(String... urls) {
@@ -250,9 +306,35 @@ public class MainActivity extends ActionBarActivity {
             json_to_sQlite.Subject(jsonString, MainActivity.this);
             json_to_sQlite.Teacher(jsonString, MainActivity.this);
 
+            SpinnerList();
+
+            objPD.dismiss();
 
 
         }
+    }
+
+    private void SpinnerList() {
+
+
+
+        Table table = new Table(getApplication());
+        Cursor cursor = table.ReadAllData();
+        String[] result = new String[cursor.getCount()];
+        cursor.moveToFirst();
+
+        for(int i = 0; i < cursor.getCount(); i++){
+            String row = cursor.getString(cursor.getColumnIndex(table.COLUMN_COURSE_TEST_CODE));
+            //You can here manipulate a single string as you please
+            result[i] = row;
+            cursor.moveToNext();
+        }
+
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, result);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+        spinner.setAdapter(spinnerArrayAdapter);
+
     }
 
     public String JSON() {

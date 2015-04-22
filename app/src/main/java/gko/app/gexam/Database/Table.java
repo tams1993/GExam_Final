@@ -2,7 +2,9 @@ package gko.app.gexam.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Created by MR.T on 4/2/2015.
@@ -269,6 +271,78 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
     }
+
+    public String[] AuthenStudent(String strUser) {
+
+
+        try {
+
+
+            String arrayData[] = null;
+            Cursor objCursor = readSQlite.query("students", new String[]
+                    {COLUMN_STUDENTS_ID,COLUMN_STUDENTS_USERNAME,COLUMN_STUDENTS_PASSWORD},COLUMN_STUDENTS_USERNAME+"=?",new String[]{String.valueOf(strUser)},null,null,null,null);
+
+            if (objCursor != null) {
+
+                if (objCursor.moveToFirst()) {
+
+                    arrayData = new String[objCursor.getColumnCount()];
+
+                    arrayData[0] = objCursor.getString(0);
+                    arrayData[1] = objCursor.getString(1);
+                    arrayData[2] = objCursor.getString(2);
+
+                }
+
+            }
+            objCursor.close();
+            return arrayData;
+
+        } catch (Exception e) {
+            Log.d("Error Authen", "No user in database");
+            return null;
+        }
+
+    }
+
+//    public String[] SpinnerCourseList() {
+//
+//
+//        try {
+//
+//
+//            String arrayData[] = null;
+//            Cursor objCursor = readSQlite.query("course",
+//                    new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE},
+//                    null,null,null,null,null);
+//
+//            if (objCursor != null) {
+//                objCursor.moveToFirst();
+//
+//            }
+//
+//
+//            return arrayData;
+//
+//        } catch (Exception e) {
+//            Log.d("Error Authen", "No user in database");
+//            return null;
+//        }
+//    }
+
+    public Cursor ReadAllData() {
+
+        Cursor objCursor = readSQlite.query("course",
+                new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE},
+                null,null,null,null,null);
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+
+        }
+
+        return objCursor;
+
+    }   //  end of ReadAllData
 
 
 }
