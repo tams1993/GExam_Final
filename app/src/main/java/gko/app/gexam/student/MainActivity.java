@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -165,14 +165,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        Table table = new Table(this);
-//        String arrayCourse[] = table.SpinnerCourseList();
-//        String CourseList = arrayCourse[1];
-        String colors[] = {"Red","Blue","White","Yellow","Black", "Green","Purple","Orange","Grey"};
 
-//        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, );
-//        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-//        spinner.setAdapter(spinnerArrayAdapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

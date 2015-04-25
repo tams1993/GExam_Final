@@ -46,15 +46,17 @@
                 android:layout_marginLeft="20dp"
                 android:textSize="@dimen/text_size" />
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/active"
-                android:id="@+id/cbActive"
-                android:layout_marginLeft="30dp" />
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ruleList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
     </LinearLayout>
+
+
 
     <Button
         android:layout_width="wrap_content"
