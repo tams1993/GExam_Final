@@ -1,10 +1,17 @@
-package gko.app.gexam.Database;
+package gko.app.gexam.student;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import gko.app.gexam.Database.OpenHelper;
+import gko.app.gexam.student.Rule;
 
 /**
  * Created by MR.T on 4/2/2015.
@@ -174,7 +181,7 @@ public class Table {
         contentValues.put(COLUMN_COURSE_QUESTION_AMOUNT, question_amount);
         contentValues.put(COLUMN_COURSE_TEST_CODE, test_code);
         contentValues.put(COLUMN_COURSE_STATUS, status);
-        contentValues.put(COLUMN_TEACHER_NAME, test_code);
+        contentValues.put(COLUMN_TEACHER_NAME, teacher_name);
         contentValues.put(COLUMN_SUBJECT_CODE, subject_code);
 
 
@@ -305,35 +312,94 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
     }
 
-//    public String[] SpinnerCourseList() {
-//
-//
-//        try {
-//
-//
-//            String arrayData[] = null;
-//            Cursor objCursor = readSQlite.query("course",
-//                    new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE},
-//                    null,null,null,null,null);
-//
-//            if (objCursor != null) {
-//                objCursor.moveToFirst();
-//
-//            }
-//
-//
-//            return arrayData;
-//
-//        } catch (Exception e) {
-//            Log.d("Error Authen", "No user in database");
-//            return null;
-//        }
-//    }
+    public List<Rule> rule(Context context) {
 
-    public Cursor ReadAllData() {
+
+
+
+            String selectQuery = "SELECT rule FROM exam_rule r INNER JOIN course c on r.test_code = c.test_code";
+
+
+
+
+            OpenHelper openHelper = new OpenHelper(context);
+            openHelper.getWritableDatabase();
+            Cursor c = writeSQlite.rawQuery(selectQuery,null);
+            Log.e("Data Count", String.valueOf(c.getCount()));
+
+
+        List<Rule> RuleArray = new ArrayList<>();
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+
+            Rule current = new Rule();
+            current.title = c.getString(c.getColumnIndex("rule"));
+
+            RuleArray.add(current);
+
+            c.moveToNext();
+
+
+        }
+
+        Log.e("Data Count", String.valueOf(RuleArray));
+
+        return RuleArray;
+
+
+    }
+
+
+
+    public Cursor spinnerList() {
+
+
+
+
+        String selectQuery = "SELECT * FROM course c JOIN subject s on c.subject_code = s.subject_code where c.subject_code=?";
+
+
+
+
+        Cursor c = writeSQlite.rawQuery(selectQuery,null);
+
+        if (c != null) {
+            c.moveToFirst();
+
+        }
+
+        Log.e("spinnerList", String.valueOf(c.getCount()));
+
+
+//        List<String> spinnerArray = new ArrayList<>();
+//        c.moveToFirst();
+//
+//        while (!c.isAfterLast()) {
+//
+//
+//
+//
+//            spinnerArray.add( c.getString(c.getColumnIndex("subject_name")));
+//
+//            c.moveToNext();
+//
+//
+//        }
+//
+//        Log.e("spinnerList", String.valueOf(spinnerArray));
+
+        return c;
+
+
+    }
+
+
+
+    public Cursor ReadAllDataCourse() {
 
         Cursor objCursor = readSQlite.query("course",
-                new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE},
+                new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE,COLUMN_COURSE_INTERVAL_TIME,COLUMN_COURSE_QUESTION_AMOUNT,COLUMN_COURSE_STATUS,COLUMN_SUBJECT_CODE},
                 null,null,null,null,null);
         if (objCursor != null) {
             objCursor.moveToFirst();
@@ -342,7 +408,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
         return objCursor;
 
-    }   //  end of ReadAllData
+    }   //  end of ReadAllDataCourse
 
 
 }

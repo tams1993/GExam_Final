@@ -6,7 +6,7 @@ package gko.app.gexam.student;
 public class Rule {
 
     String title;
-    int number;
+
 
 
 

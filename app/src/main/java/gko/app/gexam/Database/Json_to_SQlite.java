@@ -1,6 +1,5 @@
 package gko.app.gexam.Database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -8,6 +7,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import gko.app.gexam.student.Table;
 
 /**
  * Created by MR.T on 4/3/2015.

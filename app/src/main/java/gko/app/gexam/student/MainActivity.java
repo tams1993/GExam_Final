@@ -3,7 +3,6 @@ package gko.app.gexam.student;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -23,23 +22,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import gko.app.gexam.Database.Json_to_SQlite;
-import gko.app.gexam.Database.Table;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
 import gko.app.gexam.committed.com_fragment.ComFragActivity;
@@ -58,7 +51,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -312,15 +305,21 @@ public class MainActivity extends ActionBarActivity {
 
 
         Table table = new Table(getApplication());
-        Cursor cursor = table.ReadAllData();
+        Cursor cursor = table.ReadAllDataCourse();
         String[] result = new String[cursor.getCount()];
         cursor.moveToFirst();
 
-        for(int i = 0; i < cursor.getCount(); i++){
+        for (int i = 0; i < cursor.getCount(); i++) {
             String row = cursor.getString(cursor.getColumnIndex(table.COLUMN_COURSE_TEST_CODE));
+//            String teacher_name_row = cursor.getString(cursor.getColumnIndex(table.COLUMN_SUBJECT_SUBJECT_NAME));
             //You can here manipulate a single string as you please
             result[i] = row;
+//            result[i] = teacher_name_row;
             cursor.moveToNext();
+
+//            Log.e("result", teacher_name_row);
+
+
         }
 
 

@@ -1,10 +1,12 @@
 package gko.app.gexam.student;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +15,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import gko.app.gexam.Database.Table;
 import gko.app.gexam.R;
 
 
@@ -22,23 +23,36 @@ public class RuleActivity extends ActionBarActivity {
     private Button btnNext;
     private RecyclerView mRecyclerView;
     private RuleAdapter adapter;
+    private SQLiteDatabase db;
 
     private String strStudentUser, strTruePass;
+    private List<Rule> RuleArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rule);
 
+        Table table = new Table(this);
+
+        RuleArray = table.rule(this);
+        Log.d("Gexam", "Rule Array" + RuleArray);
+
+
+
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ruleList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RuleAdapter(RuleActivity.this, getData());
+        adapter = new RuleAdapter(RuleActivity.this, RuleArray);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        Table table = new Table(this);
 
+
+
+
+//        db.close();
 
 
 
@@ -80,9 +94,11 @@ public class RuleActivity extends ActionBarActivity {
 
     }
 
-    public static List<Rule> getData() {
+    public List<Rule> getData() {
 
         List<Rule> data = new ArrayList<>();
+//
+
         String[] ruleTitle = {"tam", "pe", "dog", "cat"};
 
         for (int i = 0; i < ruleTitle.length; i++) {
