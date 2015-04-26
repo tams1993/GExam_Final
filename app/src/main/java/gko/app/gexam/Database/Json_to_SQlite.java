@@ -113,7 +113,7 @@ public class Json_to_SQlite {
                 int id = jsonObject1.getInt("id");
                 String subject_name = jsonObject1.getString("subject_name");
                 int credit = jsonObject1.getInt("credit");
-                String code = jsonObject1.getString("code");
+                String code = jsonObject1.getString("subject_code");
 
                 new Table(context).addSubject(id, subject_name, credit,code);
 

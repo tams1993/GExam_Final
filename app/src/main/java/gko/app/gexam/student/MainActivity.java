@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,8 +32,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import gko.app.gexam.Database.Json_to_SQlite;
+import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
 import gko.app.gexam.committed.com_fragment.ComFragActivity;
@@ -51,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -323,7 +327,8 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, result);
+        List<SpinnerObject> label = getAllLabelsSpinner();
+        ArrayAdapter<SpinnerObject> spinnerArrayAdapter = new ArrayAdapter<SpinnerObject>(this, android.R.layout.simple_spinner_item, label);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spinner.setAdapter(spinnerArrayAdapter);
 
@@ -431,6 +436,59 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public List< SpinnerObject> getAllLabelsSpinner(){
+        List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
+        // Select All Query
+            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_code = s.subject_code where c.status =?";
+//        String selectQuery = "SELECT * FROM course";
+//        String selectQuery = "SELECT * FROM subject";
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{"1"});
+
+        // looping through all rows and adding to list
+        if ( cursor.moveToFirst () ) {
+            do {
+                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(9),cursor.getString(6)));
+
+            } while (cursor.moveToNext());
+
+
+
+
+
+        }
+
+//        show what inside List<SpinnerObject>
+
+//        int listSize = labels.size();
+//
+//        for (int i = 0; i<listSize; i++){
+//            Log.d("Member name: ", String.valueOf(labels.get(i)));
+//        }
+
+
+
+//        int testcode = ( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ();
+//
+//
+//        Log.d("Cursor", "cursor 0  = " + testcode);
+
+
+        Log.d("Cursor", "cursor 0  = " + cursor.getCount());
+        Log.d("Cursor", "cursor column 0  = " + cursor.getColumnCount());
+        Log.d("Cursor", "cursor columnindex 0  = " + cursor.getColumnIndex("status"));
+
+
+
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning labels
+        return labels;
+    }
 
 
 

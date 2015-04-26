@@ -42,6 +42,7 @@ public class Table {
     public static final String COLUMN_SUBJECT_SUBJECT_NAME = "subject_name";
     public static final String COLUMN_SUBJECT_CREDIT = "credit";
 
+
     public static final String COLUMN_QUESTION_ID = "_id";
     public static final String COLUMN_QUESTION_QUESTION = "question";
     public static final String COLUMN_QUESTION_PHOTO = "photo";
@@ -157,13 +158,13 @@ public class Table {
 
     }
 
-    public long addSubject(int id, String subject_name, int credit, String test_code) {
+    public long addSubject(int id, String subject_name, int credit, String subject_code) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_SUBJECT_ID, id);
         contentValues.put(COLUMN_SUBJECT_SUBJECT_NAME, subject_name);
         contentValues.put(COLUMN_SUBJECT_CREDIT, credit);
-        contentValues.put(COLUMN_SUBJECT_CODE, test_code);
+        contentValues.put(COLUMN_SUBJECT_CODE, subject_code);
 
 
 
@@ -352,47 +353,6 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
 
-    public Cursor spinnerList() {
-
-
-
-
-        String selectQuery = "SELECT * FROM course c JOIN subject s on c.subject_code = s.subject_code where c.subject_code=?";
-
-
-
-
-        Cursor c = writeSQlite.rawQuery(selectQuery,null);
-
-        if (c != null) {
-            c.moveToFirst();
-
-        }
-
-        Log.e("spinnerList", String.valueOf(c.getCount()));
-
-
-//        List<String> spinnerArray = new ArrayList<>();
-//        c.moveToFirst();
-//
-//        while (!c.isAfterLast()) {
-//
-//
-//
-//
-//            spinnerArray.add( c.getString(c.getColumnIndex("subject_name")));
-//
-//            c.moveToNext();
-//
-//
-//        }
-//
-//        Log.e("spinnerList", String.valueOf(spinnerArray));
-
-        return c;
-
-
-    }
 
 
 
