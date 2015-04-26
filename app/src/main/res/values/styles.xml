@@ -38,7 +38,7 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/accentColor</item>
-        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowNoTitle">false</item>
         <item name="android:windowBackground">@drawable/login_all_round</item>
     </style>
 

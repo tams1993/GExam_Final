@@ -6,7 +6,7 @@ package gko.app.gexam.student;
 public class SpinnerObject {
 
 
-    private  int id;
+    private int id;
     private int date;
     private int intervaltime;
     private int questionamount;
@@ -16,38 +16,46 @@ public class SpinnerObject {
     private String subject_code;
     private String subject_name;
 
-    public SpinnerObject ( int testcode , String subject_name, String teachername ) {
+    public SpinnerObject(int testcode, String subject_name, String teachername, int Intervaltime, int questionamount) {
         this.testcode = testcode;
         this.subject_name = subject_name;
         this.teachername = teachername;
+        this.intervaltime = Intervaltime;
+        this.questionamount = questionamount;
     }
 
-    public int getId () {
+    public int getId() {
         return id;
     }
 
-    public int getDate () {
+    public int getDate() {
         return date;
     }
- public int getIntervaltime () {
+
+    public int getIntervaltime() {
         return intervaltime;
 
-    } public int getQuestionamount () {
+    }
+
+    public int getQuestionamount() {
         return questionamount;
     }
 
- public int getTestcode () {
-    return testcode;
-}
- public int getStatus () {
-    return status;
-}
- public String getTeachername () {
-    return teachername;
-}
-public String getSubject_code () {
-    return subject_code;
-}
+    public int getTestcode() {
+        return testcode;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getTeachername() {
+        return teachername;
+    }
+
+    public String getSubject_code() {
+        return subject_code;
+    }
 
     public String getSubject_name() {
 
@@ -55,7 +63,8 @@ public String getSubject_code () {
     }
 
     @Override
-    public String toString () {
+    public String toString()
+    {
         return subject_name;
     }
 

@@ -1,6 +1,8 @@
 package gko.app.gexam.student;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -28,6 +31,9 @@ public class RuleActivity extends ActionBarActivity {
     private String strStudentUser, strTruePass;
     private List<Rule> RuleArray;
 
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,8 @@ public class RuleActivity extends ActionBarActivity {
         Log.d("Gexam", "Rule Array" + RuleArray);
 
 
+
+        getSharedPefference();
 
 
 
@@ -52,7 +60,6 @@ public class RuleActivity extends ActionBarActivity {
 
 
 
-//        db.close();
 
 
 
@@ -68,7 +75,6 @@ public class RuleActivity extends ActionBarActivity {
 
                     startActivity(intent);
 
-                    Toast.makeText(getApplicationContext(), "Course is Active ", Toast.LENGTH_LONG).show();
 
 
 
@@ -111,6 +117,24 @@ public class RuleActivity extends ActionBarActivity {
         }
 
         return data;
+    }
+
+    public void getSharedPefference() {
+
+
+        sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+
+        String subject_name = sp.getString("subject_name", "NO value");
+        String teacher_name = sp.getString("teacher_name", "No value");
+
+        TextView txtCourse = (TextView) findViewById(R.id.txtCourse);
+        TextView txtTeacherName = (TextView) findViewById(R.id.teacherName);
+
+        txtCourse.setText(subject_name);
+        txtTeacherName.setText(teacher_name);
+
+
+
     }
 
 }

@@ -52,10 +52,15 @@ public class MainActivity extends ActionBarActivity {
     private CheckBox chbActiveCourse;
     private String CourseName, strStudentUser, strStudentPass, strTruePass;
 
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
+
+
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -124,7 +129,8 @@ public class MainActivity extends ActionBarActivity {
         Table classroomsTable = new Table(this);
 
 
-
+        sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        editor = sp.edit();
 
 
 
@@ -137,8 +143,7 @@ public class MainActivity extends ActionBarActivity {
         FontsOverride.setDefaultFont(this, "SERIF", "phetsarath.ttf");
         FontsOverride.setDefaultFont(this, "SANS_SERIF", "phetsarath.ttf");
 
-        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sp.edit();
+
 
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -167,10 +172,33 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
+
                 Toast.makeText(parent.getContext(),
                         "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
                         Toast.LENGTH_SHORT).show();
+
+                int testcode = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ()));
+
+                int interval_time = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getIntervaltime ()));
+                int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getQuestionamount ()));
+
+                String teacher_name = String.valueOf (( (SpinnerObject) spinner.getSelectedItem () ).getTeachername ());
+
+                editor.putString("subject_name",parent.getItemAtPosition(position).toString());
+                editor.putString("teacher_name",teacher_name);
+                editor.putInt("testcode", testcode);
+                editor.putInt("interval_time", interval_time);
+                editor.putInt("question_amount", question_amount);
+
+
+                editor.commit();
+
+
             }
+
+
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -199,6 +227,8 @@ public class MainActivity extends ActionBarActivity {
                 } else {
 
                     CheckUserPassword();
+
+
 
 
 
@@ -306,27 +336,6 @@ public class MainActivity extends ActionBarActivity {
 
     private void SpinnerList() {
 
-
-
-        Table table = new Table(getApplication());
-        Cursor cursor = table.ReadAllDataCourse();
-        String[] result = new String[cursor.getCount()];
-        cursor.moveToFirst();
-
-        for (int i = 0; i < cursor.getCount(); i++) {
-            String row = cursor.getString(cursor.getColumnIndex(table.COLUMN_COURSE_TEST_CODE));
-//            String teacher_name_row = cursor.getString(cursor.getColumnIndex(table.COLUMN_SUBJECT_SUBJECT_NAME));
-            //You can here manipulate a single string as you please
-            result[i] = row;
-//            result[i] = teacher_name_row;
-            cursor.moveToNext();
-
-//            Log.e("result", teacher_name_row);
-
-
-        }
-
-
         List<SpinnerObject> label = getAllLabelsSpinner();
         ArrayAdapter<SpinnerObject> spinnerArrayAdapter = new ArrayAdapter<SpinnerObject>(this, android.R.layout.simple_spinner_item, label);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
@@ -383,57 +392,57 @@ public class MainActivity extends ActionBarActivity {
 
 //
 
-    private void callLoginDialog()
-    {
-        Dialog myDialog = new Dialog(this);
-        myDialog.setContentView(R.layout.activity_committy_login);
-        myDialog.setCancelable(true);
-        Button login = (Button) myDialog.findViewById(R.id.btnComLogin);
-
-        edtUser = (EditText) myDialog.findViewById(R.id.edtComUser);
-        edtPass = (EditText) myDialog.findViewById(R.id.edtComPass);
-        myDialog.show();
-
-
-        new Committy_login();
-
-        spnCom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                CourseName = parent.getItemAtPosition(position).toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (chbActiveCourse.isChecked() && CourseName != null) {
-
-
-                    Intent intent = new Intent(MainActivity.this, ComFragActivity.class);
-                    startActivity(intent);
-
-                } else {
-
-                    Toast.makeText(getApplicationContext(), "Check Active Please", Toast.LENGTH_LONG).show();
-
-
-                }
-
-            }
-        });
-
-
-    }
+//    private void callLoginDialog()
+//    {
+//        Dialog myDialog = new Dialog(this);
+//        myDialog.setContentView(R.layout.activity_committy_login);
+//        myDialog.setCancelable(true);
+//        Button login = (Button) myDialog.findViewById(R.id.btnComLogin);
+//
+//        edtUser = (EditText) myDialog.findViewById(R.id.edtComUser);
+//        edtPass = (EditText) myDialog.findViewById(R.id.edtComPass);
+//        myDialog.show();
+//
+//
+//        new Committy_login();
+//
+//        spnCom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//                CourseName = parent.getItemAtPosition(position).toString();
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//
+//
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (chbActiveCourse.isChecked() && CourseName != null) {
+//
+//
+//                    Intent intent = new Intent(MainActivity.this, ComFragActivity.class);
+//                    startActivity(intent);
+//
+//                } else {
+//
+//                    Toast.makeText(getApplicationContext(), "Check Active Please", Toast.LENGTH_LONG).show();
+//
+//
+//                }
+//
+//            }
+//        });
+//
+//
+//    }
 
 
     public List< SpinnerObject> getAllLabelsSpinner(){
@@ -450,7 +459,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(9),cursor.getString(6)));
+                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(9),cursor.getString(6),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 

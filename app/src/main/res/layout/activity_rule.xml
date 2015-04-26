@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/header"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
 
 
 
@@ -23,12 +24,13 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="30dp"
+            android:layout_margin="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/course"
+                android:text="@string/course_name"
                 android:id="@+id/textView5"
                 android:textSize="@dimen/text_size" />
 
@@ -36,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course Name"
-                android:id="@+id/textView6"
+                android:id="@+id/txtCourse"
                 android:layout_marginLeft="20dp"
                 android:textSize="@dimen/text_size" />
 
@@ -46,7 +48,8 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" >
+            android:layout_marginTop="30dp"
+            android:layout_margin="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,19 +67,29 @@
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ກົດລະບຽບ: "
-            android:id="@+id/txtRule"
-            android:textSize="@dimen/text_size"
-            android:layout_marginTop="10dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:padding="20dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/ruleList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ກົດລະບຽບ: "
+                android:id="@+id/txtRule"
+                android:textSize="@dimen/text_size"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ruleList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
     </LinearLayout>
 

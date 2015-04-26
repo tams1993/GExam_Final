@@ -148,7 +148,7 @@ public class Json_to_SQlite {
                 new Table(context).addStudent_Illegal(id, status, std_id, test_id);
 
                 Log.d("ERROR", "JSON to SQLITE student_illegal: COMPLETE");
-                Toast.makeText(context,"student_illegal",Toast.LENGTH_LONG).show();
+
 
             }
 
