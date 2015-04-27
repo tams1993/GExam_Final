@@ -5,13 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gko.app.gexam.Database.OpenHelper;
-import gko.app.gexam.student.Rule;
 
 /**
  * Created by MR.T on 4/2/2015.
@@ -263,7 +261,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENTS_ID, id);
-        contentValues.put(COLUMN_STUDENTS_NAME, photo);
+        contentValues.put(COLUMN_STUDENTS_NAME, name);
         contentValues.put(COLUMN_STUDENTS_SURNAME, surname);
         contentValues.put(COLUMN_STUDENTS_PHONE, phone);
         contentValues.put(COLUMN_STUDENTS_EMAIL, email);
@@ -287,8 +285,14 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
             String arrayData[] = null;
-            Cursor objCursor = readSQlite.query("students", new String[]
+
+            Cursor objCursor = readSQlite.query("students" , new String[]
                     {COLUMN_STUDENTS_ID,COLUMN_STUDENTS_USERNAME,COLUMN_STUDENTS_PASSWORD},COLUMN_STUDENTS_USERNAME+"=?",new String[]{String.valueOf(strUser)},null,null,null,null);
+
+            Log.d("Cursor count", "Cursor Columncount:" + objCursor.getColumnCount());
+            Log.d("Cursor count", "Cursor count:" + objCursor.getCount());
+
+
 
             if (objCursor != null) {
 
@@ -303,13 +307,20 @@ public long addStudents(int id, String name, String surname, int phone, String e
                 }
 
             }
-            objCursor.close();
+//            objCursor.close();
+            Log.d("Cursor count", "Cursor Columncount:" + objCursor.getColumnCount());
+            Log.d("Cursor count", "Cursor count:" + objCursor.getCount());
             return arrayData;
 
         } catch (Exception e) {
             Log.d("Error Authen", "No user in database");
+
+
+
             return null;
         }
+
+
 
     }
 
@@ -356,6 +367,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
 
+
     public Cursor ReadAllDataCourse() {
 
         Cursor objCursor = readSQlite.query("course",
@@ -369,6 +381,64 @@ public long addStudents(int id, String name, String surname, int phone, String e
         return objCursor;
 
     }   //  end of ReadAllDataCourse
+
+
+//    public List<StudentsObject> Authentication(Context context, String strUser){
+//        List < StudentsObject > labels = new ArrayList<StudentsObject>();
+//        // Select All Query
+//        String selectQuery = "SELECT * FROM student_illegal s INNER JOIN course c on s.test_code = c.test_code INNER JOIN students st on s.std_id = st.student_id where c.status =? AND st.username =?";
+//
+//
+//        OpenHelper openHelper = new OpenHelper(context);
+//        SQLiteDatabase db = openHelper.getReadableDatabase();
+//        Cursor cursor = db.rawQuery(selectQuery,new String[]{"1",strUser});
+//
+//        // looping through all rows and adding to list
+//        if ( cursor.moveToFirst () ) {
+//            do {
+//                labels.add (new StudentsObject(cursor.getInt(1),cursor.getString(2),cursor.getInt(3),cursor.getString(13),cursor.getString(14),cursor.getString(16),cursor.getString(17),cursor.getString(18),cursor.getInt(15),cursor.getString(21)));
+//
+//                StudentsObject Showdata = labels.get(1);
+//                Log.d("Show data", "Showdata" + Showdata);
+//            } while (cursor.moveToNext());
+//
+//
+//
+//
+//
+//        }
+//
+//
+//
+////        show what inside List<SpinnerObject>
+//
+////        int listSize = labels.size();
+////
+////        for (int i = 0; i<listSize; i++){
+////            Log.d("Member name: ", String.valueOf(labels.get(i)));
+////        }
+//
+//
+//
+////        int testcode = ( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ();
+////
+////
+////        Log.d("Cursor", "cursor 0  = " + testcode);
+//
+//
+//        Log.d("Cursor", "cursor 0  = " + cursor.getCount());
+//        Log.d("Cursor", "cursor column 0  = " + cursor.getColumnCount());
+//        Log.d("Cursor", "cursor columnindex 0  = " + cursor.getColumnIndex("status"));
+//
+//
+//
+//        // closing connection
+//        cursor.close();
+//        db.close();
+//
+//        // returning labels
+//        return labels;
+//    }
 
 
 }

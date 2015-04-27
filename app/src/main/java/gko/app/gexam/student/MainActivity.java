@@ -1,6 +1,5 @@
 package gko.app.gexam.student;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +38,6 @@ import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
-import gko.app.gexam.committed.com_fragment.ComFragActivity;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -60,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -131,6 +129,7 @@ public class MainActivity extends ActionBarActivity {
 
         sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         editor = sp.edit();
+
 
 
 
@@ -247,21 +246,27 @@ public class MainActivity extends ActionBarActivity {
         try {
 
             Table table = new Table(this);
-
-
+//
+//
             String arrayData[] = table.AuthenStudent(strStudentUser);
             strTruePass = arrayData[2];
+
+//            List<Student> label = getStudent(strStudentUser);
+//            String[] array = label.toArray(new String[label.size()]);
+//            Toast.makeText(MainActivity.this, "strTruePass "+ label.size(),Toast.LENGTH_LONG).show();
+
 
             if (strStudentPass.equals(strTruePass)) {
 
                 Intent intent = new Intent(MainActivity.this, RuleActivity.class);
                 startActivity(intent);
 
+
             }
 
         } catch (Exception e) {
 
-            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "No user "+ strStudentUser,Toast.LENGTH_LONG).show();
 
         }
 
@@ -390,59 +395,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-//
 
-//    private void callLoginDialog()
-//    {
-//        Dialog myDialog = new Dialog(this);
-//        myDialog.setContentView(R.layout.activity_committy_login);
-//        myDialog.setCancelable(true);
-//        Button login = (Button) myDialog.findViewById(R.id.btnComLogin);
-//
-//        edtUser = (EditText) myDialog.findViewById(R.id.edtComUser);
-//        edtPass = (EditText) myDialog.findViewById(R.id.edtComPass);
-//        myDialog.show();
-//
-//
-//        new Committy_login();
-//
-//        spnCom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//                CourseName = parent.getItemAtPosition(position).toString();
-//
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-//
-//
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (chbActiveCourse.isChecked() && CourseName != null) {
-//
-//
-//                    Intent intent = new Intent(MainActivity.this, ComFragActivity.class);
-//                    startActivity(intent);
-//
-//                } else {
-//
-//                    Toast.makeText(getApplicationContext(), "Check Active Please", Toast.LENGTH_LONG).show();
-//
-//
-//                }
-//
-//            }
-//        });
-//
-//
-//    }
 
 
     public List< SpinnerObject> getAllLabelsSpinner(){
@@ -471,11 +424,11 @@ public class MainActivity extends ActionBarActivity {
 
 //        show what inside List<SpinnerObject>
 
-//        int listSize = labels.size();
-//
-//        for (int i = 0; i<listSize; i++){
-//            Log.d("Member name: ", String.valueOf(labels.get(i)));
-//        }
+        int listSize = labels.size();
+
+        for (int i = 0; i<listSize; i++){
+            Log.d("Member name: ", String.valueOf(labels.get(i)));
+        }
 
 
 
@@ -485,9 +438,9 @@ public class MainActivity extends ActionBarActivity {
 //        Log.d("Cursor", "cursor 0  = " + testcode);
 
 
-        Log.d("Cursor", "cursor 0  = " + cursor.getCount());
-        Log.d("Cursor", "cursor column 0  = " + cursor.getColumnCount());
-        Log.d("Cursor", "cursor columnindex 0  = " + cursor.getColumnIndex("status"));
+        Log.d("Cursor", "cursor spinner  = " + cursor.getCount());
+//        Log.d("Cursor", "cursor column 0  = " + cursor.getColumnCount());
+//        Log.d("Cursor", "cursor columnindex 0  = " + cursor.getColumnIndex("status"));
 
 
 
@@ -500,7 +453,33 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public List< Student> getStudent(String strUser){
+        List < Student > labels = new ArrayList<Student>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM student_illegal s INNER JOIN course c on s.test_code = c.test_code INNER JOIN students st on s.std_id = st.student_id where st.username =?";
+//        String selectQuery = "SELECT * FROM course";
+//        String selectQuery = "SELECT * FROM subject";
 
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser});
+
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+
+            Student current = new Student();
+            current.Username = cursor.getString(cursor.getColumnIndex("username"));
+
+            labels.add(current);
+
+            cursor.moveToNext();
+
+
+        }
+
+        return labels;
+    }
 
 
 
