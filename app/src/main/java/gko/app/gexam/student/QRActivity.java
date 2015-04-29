@@ -52,12 +52,12 @@ public class QRActivity extends Activity implements OnClickListener{
         button1.setOnClickListener(this);
 
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        String UserName = sp.getString("USER", String.valueOf(-1));
+        String Student_ID = sp.getString("Student_ID", String.valueOf(-1));
 
 
         Refresh();
 
-        GenerateQRCode(UserName);
+        GenerateQRCode(Student_ID);
 
 
 //                SharedPreferences.Editor editor = sp.edit();

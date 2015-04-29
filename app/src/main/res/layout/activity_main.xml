@@ -37,7 +37,9 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtUser" />
+                android:id="@+id/edtUser"
+                android:password="true"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,7 +59,9 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/edtPass" />
+                android:id="@+id/edtPass"
+                android:password="true"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout

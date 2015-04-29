@@ -66,14 +66,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/detail"
                     android:id="@+id/textView5"
-                    android:textSize="@dimen/text_size" />
+                    android:textSize="@dimen/text_size"
+                    android:layout_marginTop="12dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,14 +109,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/layout_bg"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:layout_marginTop="20dp">
+            android:paddingRight="12dp">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center_vertical">
 
                 <TextView
@@ -137,7 +138,7 @@
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp" >
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,7 +147,8 @@
                         android:id="@+id/textView15"
                         android:textSize="@dimen/text_size"
                         android:layout_weight="1"
-                        android:layout_marginBottom="20dp" />
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="12dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -154,7 +156,8 @@
                         android:text="@string/warning_check"
                         android:id="@+id/textView18"
                         android:textSize="@dimen/text_size"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:layout_marginBottom="12dp" />
 
                 </LinearLayout>
             </ScrollView>
@@ -164,7 +167,7 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp" >
+            android:layout_marginTop="20dp" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -192,7 +195,7 @@
             android:textSize="@dimen/text_size"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 
