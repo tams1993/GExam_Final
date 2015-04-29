@@ -1,7 +1,9 @@
 package gko.app.gexam.student;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -48,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView txtCom;
     private Handler mHandler = new Handler();
     private CheckBox chbActiveCourse;
-    private String CourseName, strStudentUser, strStudentPass, strTruePass;
+    private String CourseName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name;
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -58,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.6/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -124,11 +126,13 @@ public class MainActivity extends ActionBarActivity {
 
         new SimpleTask().execute(URL_JSON);
 
-        Table classroomsTable = new Table(this);
+
 
 
         sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         editor = sp.edit();
+
+        editor.clear();
 
 
 
@@ -211,8 +215,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
 
-                editor.putString("USER", edtUser.getText().toString());
-                editor.commit();
+
                  strStudentUser = edtUser.getText().toString();
                  strStudentPass = edtPass.getText().toString();
 
@@ -245,15 +248,30 @@ public class MainActivity extends ActionBarActivity {
 
         try {
 
-            Table table = new Table(this);
-//
-//
-            String arrayData[] = table.AuthenStudent(strStudentUser);
-            strTruePass = arrayData[2];
 
-//            List<Student> label = getStudent(strStudentUser);
-//            String[] array = label.toArray(new String[label.size()]);
-//            Toast.makeText(MainActivity.this, "strTruePass "+ label.size(),Toast.LENGTH_LONG).show();
+
+            String arrayData[] = getStudent(strStudentUser);
+            strTruePass = arrayData[7];
+            strStatus = arrayData[0];
+            strStd_id = arrayData[1];
+            strTest_code = arrayData[2];
+            strName = arrayData[3];
+            strSurname = arrayData[4];
+            strEmail = arrayData[5];
+            strPhone = arrayData[8];
+            strClass_name = arrayData[9];
+
+
+            StudentSharedPrefference();
+
+
+
+            for (int i = 0; i <= 9; i++) {
+
+                Log.d("arrayData","arrayData[" + i + "]= " + arrayData[i]);
+
+
+            }
 
 
             if (strStudentPass.equals(strTruePass)) {
@@ -262,11 +280,26 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
 
 
+            } else {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
+                        .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(false)
+                        .show();
+
             }
 
         } catch (Exception e) {
 
-            Toast.makeText(MainActivity.this, "No user "+ strStudentUser,Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
 
         }
 
@@ -402,8 +435,7 @@ public class MainActivity extends ActionBarActivity {
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
             String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_code = s.subject_code where c.status =?";
-//        String selectQuery = "SELECT * FROM course";
-//        String selectQuery = "SELECT * FROM subject";
+
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
@@ -453,7 +485,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public List< Student> getStudent(String strUser){
+    public String[] getStudent(String strUser){
         List < Student > labels = new ArrayList<Student>();
         // Select All Query
         String selectQuery = "SELECT * FROM student_illegal s INNER JOIN course c on s.test_code = c.test_code INNER JOIN students st on s.std_id = st.student_id where st.username =?";
@@ -464,21 +496,51 @@ public class MainActivity extends ActionBarActivity {
         SQLiteDatabase db = openHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser});
 
-        cursor.moveToFirst();
+        String[] arrayData = null;
 
-        while (!cursor.isAfterLast()) {
+        if (cursor != null) {
 
-            Student current = new Student();
-            current.Username = cursor.getString(cursor.getColumnIndex("username"));
+            if (cursor.moveToFirst()) {
 
-            labels.add(current);
+                arrayData = new String[cursor.getColumnCount()];
 
-            cursor.moveToNext();
 
+                arrayData[0] = cursor.getString(cursor.getColumnIndex("status"));
+                arrayData[1] = cursor.getString(cursor.getColumnIndex("std_id"));
+                arrayData[2] = cursor.getString(cursor.getColumnIndex("test_code"));
+                arrayData[3] = cursor.getString(cursor.getColumnIndex("name"));
+                arrayData[4] = cursor.getString(cursor.getColumnIndex("surname"));
+                arrayData[5] = cursor.getString(cursor.getColumnIndex("email"));
+                arrayData[6] = cursor.getString(cursor.getColumnIndex("username"));
+                arrayData[7] = cursor.getString(cursor.getColumnIndex("password"));
+                arrayData[8] = cursor.getString(cursor.getColumnIndex("phone"));
+                arrayData[9] = cursor.getString(cursor.getColumnIndex("class_name"));
+
+
+            }
 
         }
 
-        return labels;
+
+
+        return arrayData;
+    }
+
+    public void StudentSharedPrefference() {
+
+
+        editor.putString("Student_status", strStatus);
+        editor.putString("Student_ID", strStd_id);
+        editor.putString("Student_Test_Code", strTest_code);
+        editor.putString("Student_Name", strName);
+        editor.putString("Student_Surname", strSurname);
+        editor.putString("Student_Email", strEmail);
+        editor.putString("Student_Class_name", strClass_name);
+        editor.putString("Student_Phone", strPhone);
+
+        editor.commit();
+
+
     }
 
 

@@ -28,6 +28,12 @@
     <string name="com_student_list">ລາຍຊື່ນັກສຶກສາ</string>
     <string name="com_student_come">ມີໜ້າ</string>
     <string name="com_student_cheat">ຜິດກົດລະບຽບ</string>
+    <string name="time">ເວລາໃນການສອບ: </string>
+    <string name="minute"> ນາທີ</string>
+    <string name="warning">ຂໍ້ຄວນລະວັງ!!!</string>
+    <string name="warning_exit">- ຫ້າມອອກຈາກ Application ເກີນ 5 ຄັ້ງ. ຖ້າເກີນການສອບຈະສິ້ນສຸດທັນທີ.</string>
+    <string name="warning_check">- ກວດສອບວ່າຕອບໝົດທຸກຂໍ້ກ່ອນກົດປຸ່ມ "ສົ່ງຄຳຕອບ"</string>
+    <string name="press_start_to_test">- ເມື່ອກົດປຸ່ມ "ເລີ່ມເສັງ" ຈະນຳໄປສູ່ໜ້າທີ່ນັກສຶກສາໃຊ້ໃນການຕອບຄຳຖາມ</string>
 
     <string name="country_prompt">Choose a country</string>
     <string-array name="country_arrays">

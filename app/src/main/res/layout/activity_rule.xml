@@ -9,7 +9,9 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:background="@drawable/layout_bg_main"
+        android:padding="12dp">
 
         <TextView android:text="@string/rule" android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -87,22 +89,22 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ruleList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Next"
+                android:id="@+id/btnNext"
+                android:layout_gravity="bottom|center_horizontal"
+                android:textSize="@dimen/text_size"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp" />
         </LinearLayout>
 
     </LinearLayout>
 
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Next"
-        android:id="@+id/btnNext"
-        android:layout_gravity="bottom|center_horizontal"
-        android:textSize="@dimen/text_size"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
