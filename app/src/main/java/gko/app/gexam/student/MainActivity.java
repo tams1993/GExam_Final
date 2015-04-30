@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.6/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -356,6 +356,7 @@ public class MainActivity extends ActionBarActivity {
             json_to_sQlite.Student_Unblock(jsonString, MainActivity.this);
             json_to_sQlite.Subject(jsonString, MainActivity.this);
             json_to_sQlite.Teacher(jsonString, MainActivity.this);
+            json_to_sQlite.Answer_Option(jsonString, MainActivity.this);
 
             SpinnerList();
 

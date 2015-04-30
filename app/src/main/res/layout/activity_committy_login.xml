@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/edtComUser"
                     android:layout_weight="7"
-                    android:password="true"
+                    android:password="false"
                     android:singleLine="true" />
             </LinearLayout>
 

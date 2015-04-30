@@ -46,7 +46,7 @@ public class Table {
     public static final String COLUMN_QUESTION_PHOTO = "photo";
     public static final String COLUMN_QUESTION_SUBJECT_CODE= "subject_code";
     public static final String COLUMN_QUESTION_TEAHCER_NAME= "teacher_name";
-    public static final String COLUMN_QUESTION_ANS_OPTION_ID= "ans_option_id";
+    public static final String COLUMN_QUESTION_QUESTION_ID= "question_id";
 
     public static final String COLUMN_EXAM_RULE_ID = "_id";
     public static final String COLUMN_EXAM_RULE_TEST_CODE = "test_code";
@@ -92,6 +92,15 @@ public class Table {
 
 
 
+
+    public static final String COLUMN_ANSWER_OPTION_ID = "_id";
+    public static final String COLUMN_ANSWER_OPTION_ANSWER = "answer";
+    public static final String COLUMN_ANSWER_OPTION_CORRECT = "correct";
+    public static final String COLUMN_ANSWER_OPTION_QUESTION_ID = "question_id";
+
+
+
+
     public Table(Context context) {
 
         openHelper = new OpenHelper(context);
@@ -99,6 +108,23 @@ public class Table {
         readSQlite = openHelper.getReadableDatabase();
 
     }
+
+
+    public long addAnswer_Option(int id, String answer, int correct, int question_id) {
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_ANSWER_OPTION_ID, id);
+        contentValues.put(COLUMN_ANSWER_OPTION_ANSWER, answer);
+        contentValues.put(COLUMN_ANSWER_OPTION_CORRECT, correct);
+        contentValues.put(COLUMN_ANSWER_OPTION_QUESTION_ID, question_id);
+
+
+
+        return writeSQlite.insert("answer_option", null, contentValues);
+
+
+    }
+
 
     public long addClassrooms(int strClassroomsID, String strClassName) {
 
@@ -240,7 +266,7 @@ public long addExam_Rule(int id, int test_code, String rule, String teacher_name
 
     }
 
-public long addQuestion(int id, String question, String photo, String subject_code, String teacher_name, String ans_option_id) {
+public long addQuestion(int id, String question, String photo, String subject_code, String teacher_name, String question_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_QUESTION_ID, id);
@@ -248,7 +274,7 @@ public long addQuestion(int id, String question, String photo, String subject_co
         contentValues.put(COLUMN_QUESTION_QUESTION, question);
         contentValues.put(COLUMN_QUESTION_SUBJECT_CODE, subject_code);
         contentValues.put(COLUMN_QUESTION_TEAHCER_NAME, teacher_name);
-        contentValues.put(COLUMN_QUESTION_ANS_OPTION_ID, ans_option_id);
+        contentValues.put(COLUMN_QUESTION_QUESTION_ID, question_id);
 
 
 

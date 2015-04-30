@@ -2,7 +2,6 @@ package gko.app.gexam.Database;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +28,35 @@ public class Json_to_SQlite {
                 String strClassName = jsonObject1.getString("class");
 
                 new Table(context).addClassrooms(strClassroomsID, strClassName);
+
+                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+
+            }
+
+        } catch (JSONException e) {
+
+
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void Answer_Option(String strJSON, Context context) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(strJSON);
+            JSONArray jsonArrayClassrooms = jsonObject.getJSONArray("answer_option");
+
+            for (int i = 0; i < jsonArrayClassrooms.length(); i++) {
+
+                JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
+                int Answer_Option_ID = jsonObject1.getInt("id");
+                String answer = jsonObject1.getString("answer");
+                int correct = jsonObject1.getInt("correct");
+                int question_id = jsonObject1.getInt("question_id");
+
+                new Table(context).addAnswer_Option(Answer_Option_ID, answer,correct,question_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
@@ -302,9 +330,9 @@ public class Json_to_SQlite {
                 String photo = jsonObject1.getString("photo");
                 String subject_code = jsonObject1.getString("subject_code");
                 String teacher_name = jsonObject1.getString("teacher_name");
-                String ans_option_id = jsonObject1.getString("ans_option_id");
+                String question_id = jsonObject1.getString("question_id");
 
-                new Table(context).addQuestion(id, question,photo,subject_code,teacher_name,ans_option_id);
+                new Table(context).addQuestion(id, question,photo,subject_code,teacher_name,question_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
