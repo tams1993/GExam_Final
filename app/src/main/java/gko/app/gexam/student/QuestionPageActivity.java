@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
@@ -27,8 +27,13 @@ public class QuestionPageActivity extends ActionBarActivity {
     private TextView txtQuestion, txtTime;
     private SharedPreferences sp;
     private Button btnNextQ, btnBackQ, btnSubmit;
-    private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ";
+    private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ",Question, Answer1, Answer2, Answer3,Answer4,
+            CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4;
+
+    private String[] arrayQuestion,QuestionAnswer;
     private int counter = 0;
+
+    private int question_amount = 3;
 
 
     @Override
@@ -45,56 +50,40 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
 
-        int question_amount = 3;
 //        int question_amount = sp.getInt("question_amount",-1);
 
 
-        String[] arrayQuestion = getQuestion().toArray(new String[getQuestion().size()]); // change list<String> to array
 
-        int[] randomArray = randomIntArray(arrayQuestion.length, 0, arrayQuestion.length);
+         arrayQuestion = getQuestion().toArray(new String[getQuestion().size()]); // change list<String> to array
 
-//        Log.d("randomArray", "randomArray[" + 0 + "]= " + randomArray[0]);
-//        Log.d("randomArray", "randomArray[" + 1 + "]= " + randomArray[1]);
-//        Log.d("randomArray", "randomArray[" + 2 + "]= " + randomArray[2]);
-//        Log.d("randomArray", "randomArray[" + 3 + "]= " + randomArray[3]);
+
 //
-//        Log.d("arrayQuestion", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
-//        Log.d("arrayQuestion", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
 
 
-        String Question = getQuestion().get(counter);
-        String Answer1 = getAnswer(Question).get(0);
-        String Answer2 = getAnswer(Question).get(1);
-        String Answer3 = getAnswer(Question).get(2);
-        String Answer4 = getAnswer(Question).get(3);
+         Question = arrayQuestion[counter];
+         Answer1 = getAnswer(Question).get(0);
+         Answer2 = getAnswer(Question).get(1);
+         Answer3 = getAnswer(Question).get(2);
+         Answer4 = getAnswer(Question).get(3);
 
-        String CorrectAnswer1 = getAnswer(Question).get(4);
-        String CorrectAnswer2 = getAnswer(Question).get(5);
-        String CorrectAnswer3 = getAnswer(Question).get(6);
-        String CorrectAnswer4 = getAnswer(Question).get(7);
-
-
-        String[] QuestionAnswer = {Answer1,Answer2,Answer3,Answer4,Question,CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4};
-        for (int i = 0; i < QuestionAnswer.length; i++) {
+         CorrectAnswer1 = getAnswer(Question).get(4);
+         CorrectAnswer2 = getAnswer(Question).get(5);
+         CorrectAnswer3 = getAnswer(Question).get(6);
+         CorrectAnswer4 = getAnswer(Question).get(7);
 
 
-            Log.d("QuestionAnswer", "QuestionAnser[" + i + "]= " + QuestionAnswer[i]);
-
-        }
+          QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
 
 
 
-//        String[] allAnswer = getResources().getStringArray(R.array.country_arrays);
+        txtQuestion.setText(counter+1+"/"+(question_amount+1)+" "+Question);
+        Log.d("counter", "counter = " + counter+ "question = " + Question);
 
-
-        for (int i = 0; i < QuestionAnswer.length - 5; i++) {
-
-//            Log.d("exam", allAnswer[i]);
-
-
-        }
-        txtQuestion.setText(counter+1+"/"+question_amount+" "+QuestionAnswer[4]);
 
         addRadioButton(QuestionAnswer.length - 5, QuestionAnswer);
 
@@ -108,11 +97,63 @@ public class QuestionPageActivity extends ActionBarActivity {
             }
         });
 
+        btnBackQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                counter--;
+
+
+                if (counter < 0) {
+
+
+                    counter = question_amount;
+                    QuestionAnswerPerPage(counter);
+
+
+                } else {
+
+                    Log.d("counter", "counter = " + counter+ "question = " + Question);
+
+                    QuestionAnswerPerPage(counter);
+
+
+                }
+
+            }
+        });
+
         btnNextQ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 counter++;
+
+
+                if (counter <= question_amount) {
+
+
+
+
+
+
+                    QuestionAnswerPerPage(counter);
+
+
+
+
+
+
+                } else {
+
+                    counter = 0;
+                    Log.d("counter", "counter = " + counter+ "question = " + Question);
+
+                    QuestionAnswerPerPage(counter);
+
+
+                }
+
 
             }
         });
@@ -121,25 +162,6 @@ public class QuestionPageActivity extends ActionBarActivity {
     }
 
     private void addRadioButton(int answerRow, String[] answer) {
-
-
-//        for (int row = 0; row < 1; row++) {
-//            LinearLayout ll = new LinearLayout(this);
-//            ll.setOrientation(LinearLayout.VERTICAL);
-//
-//            for (int i = 0; i < answerRow; i++) {
-//                RadioButton rdbtn = new RadioButton(this);
-//                rdbtn.setId((row * 2) + i);
-////                rdbtn.setText("Radio " + rdbtn.getId());
-//                rdbtn.setText(answer[i]);
-//                ll.addView(rdbtn);
-//
-//            }
-//            ((ViewGroup) findViewById(R.id.radioGroup)).addView(ll);
-//
-//
-//
-//        }
 
         final RadioGroup rgp = (RadioGroup) findViewById(R.id.radioGroup);
 
@@ -216,12 +238,12 @@ public class QuestionPageActivity extends ActionBarActivity {
         }
 
 //        show what inside List<SpinnerObject>
-
-        int listSize = labels.size();
-
-        for (int i = 0; i < listSize; i++) {
-            Log.d("Member name: ", String.valueOf(labels.get(i)));
-        }
+//
+//        int listSize = labels.size();
+//
+//        for (int i = 0; i < listSize; i++) {
+//            Log.d("Member name: ", String.valueOf(labels.get(i)));
+//        }
 
         return labels;
 
@@ -247,6 +269,9 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         }
 
+        Collections.shuffle(labels);
+
+
 //        show what inside List<SpinnerObject>
 
         int listSize = labels.size();
@@ -259,46 +284,43 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     }
 
-    public int[] randomIntArray(int count, int min, int max) {
+
+
+    public void QuestionAnswerPerPage(int Counter) {
+
+        final RadioGroup rgp = (RadioGroup) findViewById(R.id.radioGroup);
+
+        rgp.removeAllViews();
 
 
 
-        Random r = new Random();
-        int[] data = new int[count];
-        for (int i = 0; i < count; i++) {
-
-            data[i] = -1;
-
-        }
-
-        for (int i = 0; i < count; i++) {
-
-            int n = -1;
-            boolean st = true;
-            while (st) {
-
-                st = false;
-
-                n = r.nextInt((max-min) + 1) + min;
-                for (int j = 0; j < data.length; j++)
-
-                    if (n == data[j])
-                        st = true;
+//
+        Log.d("arrayQuestion", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
+        Log.d("arrayQuestion", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
 
 
+        String Question = arrayQuestion[counter];
+        String Answer1 = getAnswer(Question).get(0);
+        String Answer2 = getAnswer(Question).get(1);
+        String Answer3 = getAnswer(Question).get(2);
+        String Answer4 = getAnswer(Question).get(3);
+
+        String CorrectAnswer1 = getAnswer(Question).get(4);
+        String CorrectAnswer2 = getAnswer(Question).get(5);
+        String CorrectAnswer3 = getAnswer(Question).get(6);
+        String CorrectAnswer4 = getAnswer(Question).get(7);
 
 
-            }
-            data[i] = n;
+        QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
+
+        txtQuestion.setText(Counter+1+"/"+(question_amount+1)+" "+Question);
+
+        addRadioButton(QuestionAnswer.length-5,QuestionAnswer);
 
 
-        }
-        return data;
-
-
-
-
-    }   //  end of randomIntArray
+    }
 
 
 
