@@ -25,7 +25,7 @@ import gko.app.gexam.student.generator.AlertDialoge;
 public class QuestionPageActivity extends ActionBarActivity {
 
     private TextView txtQuestion, txtTime;
-    private SharedPreferences sp;
+
     private Button btnNextQ, btnBackQ, btnSubmit;
     private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ",Question, Answer1, Answer2, Answer3,Answer4,
             CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4;
@@ -34,6 +34,11 @@ public class QuestionPageActivity extends ActionBarActivity {
     private int counter = 0;
 
     private int question_amount = 3;
+
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
+
+    private RadioGroup rgp;
 
 
     @Override
@@ -48,7 +53,9 @@ public class QuestionPageActivity extends ActionBarActivity {
         btnNextQ = (Button) findViewById(R.id.btnNextQ);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
-        sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        sp = getSharedPreferences("PREF_QUESTION", Context.MODE_PRIVATE);
+
+        editor = sp.edit();
 
 //        int question_amount = sp.getInt("question_amount",-1);
 
@@ -120,6 +127,14 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 }
 
+                int answer = sp.getInt("answer_choice " + (counter), -1);
+
+                if (answer != -1) {
+
+                    ((RadioButton)rgp.getChildAt(answer)).setChecked(true);
+
+                }
+
             }
         });
 
@@ -154,6 +169,14 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 }
 
+                int answer = sp.getInt("answer_choice " + (counter), -1);
+
+                if (answer != -1) {
+
+                    ((RadioButton)rgp.getChildAt(answer)).setChecked(true);
+
+                }
+
 
             }
         });
@@ -163,7 +186,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     private void addRadioButton(int answerRow, String[] answer) {
 
-        final RadioGroup rgp = (RadioGroup) findViewById(R.id.radioGroup);
+          rgp = (RadioGroup) findViewById(R.id.radioGroup);
 
 
         for (int row = 0; row < 1; row++) {
@@ -189,14 +212,25 @@ public class QuestionPageActivity extends ActionBarActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+
+
+
+
                 // get selected radio button from radioGroup
                 int selectedId = rgp.getCheckedRadioButtonId();
 
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
 
+
+
+                editor.putInt("answer_choice " + counter, checkedId);
+                editor.commit();
+
                 // find the radiobutton by returned id
                 Toast.makeText(QuestionPageActivity.this, radioButton
                         .getText(), Toast.LENGTH_SHORT).show();
+
+                Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
 
 
             }
