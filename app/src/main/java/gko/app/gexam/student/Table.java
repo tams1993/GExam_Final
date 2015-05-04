@@ -25,13 +25,15 @@ public class Table {
     public static final String COLUMN_COURSE_DATE = "date";
     public static final String COLUMN_COURSE_INTERVAL_TIME = "interval_time";
     public static final String COLUMN_COURSE_QUESTION_AMOUNT = "question_amount";
-    public static final String COLUMN_COURSE_TEST_CODE = "test_code";
+    public static final String COLUMN_COURSE_COURSE_ID = "course_id";
     public static final String COLUMN_COURSE_STATUS = "status";
-    public static final String COLUMN_TEACHER_NAME = "teacher_name";
-    public static final String COLUMN_SUBJECT_CODE = "subject_code";
+    public static final String COLUMN_COURSE_TEACHER_ID = "teacher_id";
+    public static final String COLUMN_COURSE_TEST_CODE = "test_code";
+    public static final String COLUMN_COURSE_SUBJECT_ID = "subject_id";
+    public static final String COLUMN_COURSE_CLASS_ID = "class_id";
 
     public static final String COLUMN_EXAM_QUESTION_ID = "_id";
-    public static final String COLUMN_EXAM_QUESTION_TEST_CODE = "test_id";
+    public static final String COLUMN_EXAM_QUESTION_TEST_CODE = "course_id";
     public static final String COLUMN_EXAM_QUESTION_QUESTION_ID = "question_id";
     public static final String COLUMN_EXAM_QUESTION_STUDENT_ANS_ID = "student_ans_id";
 
@@ -39,19 +41,20 @@ public class Table {
     public static final String COLUMN_SUBJECT_ID= "_id";
     public static final String COLUMN_SUBJECT_SUBJECT_NAME = "subject_name";
     public static final String COLUMN_SUBJECT_CREDIT = "credit";
+    public static final String COLUMN_SUBJECT_CODE = "code";
 
 
     public static final String COLUMN_QUESTION_ID = "_id";
     public static final String COLUMN_QUESTION_QUESTION = "question";
     public static final String COLUMN_QUESTION_PHOTO = "photo";
-    public static final String COLUMN_QUESTION_SUBJECT_CODE= "subject_code";
-    public static final String COLUMN_QUESTION_TEAHCER_NAME= "teacher_name";
-    public static final String COLUMN_QUESTION_QUESTION_ID= "question_id";
+    public static final String COLUMN_QUESTION_SUBJECT_ID= "subject_id";
+    public static final String COLUMN_QUESTION_TEAHCER_ID= "teacher_id";
+
 
     public static final String COLUMN_EXAM_RULE_ID = "_id";
-    public static final String COLUMN_EXAM_RULE_TEST_CODE = "test_code";
+    public static final String COLUMN_EXAM_RULE_TEST_CODE = "course_id";
     public static final String COLUMN_EXAM_RULE_RULE = "rule";
-    public static final String COLUMN_EXAM_RULE_TEACHER_NAME= "teacher_name";
+    public static final String COLUMN_EXAM_RULE_TEACHER_ID= "teacher_id";
 
     public static final String COLUMN_STUDENT_ANSWER_ID = "_id";
     public static final String COLUMN_STUDENT_ANSWER_ANS_OPTION_ID = "question_id";
@@ -59,12 +62,12 @@ public class Table {
 
     public static final String COLUMN_STUDENT_UNBLOCK_ID = "_id";
     public static final String COLUMN_STUDENT_UNBLOCK_STD_ID = "std_id";
-    public static final String COLUMN_STUDENT_UNBLOCK_TESTCODE= "test_code";
+    public static final String COLUMN_STUDENT_UNBLOCK_TESTCODE= "course_id";
 
     public static final String COLUMN_STUDENT_ILLEGAL_ID = "_id";
     public static final String COLUMN_STUDENT_ILLEGAL_STATUS = "status";
     public static final String COLUMN_STUDENT_ILLEGAL_STD_ID = "std_id";
-    public static final String COLUMN_STUDENT_ILLEGAL_TEST_ID = "test_code";
+    public static final String COLUMN_STUDENT_ILLEGAL_TEST_ID = "course_id";
 
 
 
@@ -77,7 +80,7 @@ public class Table {
     public static final String COLUMN_STUDENTS_PASSWORD = "password";
     public static final String COLUMN_STUDENTS_PHOTO = "photo";
     public static final String COLUMN_STUDENTS_STUDENT_ID = "student_id";
-    public static final String COLUMN_STUDENTS_STUDENT_CLASS_NAME = "class_name";
+    public static final String COLUMN_STUDENTS_STUDENT_CLASS_ID = "class_id";
 
 
     public static final String COLUMN_TEACHER_ID = "_id";
@@ -139,12 +142,12 @@ public class Table {
 
     }
 
-    public long addStudent_unblock(int id, String std_id, String test_code) {
+    public long addStudent_unblock(int id, String std_id, int course_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENT_UNBLOCK_ID, id);
         contentValues.put(COLUMN_STUDENT_UNBLOCK_STD_ID, std_id);
-        contentValues.put(COLUMN_STUDENT_UNBLOCK_TESTCODE, test_code);
+        contentValues.put(COLUMN_STUDENT_UNBLOCK_TESTCODE, course_id);
 
 
 
@@ -167,13 +170,13 @@ public class Table {
 
     }
 
-    public long addStudent_Illegal(int id, int status, String std_id, int test_code) {
+    public long addStudent_Illegal(int id, int status, String std_id, int course_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENT_ILLEGAL_ID, id);
         contentValues.put(COLUMN_STUDENT_ILLEGAL_STATUS, status);
         contentValues.put(COLUMN_STUDENT_ILLEGAL_STD_ID, std_id);
-        contentValues.put(COLUMN_STUDENT_ILLEGAL_TEST_ID, test_code);
+        contentValues.put(COLUMN_STUDENT_ILLEGAL_TEST_ID, course_id);
 
 
 
@@ -182,13 +185,13 @@ public class Table {
 
     }
 
-    public long addSubject(int id, String subject_name, int credit, String subject_code) {
+    public long addSubject(int id, String subject_name, int credit, String code) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_SUBJECT_ID, id);
         contentValues.put(COLUMN_SUBJECT_SUBJECT_NAME, subject_name);
         contentValues.put(COLUMN_SUBJECT_CREDIT, credit);
-        contentValues.put(COLUMN_SUBJECT_CODE, subject_code);
+        contentValues.put(COLUMN_SUBJECT_CODE, code);
 
 
 
@@ -197,17 +200,19 @@ public class Table {
 
     }
 
-    public long addCourse(int course_id, String strdate, String strInterval_time, int question_amount, String test_code, int status, String teacher_name, String subject_code) {
+    public long addCourse(int id, String strdate, int strInterval_time, int question_amount, int status, int teacher_id, String code, int subject_id, int class_id) {
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_COURSE_ID, course_id);
+        contentValues.put(COLUMN_COURSE_ID, id);
         contentValues.put(COLUMN_COURSE_DATE, strdate);
         contentValues.put(COLUMN_COURSE_INTERVAL_TIME, strInterval_time);
         contentValues.put(COLUMN_COURSE_QUESTION_AMOUNT, question_amount);
-        contentValues.put(COLUMN_COURSE_TEST_CODE, test_code);
+
         contentValues.put(COLUMN_COURSE_STATUS, status);
-        contentValues.put(COLUMN_TEACHER_NAME, teacher_name);
-        contentValues.put(COLUMN_SUBJECT_CODE, subject_code);
+        contentValues.put(COLUMN_COURSE_TEACHER_ID, teacher_id);
+        contentValues.put(COLUMN_COURSE_TEST_CODE, code);
+        contentValues.put(COLUMN_COURSE_SUBJECT_ID, subject_id);
+        contentValues.put(COLUMN_COURSE_CLASS_ID, class_id);
 
 
 
@@ -236,11 +241,11 @@ public class Table {
 
     }
 
-    public long addExam_Question(int id, int test_code, int question_id, int student_ans_id) {
+    public long addExam_Question(int id, int course_id, int question_id, int student_ans_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_EXAM_QUESTION_ID, id);
-        contentValues.put(COLUMN_EXAM_QUESTION_TEST_CODE, test_code);
+        contentValues.put(COLUMN_EXAM_QUESTION_TEST_CODE, course_id);
         contentValues.put(COLUMN_EXAM_QUESTION_QUESTION_ID, question_id);
         contentValues.put(COLUMN_EXAM_QUESTION_STUDENT_ANS_ID, student_ans_id);
 
@@ -251,13 +256,13 @@ public class Table {
 
     }
 
-public long addExam_Rule(int id, int test_code, String rule, String teacher_name) {
+public long addExam_Rule(int id, int course_id, String rule, int teacher_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_EXAM_RULE_ID, id);
-        contentValues.put(COLUMN_EXAM_RULE_TEST_CODE, test_code);
+        contentValues.put(COLUMN_EXAM_RULE_TEST_CODE, course_id);
         contentValues.put(COLUMN_EXAM_RULE_RULE, rule);
-        contentValues.put(COLUMN_EXAM_RULE_TEACHER_NAME, teacher_name);
+        contentValues.put(COLUMN_EXAM_RULE_TEACHER_ID, teacher_id);
 
 
 
@@ -266,15 +271,15 @@ public long addExam_Rule(int id, int test_code, String rule, String teacher_name
 
     }
 
-public long addQuestion(int id, String question, String photo, String subject_code, String teacher_name, String question_id) {
+public long addQuestion(int id, String question, String photo, int teacher_id, int subject_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_QUESTION_ID, id);
         contentValues.put(COLUMN_QUESTION_PHOTO, photo);
         contentValues.put(COLUMN_QUESTION_QUESTION, question);
-        contentValues.put(COLUMN_QUESTION_SUBJECT_CODE, subject_code);
-        contentValues.put(COLUMN_QUESTION_TEAHCER_NAME, teacher_name);
-        contentValues.put(COLUMN_QUESTION_QUESTION_ID, question_id);
+
+        contentValues.put(COLUMN_QUESTION_TEAHCER_ID, teacher_id);
+        contentValues.put(COLUMN_QUESTION_SUBJECT_ID, subject_id);
 
 
 
@@ -283,7 +288,7 @@ public long addQuestion(int id, String question, String photo, String subject_co
 
     }
 
-public long addStudents(int id, String name, String surname, int phone, String email, String username, String password, String photo, String student_id, String class_name) {
+public long addStudents(int id, String name, String surname, int phone, String email, String username, String password, String photo, String student_id, int class_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENTS_ID, id);
@@ -295,7 +300,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
         contentValues.put(COLUMN_STUDENTS_PASSWORD, password);
         contentValues.put(COLUMN_STUDENTS_PHOTO, photo);
         contentValues.put(COLUMN_STUDENTS_STUDENT_ID, student_id);
-        contentValues.put(COLUMN_STUDENTS_STUDENT_CLASS_NAME, class_name);
+        contentValues.put(COLUMN_STUDENTS_STUDENT_CLASS_ID, class_id);
 
 
 
@@ -355,7 +360,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
 
-            String selectQuery = "SELECT rule FROM exam_rule r INNER JOIN course c on r.test_code = c.test_code";
+            String selectQuery = "SELECT rule FROM exam_rule r INNER JOIN course c on r.course_id = c._id";
 
 
 
@@ -397,7 +402,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
     public Cursor ReadAllDataCourse() {
 
         Cursor objCursor = readSQlite.query("course",
-                new String[]{COLUMN_COURSE_ID,COLUMN_COURSE_TEST_CODE,COLUMN_COURSE_INTERVAL_TIME,COLUMN_COURSE_QUESTION_AMOUNT,COLUMN_COURSE_STATUS,COLUMN_SUBJECT_CODE},
+                new String[]{COLUMN_COURSE_ID, COLUMN_COURSE_COURSE_ID,COLUMN_COURSE_INTERVAL_TIME,COLUMN_COURSE_QUESTION_AMOUNT,COLUMN_COURSE_STATUS, COLUMN_COURSE_TEST_CODE},
                 null,null,null,null,null);
         if (objCursor != null) {
             objCursor.moveToFirst();

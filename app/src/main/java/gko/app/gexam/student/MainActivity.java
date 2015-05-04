@@ -52,6 +52,7 @@ public class MainActivity extends ActionBarActivity {
     private CheckBox chbActiveCourse;
     private String CourseName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name;
 
+
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -60,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.6/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -118,6 +119,8 @@ public class MainActivity extends ActionBarActivity {
         this.deleteDatabase("GExam.db");
 
         new SimpleTask().execute(URL_JSON);
+
+
 
 
 
@@ -212,6 +215,9 @@ public class MainActivity extends ActionBarActivity {
                  strStudentUser = edtUser.getText().toString();
                  strStudentPass = edtPass.getText().toString();
 
+                Log.d("GExam", "User " + strStudentUser);
+                Log.d("GExam", "Pass " + strStudentPass);
+
                 if ((strStudentUser.equals("")) | (strStudentPass.equals(""))) {
 
                     Toast.makeText(getApplicationContext(), "ກະລຸນາປ້ອນ ຊື່ຜູ້ໃຊ້ ແລະ ລະຫັດຜ່ານໃຫ້ຄົບຖ້ວນ", Toast.LENGTH_LONG).show();
@@ -236,68 +242,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private void CheckUserPassword() {
 
-
-        try {
-
-
-
-            String arrayData[] = getStudent(strStudentUser);
-            strTruePass = arrayData[7];
-            strStatus = arrayData[0];
-            strStd_id = arrayData[1];
-            strTest_code = arrayData[2];
-            strName = arrayData[3];
-            strSurname = arrayData[4];
-            strEmail = arrayData[5];
-            strPhone = arrayData[8];
-            strClass_name = arrayData[9];
-
-
-            StudentSharedPrefference();
-
-
-
-            for (int i = 0; i <= 9; i++) {
-
-                Log.d("arrayData","arrayData[" + i + "]= " + arrayData[i]);
-
-
-            }
-
-
-            if (strStudentPass.equals(strTruePass)) {
-
-                Intent intent = new Intent(MainActivity.this, RuleActivity.class);
-                startActivity(intent);
-
-
-            } else {
-
-                new AlertDialog.Builder(this)
-                        .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
-                        .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // continue with delete
-                            }
-                        })
-                        
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setCancelable(false)
-                        .show();
-
-            }
-
-        } catch (Exception e) {
-
-            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
-
-        }
-
-
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -341,7 +286,7 @@ public class MainActivity extends ActionBarActivity {
 
         protected void onPostExecute(String jsonString)  {
             // Dismiss ProgressBar
-            Log.d("Emergency", jsonString);
+//            Log.d("Emergency", jsonString);
             Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
             json_to_sQlite.Student_Illegal(jsonString, MainActivity.this);
@@ -428,7 +373,7 @@ public class MainActivity extends ActionBarActivity {
     public List< SpinnerObject> getAllLabelsSpinner(){
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
-            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_code = s.subject_code where c.status =?";
+            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id where c.status =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
@@ -438,7 +383,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(9),cursor.getString(6),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(6),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 
@@ -458,15 +403,10 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-//        int testcode = ( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ();
-//
-//
-//        Log.d("Cursor", "cursor 0  = " + testcode);
 
 
-        Log.d("Cursor", "cursor spinner  = " + cursor.getCount());
-//        Log.d("Cursor", "cursor column 0  = " + cursor.getColumnCount());
-//        Log.d("Cursor", "cursor columnindex 0  = " + cursor.getColumnIndex("status"));
+
+
 
 
 
@@ -480,44 +420,162 @@ public class MainActivity extends ActionBarActivity {
 
 
     public String[] getStudent(String strUser){
-        List < Student > labels = new ArrayList<Student>();
+        List < String > labels = new ArrayList<String>();
         // Select All Query
-        String selectQuery = "SELECT * FROM student_illegal s INNER JOIN course c on s.test_code = c.test_code INNER JOIN students st on s.std_id = st.student_id where st.username =?";
-//        String selectQuery = "SELECT * FROM course";
-//        String selectQuery = "SELECT * FROM subject";
+        String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id where st.username =?";
+
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser});
 
+        cursor.moveToFirst();
+        Log.d("GExam", "Cursor length " + cursor.getCount());
+        Log.d("GExam", "column length " + cursor.getColumnCount());
+        Log.d("GExam", "column name " + cursor.getColumnName(18));
+
+
+
+        Log.d("GExam", "arrayData 6 " + cursor.getString(cursor.getColumnIndex("username")));
+
+
         String[] arrayData = null;
+
+
 
         if (cursor != null) {
 
-            if (cursor.moveToFirst()) {
-
-                arrayData = new String[cursor.getColumnCount()];
 
 
-                arrayData[0] = cursor.getString(cursor.getColumnIndex("status"));
-                arrayData[1] = cursor.getString(cursor.getColumnIndex("std_id"));
-                arrayData[2] = cursor.getString(cursor.getColumnIndex("test_code"));
-                arrayData[3] = cursor.getString(cursor.getColumnIndex("name"));
-                arrayData[4] = cursor.getString(cursor.getColumnIndex("surname"));
-                arrayData[5] = cursor.getString(cursor.getColumnIndex("email"));
-                arrayData[6] = cursor.getString(cursor.getColumnIndex("username"));
-                arrayData[7] = cursor.getString(cursor.getColumnIndex("password"));
-                arrayData[8] = cursor.getString(cursor.getColumnIndex("phone"));
-                arrayData[9] = cursor.getString(cursor.getColumnIndex("class_name"));
 
 
-            }
+            arrayData = new String[cursor.getColumnCount()];
+
+
+
+            arrayData[0] = cursor.getString(cursor.getColumnIndex("status"));
+            arrayData[1] = cursor.getString(cursor.getColumnIndex("student_id"));
+            arrayData[2] = cursor.getString(cursor.getColumnIndex("test_code"));
+            arrayData[3] = cursor.getString(cursor.getColumnIndex("name"));
+            arrayData[4] = cursor.getString(cursor.getColumnIndex("surname"));
+            arrayData[5] = cursor.getString(cursor.getColumnIndex("email"));
+            arrayData[6] = cursor.getString(cursor.getColumnIndex("username"));
+            arrayData[7] = cursor.getString(cursor.getColumnIndex("password"));
+            arrayData[8] = cursor.getString(cursor.getColumnIndex("phone"));
+            arrayData[9] = cursor.getString(cursor.getColumnIndex("class_id"));
+
+
 
         }
 
 
+        Log.d("GExam", "arrayData " +cursor.getString(cursor.getColumnIndex("username")));
+
+
+
+
+        Log.d("GExam", "arrayData " + arrayData[0]);
+        Log.d("GExam", "arrayData " + arrayData[1]);
+        Log.d("GExam", "arrayData " + arrayData[2]);
+        Log.d("GExam", "arrayData " + arrayData[3]);
+        Log.d("GExam", "arrayData " + arrayData[4]);
+        Log.d("GExam", "arrayData " + arrayData[5]);
+        Log.d("GExam", "arrayData " + arrayData[6]);
+        Log.d("GExam", "arrayData " + arrayData[7]);
+        Log.d("GExam", "arrayData " + arrayData[8]);
+        Log.d("GExam", "arrayData " + arrayData[9]);
+
+
+
+
+
+
+
+
+
+
+        cursor.close();
 
         return arrayData;
+    }
+
+    private void CheckUserPassword() {
+
+
+        try {
+
+
+
+            String arrayData[] = getStudent(strStudentUser);
+            strTruePass = arrayData[7];
+            strStatus = arrayData[0];
+            strStd_id = arrayData[1];
+            strTest_code = arrayData[2];
+            strName = arrayData[3];
+            strSurname = arrayData[4];
+            strEmail = arrayData[5];
+            strPhone = arrayData[8];
+            strClass_name = arrayData[9];
+
+
+            StudentSharedPrefference();
+
+
+
+
+                Log.d("GExam","arrayData]= " + arrayData[0]);
+                Log.d("GExam","arrayData]= " + arrayData[1]);
+                Log.d("GExam","arrayData]= " + arrayData[2]);
+                Log.d("GExam","arrayData]= " + arrayData[3]);
+                Log.d("GExam","arrayData]= " + arrayData[4]);
+                Log.d("GExam","arrayData]= " + arrayData[5]);
+                Log.d("GExam","arrayData]= " + arrayData[6]);
+                Log.d("GExam","arrayData]= " + arrayData[7]);
+                Log.d("GExam","arrayData]= " + arrayData[8]);
+                Log.d("GExam","arrayData]= " + arrayData[9]);
+
+
+
+
+
+            if (strStudentPass.equals(strTruePass)) {
+
+                Intent intent = new Intent(MainActivity.this, RuleActivity.class);
+                startActivity(intent);
+
+
+            } else {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
+                        .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(false)
+                        .show();
+
+            }
+
+        } catch (Exception e) {
+
+            Log.d("GExam","password = "+ strTruePass);
+            Log.d("GExam","password = "+ strStatus);
+            Log.d("GExam","password = "+ strPhone);
+            Log.d("GExam","password = "+ strClass_name);
+            Log.d("GExam","password = "+ strEmail);
+
+            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
+
+            Log.d("GExam", "Error Login " + e.toString());
+
+        }
+
+
     }
 
     public void StudentSharedPrefference() {

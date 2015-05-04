@@ -4,18 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import gko.app.gexam.R;
@@ -100,24 +97,24 @@ public class RuleActivity extends ActionBarActivity {
 
     }
 
-    public List<Rule> getData() {
-
-        List<Rule> data = new ArrayList<>();
+//    public List<Rule> getData() {
 //
-
-        String[] ruleTitle = {"tam", "pe", "dog", "cat"};
-
-        for (int i = 0; i < ruleTitle.length; i++) {
-
-
-            Rule current = new Rule();
-            current.title = ruleTitle[i];
-            data.add(current);
-
-        }
-
-        return data;
-    }
+//        List<Rule> data = new ArrayList<>();
+////
+//
+//        String[] ruleTitle = {"tam", "pe", "dog", "cat"};
+//
+//        for (int i = 0; i < ruleTitle.length; i++) {
+//
+//
+//            Rule current = new Rule();
+//            current.title = ruleTitle[i];
+//            data.add(current);
+//
+//        }
+//
+//        return data;
+//    }
 
     public void getSharedPefference() {
 

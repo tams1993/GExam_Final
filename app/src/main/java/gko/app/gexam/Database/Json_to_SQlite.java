@@ -111,9 +111,9 @@ public class Json_to_SQlite {
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int student_unblock_id = jsonObject1.getInt("id");
                 String std_id = jsonObject1.getString("std_id");
-                String test_code = jsonObject1.getString("test_code");
+                int course_id = jsonObject1.getInt("course_id");
 
-                new Table(context).addStudent_unblock(student_unblock_id, std_id, test_code);
+                new Table(context).addStudent_unblock(student_unblock_id, std_id, course_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
@@ -141,7 +141,7 @@ public class Json_to_SQlite {
                 int id = jsonObject1.getInt("id");
                 String subject_name = jsonObject1.getString("subject_name");
                 int credit = jsonObject1.getInt("credit");
-                String code = jsonObject1.getString("subject_code");
+                String code = jsonObject1.getString("code");
 
                 new Table(context).addSubject(id, subject_name, credit,code);
 
@@ -171,9 +171,9 @@ public class Json_to_SQlite {
                 int id = jsonObject1.getInt("id");
                 int status = jsonObject1.getInt("status");
                 String std_id = jsonObject1.getString("std_id");
-                int test_id = jsonObject1.getInt("test_code");
+                int course_id = jsonObject1.getInt("course_id");
 
-                new Table(context).addStudent_Illegal(id, status, std_id, test_id);
+                new Table(context).addStudent_Illegal(id, status, std_id, course_id);
 
                 Log.d("ERROR", "JSON to SQLITE student_illegal: COMPLETE");
 
@@ -200,14 +200,16 @@ public class Json_to_SQlite {
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int strCourseID = jsonObject1.getInt("id");
                 String strDate = jsonObject1.getString("date");
-                String strIntervalTime = jsonObject1.getString("interval_time");
+                int strIntervalTime = jsonObject1.getInt("interval_time");
                 String test_code = jsonObject1.getString("test_code");
-                String teacher_name = jsonObject1.getString("teacher_name");
-                String subject_code = jsonObject1.getString("subject_code");
+                int teacher_id = jsonObject1.getInt("teacher_id");
+
                 int question_amount = jsonObject1.getInt("question_amount");
                 int status = jsonObject1.getInt("status");
+                int subject_id = jsonObject1.getInt("subject_id");
+                int class_id = jsonObject1.getInt("class_id");
 
-                new Table(context).addCourse(strCourseID, strDate, strIntervalTime, question_amount, test_code, status, teacher_name, subject_code);
+                new Table(context).addCourse(strCourseID, strDate, strIntervalTime, question_amount, status, teacher_id, test_code,subject_id,class_id);
 
                 Log.d("ERROR","JSON to SQLITE: COMPLETE");
 
@@ -268,11 +270,11 @@ public class Json_to_SQlite {
 
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int id = jsonObject1.getInt("id");
-                int test_code = jsonObject1.getInt("test_code");
+                int course_id = jsonObject1.getInt("course_id");
                 int question_id = jsonObject1.getInt("question_id");
                 int student_ans_id = jsonObject1.getInt("student_ans_id");
 
-                new Table(context).addExam_Question(id, test_code,question_id,student_ans_id);
+                new Table(context).addExam_Question(id, course_id,question_id,student_ans_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
@@ -297,11 +299,11 @@ public class Json_to_SQlite {
 
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int id = jsonObject1.getInt("id");
-                int test_code = jsonObject1.getInt("test_code");
+                int course_id = jsonObject1.getInt("course_id");
                 String rule = jsonObject1.getString("rule");
-                String teacher_name = jsonObject1.getString("teacher_name");
+                int teacher_id = jsonObject1.getInt("teacher_id");
 
-                new Table(context).addExam_Rule(id, test_code,rule,teacher_name);
+                new Table(context).addExam_Rule(id, course_id,rule,teacher_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
@@ -328,11 +330,11 @@ public class Json_to_SQlite {
                 int id = jsonObject1.getInt("id");
                 String question = jsonObject1.getString("question");
                 String photo = jsonObject1.getString("photo");
-                String subject_code = jsonObject1.getString("subject_code");
-                String teacher_name = jsonObject1.getString("teacher_name");
-                String question_id = jsonObject1.getString("question_id");
 
-                new Table(context).addQuestion(id, question,photo,subject_code,teacher_name,question_id);
+                int teacher_id = jsonObject1.getInt("teacher_id");
+                int subject_id = jsonObject1.getInt("subject_id");
+
+                new Table(context).addQuestion(id, question,photo,teacher_id,subject_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
@@ -365,9 +367,9 @@ public void Students(String strJSON, Context context) {
                 String password = jsonObject1.getString("password");
                 String photo = jsonObject1.getString("photo");
                 String student_id = jsonObject1.getString("student_id");
-                String class_name = jsonObject1.getString("class_name");
+                int class_id = jsonObject1.getInt("class_id");
 
-                new Table(context).addStudents(id, name,surname,phone,email,username,password,photo,student_id,class_name);
+                new Table(context).addStudents(id, name,surname,phone,email,username,password,photo,student_id,class_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 
