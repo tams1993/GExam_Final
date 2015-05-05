@@ -50,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
     private TextView txtCom;
     private Handler mHandler = new Handler();
     private CheckBox chbActiveCourse;
-    private String CourseName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name;
+    private String strSubjectName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name;
 
 
     private SharedPreferences sp;
@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.2/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -173,9 +173,10 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-                Toast.makeText(parent.getContext(),
-                        "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                        Toast.LENGTH_SHORT).show();
+
+
+
+                strSubjectName = parent.getItemAtPosition(position).toString();
 
                 int testcode = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ()));
 
@@ -183,6 +184,10 @@ public class MainActivity extends ActionBarActivity {
                 int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getQuestionamount ()));
 
                 String teacher_name = String.valueOf (( (SpinnerObject) spinner.getSelectedItem () ).getTeachername ());
+
+                Toast.makeText(parent.getContext(),
+                        "teacher_name : " + teacher_name,
+                        Toast.LENGTH_SHORT).show();
 
                 editor.putString("subject_name",parent.getItemAtPosition(position).toString());
                 editor.putString("teacher_name",teacher_name);
@@ -373,7 +378,7 @@ public class MainActivity extends ActionBarActivity {
     public List< SpinnerObject> getAllLabelsSpinner(){
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
-            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id where c.status =?";
+            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id where c.status =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
@@ -383,7 +388,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(6),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 
@@ -419,15 +424,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public String[] getStudent(String strUser){
+    public String[] getStudent(String strUser, String subjectName){
         List < String > labels = new ArrayList<String>();
         // Select All Query
-        String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id where st.username =?";
+        String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id INNER JOIN subject su ON c.subject_id = su._id where st.username =? and su.subject_name =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser});
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser,subjectName});
 
         cursor.moveToFirst();
         Log.d("GExam", "Cursor length " + cursor.getCount());
@@ -463,6 +468,17 @@ public class MainActivity extends ActionBarActivity {
             arrayData[7] = cursor.getString(cursor.getColumnIndex("password"));
             arrayData[8] = cursor.getString(cursor.getColumnIndex("phone"));
             arrayData[9] = cursor.getString(cursor.getColumnIndex("class_id"));
+            arrayData[10] = cursor.getString(cursor.getColumnIndex("subject_name"));
+
+            int teacher_id = cursor.getInt(cursor.getColumnIndex("teacher_id"));
+            int subject_id = cursor.getInt(cursor.getColumnIndex("subject_id"));
+
+            editor.putInt("teacher_id", teacher_id);
+            editor.putInt("subject_id", subject_id);
+
+            editor.commit();
+
+
 
 
 
@@ -506,7 +522,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-            String arrayData[] = getStudent(strStudentUser);
+            String arrayData[] = getStudent(strStudentUser,strSubjectName);
             strTruePass = arrayData[7];
             strStatus = arrayData[0];
             strStd_id = arrayData[1];

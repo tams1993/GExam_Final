@@ -33,9 +33,9 @@ public class QuestionPageActivity extends ActionBarActivity {
     private String[] arrayQuestion,QuestionAnswer;
     private int counter = 0;
 
-    private int question_amount = 3;
+    private int question_amount = 4, teacher_id, subject_id, answer;
 
-    private SharedPreferences sp;
+    private SharedPreferences sp, spName;
     private SharedPreferences.Editor editor;
 
     private RadioGroup rgp;
@@ -54,21 +54,32 @@ public class QuestionPageActivity extends ActionBarActivity {
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
         sp = getSharedPreferences("PREF_QUESTION", Context.MODE_PRIVATE);
+        spName = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+
+        teacher_id = spName.getInt("teacher_id", -1);
+        subject_id = spName.getInt("subject_id", -1);
+
+        Log.d("GExam", "teacher_id  = " + teacher_id);
+        Log.d("GExam", "subject_id  = " + subject_id);
 
         editor = sp.edit();
+        editor.clear();
 
 //        int question_amount = sp.getInt("question_amount",-1);
+
 
 
 
          arrayQuestion = getQuestion().toArray(new String[getQuestion().size()]); // change list<String> to array
 
 
+        Log.d("GExam", "arrayQuestion size = " + arrayQuestion.length);
 //
-        Log.d("arrayQuestion", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
+        Log.d("GExam", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
+        Log.d("GExam", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
+        Log.d("GExam", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
+        Log.d("GExam", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
+        Log.d("GExam", "arrayQuestion[" + 4 + "]= " + arrayQuestion[4]);
 
 
          Question = arrayQuestion[counter];
@@ -89,7 +100,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         txtQuestion.setText(counter+1+"/"+(question_amount+1)+" "+Question);
-        Log.d("counter", "counter = " + counter+ "question = " + Question);
+//        Log.d("counter", "counter = " + counter+ "question = " + Question);
 
 
         addRadioButton(QuestionAnswer.length - 5, QuestionAnswer);
@@ -99,6 +110,8 @@ public class QuestionPageActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
+                editor.clear();
+
 
 
             }
@@ -131,6 +144,9 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 if (answer != -1) {
 
+
+
+
                     ((RadioButton)rgp.getChildAt(answer)).setChecked(true);
 
                 }
@@ -143,6 +159,8 @@ public class QuestionPageActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 counter++;
+
+
 
 
                 if (counter <= question_amount) {
@@ -169,13 +187,23 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 }
 
-                int answer = sp.getInt("answer_choice " + (counter), -1);
+                 answer = sp.getInt("answer_choice " + (counter), -1);
+
+//                if (rgp.getCheckedRadioButtonId() != -1) {
+//
+//                    rgp.clearCheck();
+//
+//
+//                }
 
                 if (answer != -1) {
 
-                    ((RadioButton)rgp.getChildAt(answer)).setChecked(true);
+
+                    ((RadioButton) rgp.getChildAt(answer)).setChecked(true);
 
                 }
+
+
 
 
             }
@@ -188,6 +216,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
           rgp = (RadioGroup) findViewById(R.id.radioGroup);
 
+//        ((RadioButton) rgp.getChildAt(answer)).setChecked(true);
 
         for (int row = 0; row < 1; row++) {
 
@@ -244,7 +273,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         List<String> labels = new ArrayList<>();
 
-        String strQuery = "SELECT * FROM questions q INNER JOIN answer_option a ON q.question_id = a.question_id where q.question =?";
+        String strQuery = "SELECT * FROM questions q INNER JOIN answer_option a ON q._id = a.question_id where q.question =?";
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
@@ -287,7 +316,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         List<String> labels = new ArrayList<>();
 
-        String strQuery = "SELECT * FROM questions";
+        String strQuery = "SELECT * FROM questions where teacher_id ="+teacher_id+" and subject_id=" + subject_id;
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
@@ -322,7 +351,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     public void QuestionAnswerPerPage(int Counter) {
 
-        final RadioGroup rgp = (RadioGroup) findViewById(R.id.radioGroup);
+
 
         rgp.removeAllViews();
 
