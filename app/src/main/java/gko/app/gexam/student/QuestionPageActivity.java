@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,18 +29,42 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     private Button btnNextQ, btnBackQ, btnSubmit;
     private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ",Question, Answer1, Answer2, Answer3,Answer4,
-            CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4;
+            CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4, ALERT_EXIT_MESSAGE="ທ່ານໄດ້ອອກຈາກໂປຣແກຣມໃນລະຫວ່າງການສອບເສັງເກີນກຳນົດ. ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ"
+            , ALERT_EXIT_TITILE = "ການສອບເສັງຖືກຍຸດຕິ!!!";
 
     private String[] arrayQuestion,QuestionAnswer;
-    private int counter = 0;
+    private int counter = 0, exitCount =0;
 
-    private int question_amount = 4, teacher_id, subject_id, answer;
+    private int question_amount = 4, teacher_id, subject_id, answer,interval_time;
 
     private SharedPreferences sp, spName;
     private SharedPreferences.Editor editor;
 
+    private CountDownTimer objCountDown;
+
+
     private RadioGroup rgp;
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        exitCount++;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (exitCount == 5+1 ) {
+
+            AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_EXIT_TITILE, ALERT_EXIT_MESSAGE);
+            objCountDown.cancel();
+
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +83,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         teacher_id = spName.getInt("teacher_id", -1);
         subject_id = spName.getInt("subject_id", -1);
+        interval_time = spName.getInt("interval_time", -1);
 
         Log.d("GExam", "teacher_id  = " + teacher_id);
         Log.d("GExam", "subject_id  = " + subject_id);
@@ -104,12 +130,14 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         addRadioButton(QuestionAnswer.length - 5, QuestionAnswer);
+        CountDown();
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
+                objCountDown.cancel();
                 editor.clear();
 
 
@@ -384,6 +412,49 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
     }
+
+    private void CountDown() {
+
+
+        objCountDown = new CountDownTimer(120000, 100) {
+
+            public void onTick(long l) {
+
+
+                int secondsLeft = 0;
+
+
+
+
+                if (Math.round((float) l / 1000.0f) != secondsLeft) {
+                    secondsLeft = Math.round((float) l / 1000.0f);
+
+                    // time countdown
+
+                    txtTime.setText("ເວລາທີ່ເຫຼືອ: " + String.format("%02d:%02d:%02d", secondsLeft / 3600, (secondsLeft % 3600) / 60, (secondsLeft % 60)));
+
+                }
+//                Log.i("Exam", "ms=" + l + " till finished=" + secondsLeft);
+            }
+
+            public void onFinish() {
+
+
+                txtTime.setText("Time's up!!!");
+                AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
+
+
+
+            }
+
+        }.start();
+
+
+
+    }
+
+
+
 
 
 

@@ -2,12 +2,10 @@ package gko.app.gexam.student.generator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import gko.app.gexam.student.MainActivity;
-import gko.app.gexam.student.QuestionPageActivity;
 
 /**
  * Created by tams1993 on 3/27/2015.
@@ -47,7 +45,7 @@ public static void Alert(final Activity activity,String title, String message ) 
 
                         dialog.cancel();
                         activity.finish();
-                        
+
                         Intent intent = new Intent(activity, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         activity.startActivity(intent);
@@ -64,6 +62,8 @@ public static void Alert(final Activity activity,String title, String message ) 
 
 
     }
+
+
 
 
 
