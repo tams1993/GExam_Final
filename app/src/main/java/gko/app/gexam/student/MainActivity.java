@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +42,7 @@ import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.Committy_login;
+import gko.app.gexam.student.generator.AlertDialoge;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -47,10 +50,11 @@ public class MainActivity extends ActionBarActivity {
     private Button btnLogin;
     private Spinner spinner,spnCom;
     private EditText edtUser, edtPass;
-    private TextView txtCom;
+    private TextView txtCom, txtStatus;
     private Handler mHandler = new Handler();
     private CheckBox chbActiveCourse;
-    private String strSubjectName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name;
+    private String strSubjectName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name,
+                    ALERT_ERROR_TITLE = "ການເຊື່ອມຕໍ່ຜິດພາດ!!!",ALERT_ERROR_MESSAGE = "ກະລຸນາກວດອຸປະກອນຂອງທ່ານວ່າເຊື່ອມຕໍ່ອິນເຕີເນັດຫຼືຍັງກ່ອນເຂົ້ານຳໃຊ້";
 
 
     private SharedPreferences sp;
@@ -61,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.8/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.7/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -116,9 +120,70 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        edtUser = (EditText) findViewById(R.id.edtUser);
+        edtPass = (EditText) findViewById(R.id.edtPass);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        txtCom = (TextView) findViewById(R.id.txtCommittee);
+        chbActiveCourse = (CheckBox) findViewById(R.id.chbActiveCourse);
+        spnCom = (Spinner) findViewById(R.id.spnCom);
+        txtStatus = (TextView) findViewById(R.id.txtStatus);
+
+
+
         this.deleteDatabase("GExam.db");
 
-        new SimpleTask().execute(URL_JSON);
+        if (Online() == true) {
+
+            new SimpleTask().execute(URL_JSON);
+            txtStatus.setText("ອອນໄລນ");
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                    strSubjectName = parent.getItemAtPosition(position).toString();
+
+                    int testcode = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTestcode()));
+
+                    int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
+                    int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
+
+                    String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
+
+                    Toast.makeText(parent.getContext(),
+                            "teacher_name : " + teacher_name,
+                            Toast.LENGTH_SHORT).show();
+
+                    editor.putString("subject_name", parent.getItemAtPosition(position).toString());
+                    editor.putString("teacher_name", teacher_name);
+                    editor.putInt("testcode", testcode);
+                    editor.putInt("interval_time", interval_time);
+                    editor.putInt("question_amount", question_amount);
+
+
+                    editor.commit();
+
+
+                }
+
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+
+        } else if (Online() == false){
+
+            AlertDialoge.AlertConnection(this, ALERT_ERROR_TITLE, ALERT_ERROR_MESSAGE);
+
+            txtStatus.setText("ອອຟໄລນ");
+
+        }
+
 
 
 
@@ -145,20 +210,13 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        btnLogin = (Button) findViewById(R.id.btnLogin);
-        edtUser = (EditText) findViewById(R.id.edtUser);
-        edtPass = (EditText) findViewById(R.id.edtPass);
-        spinner = (Spinner) findViewById(R.id.spinner);
-        txtCom = (TextView) findViewById(R.id.txtCommittee);
-        chbActiveCourse = (CheckBox) findViewById(R.id.chbActiveCourse);
-        spnCom = (Spinner) findViewById(R.id.spnCom);
 
 
         txtCom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                                Intent intent = new Intent(MainActivity.this, Committy_login.class);
+                Intent intent = new Intent(MainActivity.this, Committy_login.class);
                 startActivity(intent);
 
 //                callLoginDialog();
@@ -167,48 +225,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
-
-
-
-
-                strSubjectName = parent.getItemAtPosition(position).toString();
-
-                int testcode = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ()));
-
-                int interval_time = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getIntervaltime ()));
-                int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spinner.getSelectedItem () ).getQuestionamount ()));
-
-                String teacher_name = String.valueOf (( (SpinnerObject) spinner.getSelectedItem () ).getTeachername ());
-
-                Toast.makeText(parent.getContext(),
-                        "teacher_name : " + teacher_name,
-                        Toast.LENGTH_SHORT).show();
-
-                editor.putString("subject_name",parent.getItemAtPosition(position).toString());
-                editor.putString("teacher_name",teacher_name);
-                editor.putInt("testcode", testcode);
-                editor.putInt("interval_time", interval_time);
-                editor.putInt("question_amount", question_amount);
-
-
-                editor.commit();
-
-
-            }
-
-
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -338,11 +355,12 @@ public class MainActivity extends ActionBarActivity {
             HttpEntity objHttpEntity = objHttpResponse.getEntity();
             objInputStream = objHttpEntity.getContent();
 
-            Log.d("Emergency", "Connected HTTP Success !");
+            Log.d("GExam", "Connected HTTP Success !");
 
 
         } catch (Exception e) {
-            Log.d("Emergency", "Error Connect to : " + e.toString());
+
+            Log.d("GExam", "Error Connect to : " + e.toString());
         }
 
 
@@ -612,6 +630,22 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    private boolean Online() {
 
+        Boolean result = false;
+
+        ConnectivityManager objConnectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo objNetworkInfo = objConnectivityManager.getActiveNetworkInfo();
+
+        if (objNetworkInfo != null && objNetworkInfo.isConnected()) {
+
+            result = true;
+
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
 
 }

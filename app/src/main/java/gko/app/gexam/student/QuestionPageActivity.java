@@ -50,6 +50,10 @@ public class QuestionPageActivity extends ActionBarActivity {
         super.onStop();
 
         exitCount++;
+
+
+        Log.d("GExam", "option key pressed");
+
     }
 
     @Override

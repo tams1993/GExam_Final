@@ -137,15 +137,34 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/committee"
-            android:id="@+id/txtCommittee"
-            android:layout_gravity="right"
-            android:gravity="bottom"
-            android:textSize="@dimen/text_size"
-            android:textColor="#ff7c7b80" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/txtStatus"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/committee"
+                android:id="@+id/txtCommittee"
+                android:gravity="bottom|center"
+                android:textSize="@dimen/text_size"
+                android:textColor="#ff7c7b80"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

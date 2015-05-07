@@ -65,6 +65,31 @@ public static void Alert(final Activity activity,String title, String message ) 
 
 
 
+    public static void AlertConnection(final Activity activity, String title, String message) {
 
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
+        builder1.setTitle(title);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                        activity.finish();
+
+
+
+
+                    }
+                });
+
+
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+
+
+    }
 
 }
