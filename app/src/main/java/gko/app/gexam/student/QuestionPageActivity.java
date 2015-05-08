@@ -30,10 +30,10 @@ public class QuestionPageActivity extends ActionBarActivity {
     private Button btnNextQ, btnBackQ, btnSubmit;
     private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ",Question, Answer1, Answer2, Answer3,Answer4,
             CorrectAnswer1,CorrectAnswer2,CorrectAnswer3,CorrectAnswer4, ALERT_EXIT_MESSAGE="ທ່ານໄດ້ອອກຈາກໂປຣແກຣມໃນລະຫວ່າງການສອບເສັງເກີນກຳນົດ. ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ"
-            , ALERT_EXIT_TITILE = "ການສອບເສັງຖືກຍຸດຕິ!!!";
+            , ALERT_EXIT_TITILE = "ການສອບເສັງຖືກຍຸດຕິ!!!", specificQuestion, specificAnswer, specificCorrectAnswer;
 
-    private String[] arrayQuestion,QuestionAnswer;
-    private int counter = 0, exitCount =0;
+    private String[] arrayQuestion,QuestionAnswer,AnswerOnly;
+    private int counter = 0, exitCount =0, score=0;
 
     private int question_amount = 4, teacher_id, subject_id, answer,interval_time;
 
@@ -125,6 +125,27 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
           QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
+
+//        AnswerOnly = new String[]{CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
+
+        for (int i = 0; i < QuestionAnswer.length; i++) {
+
+            Log.d("GExam", "QuestionAnswer[" + i + "]= " + QuestionAnswer[i]);
+
+
+        }
+
+        AnswerOnly = getCorrectAnswer(Question);
+         specificQuestion = AnswerOnly[0];
+         specificAnswer = AnswerOnly[1];
+         specificCorrectAnswer = AnswerOnly[2];
+
+
+        Log.d("GExam", "specificQuestion= " + specificQuestion);
+        Log.e("GExam", "specificAnswer= " + specificAnswer);
+        Log.d("GExam", "specificCorrectAnswer= " + specificCorrectAnswer);
+
+
 
 
 
@@ -282,9 +303,12 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
 
+                String selection =(String) radioButton.getText();
+
 
 
                 editor.putInt("answer_choice " + counter, checkedId);
+                editor.putString("answer_choice" + counter, selection);
                 editor.commit();
 
                 // find the radiobutton by returned id
@@ -292,6 +316,21 @@ public class QuestionPageActivity extends ActionBarActivity {
                         .getText(), Toast.LENGTH_SHORT).show();
 
                 Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
+
+
+                if (selection.equals(specificAnswer)) {
+
+
+                    score++;
+
+
+                }
+
+
+                Log.e("GExam", "score = " + score);
+                Log.e("GExam", "selection = " + selection);
+                Log.e("GExam", "specificAnswer = " + specificAnswer);
+
 
 
             }
@@ -410,6 +449,21 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
+        for (int i = 0; i < QuestionAnswer.length; i++) {
+
+            Log.d("GExam", "QuestionAnswer[" + i + "]= " + QuestionAnswer[i]);
+
+
+        }
+
+        AnswerOnly = getCorrectAnswer(Question);
+        specificQuestion = AnswerOnly[0];
+        specificAnswer = AnswerOnly[1];
+        specificCorrectAnswer = AnswerOnly[2];
+
+
+
+
         txtQuestion.setText(Counter+1+"/"+(question_amount+1)+" "+Question);
 
         addRadioButton(QuestionAnswer.length-5,QuestionAnswer);
@@ -454,6 +508,45 @@ public class QuestionPageActivity extends ActionBarActivity {
         }.start();
 
 
+
+    }
+
+    public String[] getCorrectAnswer(String Question) {
+
+        String selectQuery = "SELECT * FROM questions q INNER JOIN answer_option a ON q._id = a.question_id where q.question =? AND a.correct = 1";
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{Question});
+
+        cursor.moveToFirst();
+
+
+        String[] arrayData = null;
+
+
+        if (cursor != null) {
+
+
+
+            arrayData = new String[cursor.getColumnCount()];
+
+            arrayData[0] = cursor.getString(cursor.getColumnIndex("question"));
+            arrayData[1] = cursor.getString(cursor.getColumnIndex("answer"));
+
+
+            arrayData[2] = cursor.getString(cursor.getColumnIndex("correct"));
+
+
+
+
+        }
+
+
+
+        cursor.close();
+        return arrayData;
 
     }
 
