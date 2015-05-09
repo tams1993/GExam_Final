@@ -201,7 +201,7 @@ public class Committy_login extends ActionBarActivity {
     public List< SpinnerObject> getAllLabelsSpinner(){
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
-        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_code = s.subject_code where c.status =?";
+        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id where c.status =?";
 //        String selectQuery = "SELECT * FROM course";
 //        String selectQuery = "SELECT * FROM subject";
 
@@ -212,7 +212,7 @@ public class Committy_login extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(9),cursor.getString(6),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 

@@ -2,14 +2,13 @@ package gko.app.gexam.committed.com_fragment;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
@@ -131,23 +130,28 @@ public class ComFragActivity extends ActionBarActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if(position == 0) // if the position is 0 we are returning the First tab
+
+
+
+
+            if (position == 0) // if the position is 0 we are returning the First tab
             {
                 RuleFragment tabRule = new RuleFragment();
                 return tabRule;
             }
-            else if (position == 1)       // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+            if (position == 1)       // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
             {
 
                 DetailFragment tabDetail = new DetailFragment();
                 return tabDetail;
-            } else {
+
+            }
+            else {
 
                 StudentListFragment tabStudentList = new StudentListFragment();
                 return tabStudentList;
 
             }
-
 
         }
 

@@ -4,13 +4,10 @@ package gko.app.gexam.committed.com_fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import gko.app.gexam.R;
@@ -20,11 +17,9 @@ import gko.app.gexam.R;
  */
 public class DetailFragment extends Fragment {
 
-    private Button btnStart;
-    private CheckBox cbConfirm;
+
     private TextView txtCourse_detail_subject, txtInterval;
     private SharedPreferences sp;
-    private SharedPreferences.Editor editor;
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {

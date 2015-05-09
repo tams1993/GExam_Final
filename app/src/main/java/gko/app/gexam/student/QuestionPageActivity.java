@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,6 +53,9 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
     private RadioGroup rgp;
+    private String Student_ID;
+    private String ALERT_BACKPRESS_TITLE= "ທ່ານໄດ້ກົດປຸ່ມກັບຄືນ!!!";
+    private String ALERT_BACKPRESS_MESSAGE= "ທ່ານບໍ່ສາມາດກັບຄືນໄດ້ໃນຂະນະທີ່ເສັງຢູ່";
 
     @Override
     protected void onStop() {
@@ -53,6 +65,18 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         Log.d("GExam", "option key pressed");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+
+
+
+        AlertDialoge.AlertBackPress(QuestionPageActivity.this, ALERT_BACKPRESS_TITLE, ALERT_BACKPRESS_MESSAGE);
+
+
 
     }
 
@@ -89,8 +113,6 @@ public class QuestionPageActivity extends ActionBarActivity {
         subject_id = spName.getInt("subject_id", -1);
         interval_time = spName.getInt("interval_time", -1);
 
-        Log.d("GExam", "teacher_id  = " + teacher_id);
-        Log.d("GExam", "subject_id  = " + subject_id);
 
         editor = sp.edit();
         editor.clear();
@@ -103,13 +125,6 @@ public class QuestionPageActivity extends ActionBarActivity {
          arrayQuestion = getQuestion().toArray(new String[getQuestion().size()]); // change list<String> to array
 
 
-        Log.d("GExam", "arrayQuestion size = " + arrayQuestion.length);
-//
-        Log.d("GExam", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
-        Log.d("GExam", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
-        Log.d("GExam", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
-        Log.d("GExam", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
-        Log.d("GExam", "arrayQuestion[" + 4 + "]= " + arrayQuestion[4]);
 
 
          Question = arrayQuestion[counter];
@@ -128,12 +143,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 //        AnswerOnly = new String[]{CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
-        for (int i = 0; i < QuestionAnswer.length; i++) {
 
-            Log.d("GExam", "QuestionAnswer[" + i + "]= " + QuestionAnswer[i]);
-
-
-        }
 
         AnswerOnly = getCorrectAnswer(Question);
          specificQuestion = AnswerOnly[0];
@@ -143,6 +153,8 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         Log.d("GExam", "specificQuestion= " + specificQuestion);
         Log.e("GExam", "specificAnswer= " + specificAnswer);
+
+
         Log.d("GExam", "specificCorrectAnswer= " + specificCorrectAnswer);
 
 
@@ -162,6 +174,36 @@ public class QuestionPageActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
+
+
+
+
+                for (int i = 0; i <= question_amount; i++) {
+
+                    String spAnswer = sp.getString("specificAnswer" + i, "no Answer");
+                    String spChoice = sp.getString("answer_choice" + i, "no Choice");
+
+
+                    Log.e("GExam", "spAnswer= " + spAnswer);
+                    Log.e("GExam", "spChoice= " + spChoice);
+
+
+                    if (spChoice.equals(spAnswer)) {
+
+                        score++;
+
+                }
+
+                }
+
+                Log.e("GExam", "total score = " + score);
+
+                Student_ID = spName.getString("Student_ID", "No Student ID");
+
+                AddScoreToMySQL(score,Student_ID);
+                Log.e("GExam", "Student_ID = " + Student_ID);
+
+
                 objCountDown.cancel();
                 editor.clear();
 
@@ -309,6 +351,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 editor.putInt("answer_choice " + counter, checkedId);
                 editor.putString("answer_choice" + counter, selection);
+                editor.putString("specificAnswer" + counter, specificAnswer);
                 editor.commit();
 
                 // find the radiobutton by returned id
@@ -318,13 +361,13 @@ public class QuestionPageActivity extends ActionBarActivity {
                 Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
 
 
-                if (selection.equals(specificAnswer)) {
-
-
-                    score++;
-
-
-                }
+//                if (selection.equals(specificAnswer)) {
+//
+//
+//                    score++;
+//
+//
+//                }
 
 
                 Log.e("GExam", "score = " + score);
@@ -423,16 +466,11 @@ public class QuestionPageActivity extends ActionBarActivity {
     public void QuestionAnswerPerPage(int Counter) {
 
 
-
         rgp.removeAllViews();
 
 
 
-//
-        Log.d("arrayQuestion", "arrayQuestion[" + 0 + "]= " + arrayQuestion[0]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 1 + "]= " + arrayQuestion[1]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 2 + "]= " + arrayQuestion[2]);
-        Log.d("arrayQuestion", "arrayQuestion[" + 3 + "]= " + arrayQuestion[3]);
+
 
 
         String Question = arrayQuestion[counter];
@@ -449,12 +487,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
-        for (int i = 0; i < QuestionAnswer.length; i++) {
 
-            Log.d("GExam", "QuestionAnswer[" + i + "]= " + QuestionAnswer[i]);
-
-
-        }
 
         AnswerOnly = getCorrectAnswer(Question);
         specificQuestion = AnswerOnly[0];
@@ -474,7 +507,7 @@ public class QuestionPageActivity extends ActionBarActivity {
     private void CountDown() {
 
 
-        objCountDown = new CountDownTimer(120000, 100) {
+        objCountDown = new CountDownTimer(interval_time * 60000, 100) {
 
             public void onTick(long l) {
 
@@ -492,7 +525,6 @@ public class QuestionPageActivity extends ActionBarActivity {
                     txtTime.setText("ເວລາທີ່ເຫຼືອ: " + String.format("%02d:%02d:%02d", secondsLeft / 3600, (secondsLeft % 3600) / 60, (secondsLeft % 60)));
 
                 }
-//                Log.i("Exam", "ms=" + l + " till finished=" + secondsLeft);
             }
 
             public void onFinish() {
@@ -550,7 +582,38 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     }
 
+    public void AddScoreToMySQL(int score, String Student_id) {
 
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("final", String.valueOf(score)));
+            objNameValuePairs.add(new BasicNameValuePair("std_id", Student_id));
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.8/GExam/db_add_data.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+            Log.d("Exam", "String score = " + String.valueOf(score));
+
+        } catch (Exception e) {
+
+            Log.d("Exam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
 
 
 

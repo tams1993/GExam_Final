@@ -399,6 +399,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
 
+
     public Cursor ReadAllDataCourse() {
 
         Cursor objCursor = readSQlite.query("course",

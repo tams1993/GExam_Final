@@ -234,8 +234,8 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-                 strStudentUser = edtUser.getText().toString();
-                 strStudentPass = edtPass.getText().toString();
+                 strStudentUser = edtUser.getText().toString().trim();
+                 strStudentPass = edtPass.getText().toString().trim();
 
                 Log.d("GExam", "User " + strStudentUser);
                 Log.d("GExam", "Pass " + strStudentPass);
@@ -613,6 +613,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void StudentSharedPrefference() {
+
 
 
         editor.putString("Student_status", strStatus);
