@@ -112,8 +112,9 @@ public class Json_to_SQlite {
                 int student_unblock_id = jsonObject1.getInt("id");
                 String std_id = jsonObject1.getString("std_id");
                 int course_id = jsonObject1.getInt("course_id");
+                int status = jsonObject1.getInt("status");
 
-                new Table(context).addStudent_unblock(student_unblock_id, std_id, course_id);
+                new Table(context).addStudent_unblock(student_unblock_id, std_id, course_id,status);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 

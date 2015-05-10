@@ -63,6 +63,7 @@ public class Table {
     public static final String COLUMN_STUDENT_UNBLOCK_ID = "_id";
     public static final String COLUMN_STUDENT_UNBLOCK_STD_ID = "std_id";
     public static final String COLUMN_STUDENT_UNBLOCK_TESTCODE= "course_id";
+    public static final String COLUMN_STUDENT_UNBLOCK_STATUS= "status";
 
     public static final String COLUMN_STUDENT_ILLEGAL_ID = "_id";
     public static final String COLUMN_STUDENT_ILLEGAL_STATUS = "status";
@@ -142,12 +143,13 @@ public class Table {
 
     }
 
-    public long addStudent_unblock(int id, String std_id, int course_id) {
+    public long addStudent_unblock(int id, String std_id, int course_id, int status) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENT_UNBLOCK_ID, id);
         contentValues.put(COLUMN_STUDENT_UNBLOCK_STD_ID, std_id);
         contentValues.put(COLUMN_STUDENT_UNBLOCK_TESTCODE, course_id);
+        contentValues.put(COLUMN_STUDENT_UNBLOCK_STATUS, status);
 
 
 
