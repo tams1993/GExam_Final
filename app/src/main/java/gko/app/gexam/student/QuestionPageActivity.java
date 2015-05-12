@@ -198,9 +198,11 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 Log.e("GExam", "total score = " + score);
 
-                Student_ID = spName.getString("Student_ID", "No Student ID");
+                Student_ID = spName.getString("std_id", "No Student ID");
 
-                AddScoreToMySQL(score,Student_ID);
+
+
+                AddScoreToMySQL(score,Integer.parseInt(Student_ID),subject_id,teacher_id);
                 Log.e("GExam", "Student_ID = " + Student_ID);
 
 
@@ -582,7 +584,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     }
 
-    public void AddScoreToMySQL(int score, String Student_id) {
+    public void AddScoreToMySQL(int score, int Student_id, int subject_id, int teacher_id) {
 
         if (Build.VERSION.SDK_INT > 7) {
 
@@ -597,11 +599,13 @@ public class QuestionPageActivity extends ActionBarActivity {
 
             ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
             objNameValuePairs.add(new BasicNameValuePair("final", String.valueOf(score)));
-            objNameValuePairs.add(new BasicNameValuePair("std_id", Student_id));
+            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(Student_id)));
+            objNameValuePairs.add(new BasicNameValuePair("subject_id", String.valueOf(subject_id)));
+            objNameValuePairs.add(new BasicNameValuePair("teacher_id", String.valueOf(teacher_id)));
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.8/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.6/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

@@ -57,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
                     ALERT_ERROR_TITLE = "ການເຊື່ອມຕໍ່ຜິດພາດ!!!",ALERT_ERROR_MESSAGE = "ກະລຸນາກວດອຸປະກອນຂອງທ່ານວ່າເຊື່ອມຕໍ່ອິນເຕີເນັດຫຼືຍັງກ່ອນເຂົ້ານຳໃຊ້";
 
 
+    private String std_id;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
 
@@ -65,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.6/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -488,6 +489,8 @@ public class MainActivity extends ActionBarActivity {
             arrayData[9] = cursor.getString(cursor.getColumnIndex("class_id"));
             arrayData[10] = cursor.getString(cursor.getColumnIndex("subject_name"));
 
+            arrayData[11] = cursor.getString(cursor.getColumnIndex("std_id"));
+
             int teacher_id = cursor.getInt(cursor.getColumnIndex("teacher_id"));
             int subject_id = cursor.getInt(cursor.getColumnIndex("subject_id"));
 
@@ -550,23 +553,15 @@ public class MainActivity extends ActionBarActivity {
             strEmail = arrayData[5];
             strPhone = arrayData[8];
             strClass_name = arrayData[9];
+            std_id = arrayData[11];
 
 
             StudentSharedPrefference();
 
 
+            Log.d("GExam", "std_id = " + std_id);
 
 
-                Log.d("GExam","arrayData]= " + arrayData[0]);
-                Log.d("GExam","arrayData]= " + arrayData[1]);
-                Log.d("GExam","arrayData]= " + arrayData[2]);
-                Log.d("GExam","arrayData]= " + arrayData[3]);
-                Log.d("GExam","arrayData]= " + arrayData[4]);
-                Log.d("GExam","arrayData]= " + arrayData[5]);
-                Log.d("GExam","arrayData]= " + arrayData[6]);
-                Log.d("GExam","arrayData]= " + arrayData[7]);
-                Log.d("GExam","arrayData]= " + arrayData[8]);
-                Log.d("GExam","arrayData]= " + arrayData[9]);
 
 
 
@@ -624,6 +619,8 @@ public class MainActivity extends ActionBarActivity {
         editor.putString("Student_Email", strEmail);
         editor.putString("Student_Class_name", strClass_name);
         editor.putString("Student_Phone", strPhone);
+
+        editor.putString("std_id", std_id);
 
         editor.commit();
 

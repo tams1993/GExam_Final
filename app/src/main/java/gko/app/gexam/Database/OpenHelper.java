@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class OpenHelper extends SQLiteOpenHelper {
 
+    private static final String ENCODING = "UTF-8";
+
+
     private static final String DATABASE_NAME = "GExam.db";
     private static final String TABLE_NAME = "classrooms";
     private static final int DATABASE_VERSION = 1;
