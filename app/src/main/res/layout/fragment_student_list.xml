@@ -46,11 +46,26 @@
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/studentList"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/studentList"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:layout_gravity="left" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="Submit"
+                android:id="@+id/btnCommitteeSubmit"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1" />
+        </LinearLayout>
 
     </LinearLayout>
 

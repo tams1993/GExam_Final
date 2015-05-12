@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class StudentListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private StudentAdapter adapter;
+    private Button btnSubmit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +43,40 @@ public class StudentListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 //        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "phetsarath.ttf");
+
+        btnSubmit = (Button) layout.findViewById(R.id.btnCommitteeSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String data = "";
+
+                List<Student> studentList = adapter.getStudentList();
+
+
+                for (int i = 0; i < studentList.size(); i++) {
+                    Student singleStudent = studentList.get(i);
+                    if (singleStudent.isSelected()) {
+
+                        data = data + "\n" + singleStudent.getStudent();
+      /*
+       * Toast.makeText( CardViewActivity.this, " " +
+       * singleStudent.getName() + " " +
+       * singleStudent.getEmailId() + " " +
+       * singleStudent.isSelected(),
+       * Toast.LENGTH_SHORT).show();
+       */
+                    }
+
+                }
+
+                Toast.makeText(getActivity(),
+                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+                        .show();
+
+            }
+        });
+
 
         return layout;
     }

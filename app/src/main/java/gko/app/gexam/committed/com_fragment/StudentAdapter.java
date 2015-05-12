@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,10 +44,25 @@ import gko.app.gexam.R;
         }
 
     @Override
-    public void onBindViewHolder(StudentViewHolder holder, int position) {
+    public void onBindViewHolder(StudentViewHolder holder, final int position) {
 
-        Student currentStudent = students.get(position);
+        final Student currentStudent = students.get(position);
         holder.studentName.setText(currentStudent.student);
+        holder.chbIllegal.setChecked(students.get(position).isSelected());
+        holder.chbIllegal.setTag(students.get(position));
+        holder.chbIllegal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CheckBox cb = (CheckBox) v;
+                Student contact = (Student) cb.getTag();
+                contact.setSelected(cb.isChecked());
+                students.get(position).setSelected(cb.isChecked());
+
+                Toast.makeText(v.getContext(), currentStudent.student + "have been check", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
     }
 
@@ -75,5 +91,12 @@ import gko.app.gexam.R;
 
         }
     }
+
+    public List<Student> getStudentList() {
+
+        return students;
+
+    }
+
 
 }

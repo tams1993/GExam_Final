@@ -43,7 +43,8 @@
         android:layout_gravity="center_vertical"
         android:clickable="false"
 
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:visibility="visible" />
 
     <CheckBox
         android:layout_width="0dp"
