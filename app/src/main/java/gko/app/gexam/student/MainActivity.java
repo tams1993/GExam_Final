@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -454,14 +454,6 @@ public class MainActivity extends ActionBarActivity {
         Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser,subjectName});
 
         cursor.moveToFirst();
-        Log.d("GExam", "Cursor length " + cursor.getCount());
-        Log.d("GExam", "column length " + cursor.getColumnCount());
-        Log.d("GExam", "column name " + cursor.getColumnName(18));
-
-
-
-        Log.d("GExam", "arrayData 6 " + cursor.getString(cursor.getColumnIndex("username")));
-
 
         String[] arrayData = null;
 
@@ -504,31 +496,6 @@ public class MainActivity extends ActionBarActivity {
 
 
         }
-
-
-        Log.d("GExam", "arrayData " +cursor.getString(cursor.getColumnIndex("username")));
-
-
-
-
-        Log.d("GExam", "arrayData " + arrayData[0]);
-        Log.d("GExam", "arrayData " + arrayData[1]);
-        Log.d("GExam", "arrayData " + arrayData[2]);
-        Log.d("GExam", "arrayData " + arrayData[3]);
-        Log.d("GExam", "arrayData " + arrayData[4]);
-        Log.d("GExam", "arrayData " + arrayData[5]);
-        Log.d("GExam", "arrayData " + arrayData[6]);
-        Log.d("GExam", "arrayData " + arrayData[7]);
-        Log.d("GExam", "arrayData " + arrayData[8]);
-        Log.d("GExam", "arrayData " + arrayData[9]);
-
-
-
-
-
-
-
-
 
 
         cursor.close();

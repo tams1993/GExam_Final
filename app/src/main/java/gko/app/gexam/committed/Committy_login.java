@@ -202,8 +202,7 @@ public class Committy_login extends ActionBarActivity {
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
         String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id where c.status =?";
-//        String selectQuery = "SELECT * FROM course";
-//        String selectQuery = "SELECT * FROM subject";
+
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();

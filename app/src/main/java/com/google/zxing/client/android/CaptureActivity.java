@@ -16,7 +16,6 @@
 
 package com.google.zxing.client.android;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,11 +24,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -43,7 +43,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
@@ -52,7 +51,15 @@ import com.google.zxing.client.android.camera.CameraManager;
 import com.google.zxing.client.result.ParsedResult;
 import com.google.zxing.client.result.ResultParser;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -381,6 +388,8 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
         editor.putString("QR_Code", rawResult.getText());
         editor.commit();
 
+        editMySQL(rawResult.getText(),1);
+
         Toast.makeText(this, rawResult.getText(), Toast.LENGTH_LONG).show();
 
     }
@@ -437,4 +446,41 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
     }
+
+
+    public void editMySQL(String std_id, int status) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
+            objNameValuePairs.add(new BasicNameValuePair("status", String.valueOf(status)));
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.3/GExam/db_update.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+            Log.d("GExam", "String status = " + String.valueOf(status));
+            Log.d("GExam", "String std_id = " + String.valueOf(std_id));
+
+        } catch (Exception e) {
+
+            Log.d("Exam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
+
 }
+

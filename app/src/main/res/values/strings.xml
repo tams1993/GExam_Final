@@ -34,6 +34,10 @@
     <string name="warning_exit">- ຫ້າມອອກຈາກ Application ເກີນ 5 ຄັ້ງ. ຖ້າເກີນການສອບຈະສິ້ນສຸດທັນທີ.</string>
     <string name="warning_check">- ກວດສອບວ່າຕອບໝົດທຸກຂໍ້ກ່ອນກົດປຸ່ມ "ສົ່ງຄຳຕອບ"</string>
     <string name="press_start_to_test">- ເມື່ອກົດປຸ່ມ "ເລີ່ມເສັງ" ຈະນຳໄປສູ່ໜ້າທີ່ນັກສຶກສາໃຊ້ໃນການຕອບຄຳຖາມ</string>
+    <string name="please_wait">ກະລຸນາເປີດໜ້ານີ້ໄວ້ເພື່ອໃຫ້ຄະນະກຳມະການສະແກນເພື່ອເປີດການສອບເສັງໃຫ້</string>
+    <string name="proceed">ເມື່ອຄະນະກຳມະການ ສະແກນແລ້ວ ກະລຸນາກົດປຸ່ມ "ດຳເນີນການຕໍ່"</string>
+    <string name="proceed_button">ດຳເນີນການຕໍ່</string>
+    <string name="wait">ກະລຸນາລໍຖ້າຄະນະກຳມະການມາສະແກນກ່ອນ!!!</string>
 
     <string name="country_prompt">Choose a country</string>
     <string-array name="country_arrays">

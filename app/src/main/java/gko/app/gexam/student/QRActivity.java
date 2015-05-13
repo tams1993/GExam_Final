@@ -2,11 +2,15 @@ package gko.app.gexam.student;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,13 +19,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import gko.app.gexam.Database.Json_to_SQlite;
+import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.student.generator.Contents;
 import gko.app.gexam.student.generator.QRCodeEncoder;
@@ -31,8 +47,12 @@ public class QRActivity extends Activity implements OnClickListener{
     private String LOG_TAG = "GenerateQRCode";
 
     private Handler handler = new Handler();
+    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
     private Runnable refresh;
+    private String Student_ID;
+    private int status;
 
     @Override
     protected void onPause() {
@@ -48,48 +68,17 @@ public class QRActivity extends Activity implements OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
 
-        Button button1 = (Button) findViewById(R.id.button1);
-        button1.setOnClickListener(this);
+        Button btnProceed = (Button) findViewById(R.id.btnProceed);
+        btnProceed.setOnClickListener(this);
 
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        String Student_ID = sp.getString("Student_ID", String.valueOf(-1));
+        Student_ID = sp.getString("std_id", "No Value");
 
 
-        Refresh();
+//        Refresh();
 
         GenerateQRCode(Student_ID);
 
-
-//                SharedPreferences.Editor editor = sp.edit();
-//                editor.remove("QR_Code");
-//                editor.commit();
-
-
-//        refresh = new Runnable() {
-//            @Override
-//            public void run() {
-//
-//
-//
-//                if (qrText.equals("admin")) {
-//
-//                    startActivity(new Intent(GenerateQRCodeActivity.this, ExamPage.class));
-//                    finish();
-//
-//
-//                } else {
-//
-//                    Toast.makeText(getApplicationContext(),"Wrong QR code", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                handler.postDelayed(refresh, 3000);
-//
-//            }
-//        };
-//
-//
-//        handler.post(refresh);
 
 
 
@@ -155,46 +144,114 @@ public class QRActivity extends Activity implements OnClickListener{
         super.onWindowFocusChanged(hasFocus);
         View decorView = getWindow().getDecorView();
 
-       UiChangeListener();
+        if (hasFocus) {
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        }
+
 
     }
 
-    public void UiChangeListener()
-    {
-        final View decorView = getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener (new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
-                    decorView.setSystemUiVisibility(
-                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-                }
-            }
-        });
+    private class SimpleTask extends AsyncTask<String, Void, String> {
+
+
+        ProgressDialog objPD;
+        @Override
+        protected void onPreExecute() {
+            // Create Show ProgressBar
+
+
+            objPD = new ProgressDialog(QRActivity.this);
+            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            objPD.setTitle("Loading...");
+            objPD.setMessage("???????????????...");
+            objPD.setCancelable(false);
+            objPD.setIndeterminate(false);
+
+            objPD.show();
+
+        }
+
+        protected String doInBackground(String... urls) {
+
+
+
+            return JSON();
+        }
+
+        protected void onPostExecute(String jsonString)  {
+            // Dismiss ProgressBar
+//            Log.d("Emergency", jsonString);
+            Toast.makeText(QRActivity.this, jsonString, Toast.LENGTH_LONG).show();
+
+
+
+
+
+            json_to_sQlite.Student_Unblock(jsonString, QRActivity.this);
+
+            objPD.dismiss();
+
+
+        }
+
+
+
+
     }
+
+
 
     public void onClick(View v) {
 
 
 
         switch (v.getId()) {
-            case R.id.button1:
-                EditText qrInput = (EditText) findViewById(R.id.qrInput);
-                String qrInputText = qrInput.getText().toString();
+            case R.id.btnProceed:
 
-//                SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sp.edit();
-//                editor.putString("QR_Code", qrInputText);
-//                editor.commit();
+                deleteAll();
 
-                Log.v(LOG_TAG, qrInputText);
+                new SimpleTask().execute(URL_JSON);
 
-                GenerateQRCode(qrInputText);
+
+
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+
+                        int status = getStatus(Student_ID);
+
+                Log.d("GExam", "status = " + status);
+
+                if (status == 1) {
+
+
+                    Intent intent = new Intent(QRActivity.this, CoureseDetail_Activity.class);
+                    startActivity(intent);
+
+
+
+                } else {
+
+                    TextView txtWait = (TextView) findViewById(R.id.txtWait);
+                    txtWait.setText(R.string.wait);
+
+
+                }
+                    }
+                }, 1000);
+
+
+
+
 
 
                 break;
@@ -202,6 +259,97 @@ public class QRActivity extends Activity implements OnClickListener{
             // More buttons go here (if any) ...
 
         }
+    }
+
+
+    public String JSON() {
+
+        InputStream objInputStream = null;
+        String strJSON = "";
+
+        try {
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost(URL_JSON);
+            HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
+            HttpEntity objHttpEntity = objHttpResponse.getEntity();
+            objInputStream = objHttpEntity.getContent();
+
+            Log.d("GExam", "Connected HTTP Success !");
+
+
+        } catch (Exception e) {
+
+            Log.d("GExam", "Error Connect to : " + e.toString());
+        }
+
+
+        //create strJSON
+        try {
+
+            BufferedReader objBufferesReader = new BufferedReader(new InputStreamReader(objInputStream, "UTF-8"));
+            StringBuilder objStrBuilder = new StringBuilder();
+            String strLine = null;
+
+            while ((strLine = objBufferesReader.readLine()) != null) {
+                objStrBuilder.append(strLine);
+            }
+
+            objInputStream.close();
+            strJSON = objStrBuilder.toString();
+
+            Log.d("Emergency", "Connected JSON Success !");
+
+
+        } catch (Exception e) {
+            Log.d("Emergency", "Error Convert To JSON :" + e.toString());
+        }
+
+
+        return strJSON;
+
+    }
+
+    public int getStatus(String student_id){
+        // Select All Query
+        String selectQuery = "SELECT * FROM student_unblock where std_id =?";
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{student_id});
+
+        cursor.moveToFirst();
+
+
+
+        Log.d("GExam", "cursor.size = " + cursor.getCount());
+
+
+
+        if (cursor != null) {
+
+
+            status = cursor.getInt(cursor.getColumnIndex("status"));
+
+
+        }
+
+        Log.d("GExam", "STATUS = " + String.valueOf(status));
+
+
+        cursor.close();
+
+        return status;
+    }
+
+    public void deleteAll()
+    {
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+            db.execSQL("delete from student_unblock");
+//        db.execSQL("TRUNCATE table student_unblock");
+                db.close();
     }
 
 
