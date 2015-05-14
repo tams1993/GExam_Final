@@ -17,9 +17,7 @@
 package com.google.zxing.client.android;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -383,10 +381,10 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 
         setResult(RESULT_OK, intent);
 
-        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("QR_Code", rawResult.getText());
-        editor.commit();
+//        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sp.edit();
+//        editor.putString("QR_Code", rawResult.getText());
+//        editor.commit();
 
         editMySQL(rawResult.getText(),1);
 
@@ -467,7 +465,7 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.3/GExam/db_update.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
@@ -481,6 +479,47 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
         }
 
     }   //  end of AddScoreToMySQL
+
+
+
+//    private class SimpleTask extends AsyncTask<String, Void, String> {
+//
+//
+//        ProgressDialog objPD;
+//        @Override
+//        protected void onPreExecute() {
+//            // Create Show ProgressBar
+//
+//
+//            objPD = new ProgressDialog(CaptureActivity.this);
+//            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            objPD.setTitle("Loading...");
+//            objPD.setMessage("???????????????...");
+//            objPD.setCancelable(false);
+//            objPD.setIndeterminate(false);
+//
+//            objPD.show();
+//
+//        }
+//
+//        protected String doInBackground(String... urls) {
+//
+//
+//
+//            return null;
+//        }
+//
+//        protected void onPostExecute(String jsonString)  {
+//            // Dismiss ProgressBar
+////            Log.d("Emergency", jsonString);
+//
+//
+//            objPD.dismiss();
+//
+//
+//        }
+//    }
+
 
 }
 

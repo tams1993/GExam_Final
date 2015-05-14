@@ -7,9 +7,15 @@ public class Student {
 
     String student;
     private boolean isSelected;
+    private int status;
 
-    public Student(String student) {
+    public Student(String student, int status) {
         this.student = student;
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public String getStudent() {

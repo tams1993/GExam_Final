@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,18 +30,23 @@ public class StudentListFragment extends Fragment {
     private RecyclerView recyclerView;
     private StudentAdapter adapter;
     private Button btnSubmit;
+    private CheckBox chbPresent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
+
         View layout = inflater.inflate(R.layout.fragment_student_list, container, false);
 
+        chbPresent = (CheckBox) layout.findViewById(R.id.chbPresent);
         recyclerView = (RecyclerView) layout.findViewById(R.id.studentList);
         adapter = new StudentAdapter(getActivity(),getAllStudent(),"phetsarath.ttf");
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
 
 //        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "phetsarath.ttf");
 
@@ -56,16 +62,12 @@ public class StudentListFragment extends Fragment {
 
                 for (int i = 0; i < studentList.size(); i++) {
                     Student singleStudent = studentList.get(i);
+
+
                     if (singleStudent.isSelected()) {
 
                         data = data + "\n" + singleStudent.getStudent();
-      /*
-       * Toast.makeText( CardViewActivity.this, " " +
-       * singleStudent.getName() + " " +
-       * singleStudent.getEmailId() + " " +
-       * singleStudent.isSelected(),
-       * Toast.LENGTH_SHORT).show();
-       */
+
                     }
 
                 }
@@ -83,25 +85,6 @@ public class StudentListFragment extends Fragment {
 
 
 
-//    public List<Student> getData() {
-//
-//        List<Student> data = new ArrayList<>();
-////
-//
-//        String[] Student = {"tam", "pe", "dog", "cat"};
-//
-//        for (int i = 0; i < Student.length; i++) {
-//
-//
-//            Student current = new Student();
-//            current.student = Student[i];
-//            data.add(current);
-//
-//        }
-//
-//        return data;
-//    }
-
 
     public List<Student> getAllStudent(){
         List < Student > labels = new ArrayList<Student>();
@@ -118,7 +101,7 @@ public class StudentListFragment extends Fragment {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new Student(cursor.getString(cursor.getColumnIndex("name"))));
+                labels.add (new Student(cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 
