@@ -47,7 +47,7 @@ public class QRActivity extends Activity implements OnClickListener{
     private String LOG_TAG = "GenerateQRCode";
 
     private Handler handler = new Handler();
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.8.103/gexam/db_connect.php";
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
     private Runnable refresh;

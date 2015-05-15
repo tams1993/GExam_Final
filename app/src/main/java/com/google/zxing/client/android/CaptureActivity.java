@@ -62,6 +62,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import gko.app.gexam.R;
+import gko.app.gexam.committed.com_fragment.ComFragActivity;
 
 //import app.akexorcist.barcodescanner.R;
 
@@ -102,6 +103,17 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 
     CameraManager getCameraManager() {
         return cameraManager;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        Intent intent = new Intent(CaptureActivity.this, ComFragActivity.class);
+        startActivity(intent);
+
+
+
     }
 
     @Override
@@ -465,7 +477,7 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.8.103/GExam/db_update.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

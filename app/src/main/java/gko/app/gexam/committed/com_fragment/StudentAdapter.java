@@ -46,34 +46,6 @@ import gko.app.gexam.R;
             StudentViewHolder studentViewHolder = new StudentViewHolder(view);
 
 
-            String selectQuery = "SELECT * FROM student_unblock where std_id =?";
-
-
-            OpenHelper openHelper = new OpenHelper(parent.getContext());
-            SQLiteDatabase db = openHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery(selectQuery, new String[]{"52"});
-
-            cursor.moveToFirst();
-
-
-
-            Log.d("GExam", "cursor.size = " + cursor.getCount());
-
-
-
-            if (cursor != null) {
-
-
-                status = cursor.getInt(cursor.getColumnIndex("status"));
-
-
-            }
-
-            Log.d("GExam", "STATUS = " + String.valueOf(status));
-
-
-            cursor.close();
-
             return studentViewHolder;
         }
 
@@ -99,10 +71,18 @@ import gko.app.gexam.R;
             }
         });
 
+        holder.chbIllegal.setChecked(students.get(position).isSelected());
+        holder.chbIllegal.setTag(students.get(position));
 
         if (currentStudent.getStatus() == 1) {
 
+
             holder.chbPresent.setChecked(true);
+
+
+        } else if (currentStudent.getStatus() == 0) {
+
+            holder.chbPresent.setChecked(false);
 
         }
 

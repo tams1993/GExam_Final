@@ -103,6 +103,7 @@ public class ComFragActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.qr_scan) {
             startActivity(new Intent(this, CaptureActivity.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

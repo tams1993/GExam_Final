@@ -114,7 +114,7 @@ public class Committy_login extends ActionBarActivity {
 
                  CourseName = parent.getItemAtPosition(position).toString();
 
-                int testcode = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getTestcode ()));
+                int course_id = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getTestcode ()));
 
                 int interval_time = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getIntervaltime ()));
                 int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getQuestionamount ()));
@@ -122,10 +122,11 @@ public class Committy_login extends ActionBarActivity {
                 String teacher_name = String.valueOf (( (SpinnerObject) spnCom.getSelectedItem () ).getTeachername ());
 
                 editor.putString("subject_name",parent.getItemAtPosition(position).toString());
-                editor.putString("teacher_name",teacher_name);
-                editor.putInt("testcode", testcode);
+                editor.putString("teacher_name", teacher_name);
+
                 editor.putInt("interval_time", interval_time);
                 editor.putInt("question_amount", question_amount);
+                editor.putInt("course_id_committee", course_id);
 
 
                 editor.commit();
@@ -211,7 +212,7 @@ public class Committy_login extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 

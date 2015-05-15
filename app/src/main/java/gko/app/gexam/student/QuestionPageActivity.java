@@ -605,7 +605,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.6/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.8.103/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
