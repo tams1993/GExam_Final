@@ -19,24 +19,36 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtTime"
             android:text="@string/hello_world"
-            android:textSize="15dp"
-            android:layout_gravity="right" />
+            android:background="@drawable/layout_bg"
+            android:textSize="@dimen/text_size"
+            android:layout_gravity="right"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/txtQuestion"
             android:text="@string/hello_world"
-            android:textSize="20dp"
-            android:layout_marginBottom="20dp" />
+            android:background="@drawable/layout_bg"
+            android:textSize="@dimen/header"
+            android:layout_marginBottom="20dp"
+            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1.5"
+            android:gravity="center" />
 
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/layout_bg"
             android:id="@+id/radioGroup"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_gravity="center">
 
 
