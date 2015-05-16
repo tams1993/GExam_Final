@@ -124,6 +124,13 @@ public class QuestionPageActivity extends ActionBarActivity {
 
          arrayQuestion = getQuestion().toArray(new String[getQuestion().size()]); // change list<String> to array
 
+        for (int i = 0; i < arrayQuestion.length; i++) {
+
+
+            Log.d("GExam", "arrayQuestion " + i + arrayQuestion[i]);
+
+        }
+
 
 
 
@@ -443,6 +450,8 @@ public class QuestionPageActivity extends ActionBarActivity {
             do {
                 labels.add(cursor.getString(cursor.getColumnIndex("question")));
 
+
+
             } while (cursor.moveToNext());
 
 
@@ -501,7 +510,9 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         txtQuestion.setText(Counter+1+"/"+(question_amount+1)+" "+Question);
 
-        addRadioButton(QuestionAnswer.length-5,QuestionAnswer);
+        editor.putString("Question " + Counter, Question);
+
+        addRadioButton(QuestionAnswer.length - 5, QuestionAnswer);
 
 
     }
@@ -605,7 +616,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.8.103/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.4/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
