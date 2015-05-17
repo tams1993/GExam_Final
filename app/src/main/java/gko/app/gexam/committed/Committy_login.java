@@ -114,7 +114,7 @@ public class Committy_login extends ActionBarActivity {
 
                  CourseName = parent.getItemAtPosition(position).toString();
 
-                int course_id = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getTestcode ()));
+                int course_id = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getCourse_id()));
 
                 int interval_time = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getIntervaltime ()));
                 int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getQuestionamount ()));

@@ -454,7 +454,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 //
 //
 //
-////        int testcode = ( (SpinnerObject) spinner.getSelectedItem () ).getTestcode ();
+////        int testcode = ( (SpinnerObject) spinner.getSelectedItem () ).getCourse_id ();
 ////
 ////
 ////        Log.d("Cursor", "cursor 0  = " + testcode);

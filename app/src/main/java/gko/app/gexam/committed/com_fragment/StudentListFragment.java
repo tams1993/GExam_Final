@@ -46,7 +46,7 @@ public class StudentListFragment extends Fragment {
     private Button btnSubmit;
     private CheckBox chbPresent;
 
-    public static final String URL_JSON = "http://192.168.8.103/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private SharedPreferences sp;
 

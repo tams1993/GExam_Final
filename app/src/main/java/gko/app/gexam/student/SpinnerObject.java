@@ -10,14 +10,14 @@ public class SpinnerObject {
     private int date;
     private int intervaltime;
     private int questionamount;
-    private int testcode;
+    private int course_id;
     private int status;
     private String teachername;
     private String subject_code;
     private String subject_name;
 
-    public SpinnerObject(int testcode, String subject_name, String teachername, int Intervaltime, int questionamount) {
-        this.testcode = testcode;
+    public SpinnerObject(int course_id, String subject_name, String teachername, int Intervaltime, int questionamount) {
+        this.course_id = course_id;
         this.subject_name = subject_name;
         this.teachername = teachername;
         this.intervaltime = Intervaltime;
@@ -41,8 +41,8 @@ public class SpinnerObject {
         return questionamount;
     }
 
-    public int getTestcode() {
-        return testcode;
+    public int getCourse_id() {
+        return course_id;
     }
 
     public int getStatus() {

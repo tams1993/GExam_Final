@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -146,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
 
                     strSubjectName = parent.getItemAtPosition(position).toString();
 
-                    int testcode = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTestcode()));
+                    int course_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
 
                     int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
                     int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
@@ -159,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
 
                     editor.putString("subject_name", parent.getItemAtPosition(position).toString());
                     editor.putString("teacher_name", teacher_name);
-                    editor.putInt("testcode", testcode);
+                    editor.putInt("course_id", course_id);
                     editor.putInt("interval_time", interval_time);
                     editor.putInt("question_amount", question_amount);
 
@@ -407,7 +407,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(4),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
 
             } while (cursor.moveToNext());
 
@@ -587,7 +587,7 @@ public class MainActivity extends ActionBarActivity {
         editor.putString("Student_Class_name", strClass_name);
         editor.putString("Student_Phone", strPhone);
 
-        editor.putString("std_id", std_id);
+        editor.putInt("std_id", Integer.parseInt(std_id));
 
         editor.commit();
 

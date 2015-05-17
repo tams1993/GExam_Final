@@ -42,7 +42,7 @@ public class StudentsObject {
 //        return StudentID;
 //    }
 //
-//    public int getTestcode() {
+//    public int getCourse_id() {
 //        return Testcode;
 //    }
 //

@@ -53,9 +53,11 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
     private RadioGroup rgp;
-    private String Student_ID;
+    private int Student_ID;
     private String ALERT_BACKPRESS_TITLE= "ທ່ານໄດ້ກົດປຸ່ມກັບຄືນ!!!";
     private String ALERT_BACKPRESS_MESSAGE= "ທ່ານບໍ່ສາມາດກັບຄືນໄດ້ໃນຂະນະທີ່ເສັງຢູ່";
+
+    private int QuestionID;
 
     @Override
     protected void onStop() {
@@ -151,6 +153,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 //        AnswerOnly = new String[]{CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
 
+        QuestionID = getQuestionID(Question);
 
         AnswerOnly = getCorrectAnswer(Question);
          specificQuestion = AnswerOnly[0];
@@ -158,11 +161,13 @@ public class QuestionPageActivity extends ActionBarActivity {
          specificCorrectAnswer = AnswerOnly[2];
 
 
-        Log.d("GExam", "specificQuestion= " + specificQuestion);
-        Log.e("GExam", "specificAnswer= " + specificAnswer);
 
 
-        Log.d("GExam", "specificCorrectAnswer= " + specificCorrectAnswer);
+        Log.d("GExam", "QuestionID= " + QuestionID);
+
+
+
+
 
 
 
@@ -190,9 +195,19 @@ public class QuestionPageActivity extends ActionBarActivity {
                     String spAnswer = sp.getString("specificAnswer" + i, "no Answer");
                     String spChoice = sp.getString("answer_choice" + i, "no Choice");
 
+                    int spQuestion_ID = sp.getInt("Question_ID " + i, -1);
+                    int spanswer_choice_ID = sp.getInt("answer_choice_ID" + i, -1);
 
-                    Log.e("GExam", "spAnswer= " + spAnswer);
-                    Log.e("GExam", "spChoice= " + spChoice);
+                    int course_id = spName.getInt("course_id", -1);
+                    int std_id = spName.getInt("std_id", -1);
+
+                    AddStudentChoiceToMySQL(course_id,std_id ,spQuestion_ID,spanswer_choice_ID);
+
+
+                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
+                    Log.e("GExam", "std_id= " + String.valueOf(sp.getInt("std_id", -1)));
+                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
+                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
 
 
                     if (spChoice.equals(spAnswer)) {
@@ -205,11 +220,12 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 Log.e("GExam", "total score = " + score);
 
-                Student_ID = spName.getString("std_id", "No Student ID");
+                Student_ID = spName.getInt("std_id", -1);
 
 
 
-                AddScoreToMySQL(score,Integer.parseInt(Student_ID),subject_id,teacher_id);
+
+                AddScoreToMySQL(score,Student_ID,subject_id,teacher_id);
                 Log.e("GExam", "Student_ID = " + Student_ID);
 
 
@@ -361,6 +377,7 @@ public class QuestionPageActivity extends ActionBarActivity {
                 editor.putInt("answer_choice " + counter, checkedId);
                 editor.putString("answer_choice" + counter, selection);
                 editor.putString("specificAnswer" + counter, specificAnswer);
+                editor.putInt("answer_choice_ID" + counter, getChoiceID(selection));
                 editor.commit();
 
                 // find the radiobutton by returned id
@@ -416,6 +433,50 @@ public class QuestionPageActivity extends ActionBarActivity {
         if (cursor.moveToFirst()) {
             do {
                 labels.add(cursor.getString(cursor.getColumnIndex("correct")));
+
+
+            } while (cursor.moveToNext());
+
+
+        }
+
+//        show what inside List<SpinnerObject>
+//
+//        int listSize = labels.size();
+//
+//        for (int i = 0; i < listSize; i++) {
+//            Log.d("Member name: ", String.valueOf(labels.get(i)));
+//        }
+
+        return labels;
+
+    }
+
+
+    private List<Integer> getAnswerID(String Question) {
+
+        List<Integer> labels = new ArrayList<>();
+
+        String strQuery = "SELECT * FROM questions q INNER JOIN answer_option a ON q._id = a.question_id where q.question =?";
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(strQuery, new String[]{Question});
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                labels.add(cursor.getInt(cursor.getColumnIndex("answer")));
+
+
+            } while (cursor.moveToNext());
+
+
+        }
+
+        if (cursor.moveToFirst()) {
+            do {
+                labels.add(cursor.getInt(cursor.getColumnIndex("correct")));
 
 
             } while (cursor.moveToNext());
@@ -499,18 +560,20 @@ public class QuestionPageActivity extends ActionBarActivity {
         QuestionAnswer = new String[]{Answer1, Answer2, Answer3, Answer4, Question, CorrectAnswer1, CorrectAnswer2, CorrectAnswer3, CorrectAnswer4};
 
 
+        QuestionID = getQuestionID(Question);
 
         AnswerOnly = getCorrectAnswer(Question);
         specificQuestion = AnswerOnly[0];
         specificAnswer = AnswerOnly[1];
         specificCorrectAnswer = AnswerOnly[2];
 
-
+        Log.d("GExam", "QuestionID= " + QuestionID);
 
 
         txtQuestion.setText(Counter+1+"/"+(question_amount+1)+" "+Question);
 
-        editor.putString("Question " + Counter, Question);
+        editor.putInt("Question_ID " + Counter, QuestionID);
+
 
         addRadioButton(QuestionAnswer.length - 5, QuestionAnswer);
 
@@ -595,6 +658,75 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     }
 
+
+    public int getQuestionID(String Question) {
+
+        String strQuery = "SELECT * FROM questions where question=? ";
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(strQuery,new String[]{Question});
+
+        cursor.moveToFirst();
+
+
+        int arrayID = 0;
+
+
+        if (cursor != null) {
+
+
+            arrayID = cursor.getInt(cursor.getColumnIndex("_id"));
+
+
+
+
+
+        }
+
+
+
+        cursor.close();
+        return arrayID;
+
+    }
+
+
+    public int getChoiceID(String AnswerChoice) {
+
+        String strQuery = "SELECT * FROM answer_option where answer=? ";
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(strQuery,new String[]{AnswerChoice});
+
+        cursor.moveToFirst();
+
+
+        int arrayID = 0;
+
+
+        if (cursor != null) {
+
+
+            arrayID = cursor.getInt(cursor.getColumnIndex("_id"));
+
+
+
+
+
+        }
+
+
+
+        cursor.close();
+        return arrayID;
+
+    }
+
+
     public void AddScoreToMySQL(int score, int Student_id, int subject_id, int teacher_id) {
 
         if (Build.VERSION.SDK_INT > 7) {
@@ -616,20 +748,59 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.4/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
-            Log.d("Exam", "String score = " + String.valueOf(score));
+            Log.d("GExam", "String score = " + String.valueOf(score));
 
         } catch (Exception e) {
 
-            Log.d("Exam", "Connect and Post Error ====>" + e.toString());
+            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
 
         }
 
     }   //  end of AddScoreToMySQL
 
+
+    public void AddStudentChoiceToMySQL(int course_id, int std_id, int question_id, int student_ans_id) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
+            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
+            objNameValuePairs.add(new BasicNameValuePair("question_id", String.valueOf(question_id)));
+            objNameValuePairs.add(new BasicNameValuePair("student_ans_id", String.valueOf(student_ans_id)));
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+            Log.e("GExam","course_id " + course_id);
+            Log.e("GExam","std_id " + std_id);
+            Log.e("GExam","question_id " + question_id);
+            Log.e("GExam","student_ans_id " + student_ans_id);
+
+
+        } catch (Exception e) {
+
+            Log.e("GExam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
 
 
 

@@ -47,11 +47,11 @@ public class QRActivity extends Activity implements OnClickListener{
     private String LOG_TAG = "GenerateQRCode";
 
     private Handler handler = new Handler();
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
     private Runnable refresh;
-    private String Student_ID;
+    private int Student_ID;
     private int status;
 
     @Override
@@ -72,12 +72,12 @@ public class QRActivity extends Activity implements OnClickListener{
         btnProceed.setOnClickListener(this);
 
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
-        Student_ID = sp.getString("std_id", "No Value");
+        Student_ID = sp.getInt("std_id", -1);
 
 
 //        Refresh();
 
-        GenerateQRCode(Student_ID);
+        GenerateQRCode(String.valueOf(Student_ID));
 
 
 
@@ -227,7 +227,7 @@ public class QRActivity extends Activity implements OnClickListener{
                     public void run() {
                         // Do something after 5s = 5000ms
 
-                        int status = getStatus(Student_ID);
+                        int status = getStatus(String.valueOf(Student_ID));
 
                 Log.d("GExam", "status = " + status);
 
