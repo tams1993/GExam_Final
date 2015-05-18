@@ -52,6 +52,7 @@ public static void Alert(final Activity activity,String title, String message ) 
 
 
 
+
                     }
                 });
 
@@ -62,6 +63,9 @@ public static void Alert(final Activity activity,String title, String message ) 
 
 
     }
+
+
+
 
 
 

@@ -8,10 +8,12 @@ public class Student {
     String student;
     private boolean isSelected;
     private int status;
+    private int std_id;
 
-    public Student(String student, int status) {
+    public Student(String student, int status, int std_id) {
         this.student = student;
         this.status = status;
+        this.std_id = std_id;
     }
 
     public int getStatus() {
@@ -20,6 +22,12 @@ public class Student {
 
     public String getStudent() {
         return student;
+    }
+
+    public int getStd_id()
+
+    {
+        return std_id;
     }
 
     public boolean isSelected() {

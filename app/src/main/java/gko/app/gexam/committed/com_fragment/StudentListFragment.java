@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +23,12 @@ import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -34,6 +39,7 @@ import java.util.List;
 import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
+import gko.app.gexam.student.generator.AlertDialoge;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,8 +51,11 @@ public class StudentListFragment extends Fragment {
     private StudentAdapter adapter;
     private Button btnSubmit;
     private CheckBox chbPresent;
+    private String ALERT_TITLE = "????????????????", ALERT_MESSAGE= "????????????????????. ???????????????????????? ???????????????????????????????????????????????";
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+
+
+    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
 
     private SharedPreferences sp;
 
@@ -100,15 +109,22 @@ public class StudentListFragment extends Fragment {
 
                     if (singleStudent.isSelected()) {
 
-                        data = data + "\n" + singleStudent.getStudent();
+                        data = data + "\n" + singleStudent.getStd_id();
+
+
+                        AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
 
                     }
 
                 }
 
+
                 Toast.makeText(getActivity(),
                         "Selected Students: \n" + data, Toast.LENGTH_LONG)
                         .show();
+
+                AlertDialoge.AlertExit(getActivity(), ALERT_TITLE, ALERT_MESSAGE);
+
 
             }
         });
@@ -143,7 +159,7 @@ public class StudentListFragment extends Fragment {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new Student(cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(3)));
+                labels.add (new Student(cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("std_id"))));
 
             } while (cursor.moveToNext());
 
@@ -267,6 +283,43 @@ public class StudentListFragment extends Fragment {
 
 
     }
+
+
+
+    public void AddStudentIllegalToMySQL(int status, int std_id, int course_id) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("status", String.valueOf(status)));
+            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
+            objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
+
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.3/GExam/db_add_data.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+
+
+        } catch (Exception e) {
+
+            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
 
 
 
