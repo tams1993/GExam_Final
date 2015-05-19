@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -150,18 +150,22 @@ public class MainActivity extends ActionBarActivity {
 
                     int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
                     int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
+                    int teacher_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeacher_id()));
+                    int subject_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getSubject_id()));
 
                     String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
 
-                    Toast.makeText(parent.getContext(),
-                            "teacher_name : " + teacher_name,
-                            Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(parent.getContext(),
+//                            "teacher_name : " + teacher_name,
+//                            Toast.LENGTH_SHORT).show();
 
                     editor.putString("subject_name", parent.getItemAtPosition(position).toString());
                     editor.putString("teacher_name", teacher_name);
                     editor.putInt("course_id", course_id);
                     editor.putInt("interval_time", interval_time);
                     editor.putInt("question_amount", question_amount);
+                    editor.putInt("teacher_id", teacher_id);
+                    editor.putInt("subject_id", subject_id);
 
 
                     editor.commit();
@@ -310,7 +314,7 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(String jsonString)  {
             // Dismiss ProgressBar
 //            Log.d("Emergency", jsonString);
-            Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
             json_to_sQlite.Student_Illegal(jsonString, MainActivity.this);
 
@@ -407,7 +411,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id"))));
 
             } while (cursor.moveToNext());
 

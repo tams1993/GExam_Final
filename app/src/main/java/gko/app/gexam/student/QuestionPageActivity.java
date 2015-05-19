@@ -228,6 +228,8 @@ public class QuestionPageActivity extends ActionBarActivity {
                 AddScoreToMySQL(score,Student_ID,subject_id,teacher_id);
                 Log.e("GExam", "Student_ID = " + Student_ID);
 
+                UpdateStudentStatus(0);
+
 
                 objCountDown.cancel();
                 editor.clear();
@@ -789,14 +791,49 @@ public class QuestionPageActivity extends ActionBarActivity {
             objHttpClient.execute(objHttpPost);
 
             Log.e("GExam","course_id " + course_id);
-            Log.e("GExam","std_id " + std_id);
-            Log.e("GExam","question_id " + question_id);
-            Log.e("GExam","student_ans_id " + student_ans_id);
+            Log.e("GExam", "std_id " + std_id);
+            Log.e("GExam", "question_id " + question_id);
+            Log.e("GExam", "student_ans_id " + student_ans_id);
 
 
         } catch (Exception e) {
 
             Log.e("GExam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
+
+
+    public void UpdateStudentStatus(int student_status) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("student_status", String.valueOf(student_status)));
+
+
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+            Log.d("GExam", "String score = " + String.valueOf(score));
+
+        } catch (Exception e) {
+
+            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
 
         }
 

@@ -17,7 +17,9 @@
 package com.google.zxing.client.android;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -398,7 +400,10 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 //        editor.putString("QR_Code", rawResult.getText());
 //        editor.commit();
 
-        editMySQL(rawResult.getText(),1);
+        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        int course_id_committee = sp.getInt("course_id_committee", -1);
+
+        editMySQL(rawResult.getText(),1,course_id_committee);
 
         Toast.makeText(this, rawResult.getText(), Toast.LENGTH_LONG).show();
 
@@ -458,7 +463,7 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
     }
 
 
-    public void editMySQL(String std_id, int status) {
+    public void editMySQL(String std_id, int status, int course_id) {
 
         if (Build.VERSION.SDK_INT > 7) {
 
@@ -474,6 +479,7 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
             ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
             objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
             objNameValuePairs.add(new BasicNameValuePair("status", String.valueOf(status)));
+            objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
 
 
             HttpClient objHttpClient = new DefaultHttpClient();

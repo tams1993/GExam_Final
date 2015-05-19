@@ -19,6 +19,7 @@ import com.google.zxing.client.android.CaptureActivity;
 
 import gko.app.gexam.R;
 import gko.app.gexam.committed.com_fragment.tab.SlidingTabLayout;
+import gko.app.gexam.student.FontsOverride;
 
 
 public class ComFragActivity extends ActionBarActivity {

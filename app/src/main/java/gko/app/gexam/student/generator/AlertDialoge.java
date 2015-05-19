@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import gko.app.gexam.student.FontsOverride;
 import gko.app.gexam.student.MainActivity;
 
 /**
@@ -34,6 +35,9 @@ public static void Alert(final Activity activity,String title, String message ) 
 }
 
     public static void AlertExit(final Activity activity, String title, String message) {
+
+
+
 
         AlertDialog.Builder builder1 = new AlertDialog.Builder(activity);
         builder1.setTitle(title);

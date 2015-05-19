@@ -136,7 +136,7 @@ public class QRActivity extends Activity implements OnClickListener{
         }
 
 
-        Toast.makeText(getApplicationContext(),qrText,Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(),qrText,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -188,7 +188,7 @@ public class QRActivity extends Activity implements OnClickListener{
         protected void onPostExecute(String jsonString)  {
             // Dismiss ProgressBar
 //            Log.d("Emergency", jsonString);
-            Toast.makeText(QRActivity.this, jsonString, Toast.LENGTH_LONG).show();
+//            Toast.makeText(QRActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
 
 

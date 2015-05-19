@@ -39,6 +39,7 @@ import java.util.List;
 import gko.app.gexam.Database.Json_to_SQlite;
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
+import gko.app.gexam.student.FontsOverride;
 import gko.app.gexam.student.generator.AlertDialoge;
 
 /**
@@ -55,7 +56,7 @@ public class StudentListFragment extends Fragment {
 
 
 
-    public static final String URL_JSON = "http://192.168.1.3/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private SharedPreferences sp;
 
@@ -66,6 +67,7 @@ public class StudentListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
 
 
 

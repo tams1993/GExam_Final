@@ -212,7 +212,7 @@ public class Committy_login extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3)));
+                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id"))));
 
             } while (cursor.moveToNext());
 
