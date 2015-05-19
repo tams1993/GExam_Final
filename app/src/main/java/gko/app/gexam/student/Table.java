@@ -172,11 +172,11 @@ public class Table {
 
     }
 
-    public long addStudent_Illegal(int id, int status, String std_id, int course_id) {
+    public long addStudent_Illegal(int id, String std_id, int course_id) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENT_ILLEGAL_ID, id);
-        contentValues.put(COLUMN_STUDENT_ILLEGAL_STATUS, status);
+
         contentValues.put(COLUMN_STUDENT_ILLEGAL_STD_ID, std_id);
         contentValues.put(COLUMN_STUDENT_ILLEGAL_TEST_ID, course_id);
 

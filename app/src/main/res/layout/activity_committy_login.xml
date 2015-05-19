@@ -19,7 +19,8 @@
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/header"
             android:gravity="center"
-            android:id="@+id/textView12" />
+            android:id="@+id/textView12"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -30,27 +31,31 @@
             android:padding="10dp">
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/username"
+                    android:text="@string/testcode"
                     android:id="@+id/textView"
                     android:textSize="@dimen/text_size"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center" />
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/edtComUser"
+                    android:id="@+id/edtTestcode"
                     android:layout_weight="7"
                     android:password="false"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:layout_marginTop="20dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -63,36 +68,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/password"
-                    android:id="@+id/textView2"
+                    android:text="@string/subject"
+                    android:id="@+id/textView3"
                     android:textSize="@dimen/text_size"
                     android:layout_weight="1" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edtComPass"
-                    android:layout_weight="7"
-                    android:singleLine="true"
-                    android:password="true" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/course_code"
-                    android:id="@+id/textView3"
-                    android:textSize="@dimen/text_size" />
-
                 <Spinner
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/country_arrays"
                     android:prompt="@string/country_prompt"

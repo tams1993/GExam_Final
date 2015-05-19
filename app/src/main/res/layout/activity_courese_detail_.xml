@@ -71,36 +71,80 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <ScrollView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp">
+                android:id="@+id/scrollView" >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/time"
-                    android:id="@+id/textView6"
-                    android:textSize="@dimen/text_size"
-                    android:layout_weight="1" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/detail"
-                    android:id="@+id/txtInterval"
-                    android:textSize="@dimen/text_size"
-                    android:layout_weight="1" />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/minute"
-                    android:id="@+id/textView16"
-                    android:textSize="@dimen/text_size"
-                    android:layout_weight="1" />
-            </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/time"
+                            android:id="@+id/textView6"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail"
+                            android:id="@+id/txtInterval"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/minute"
+                            android:id="@+id/textView16"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/question_amount"
+                            android:id="@+id/textView20"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/detail"
+                            android:id="@+id/txtAmount"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amount"
+                            android:id="@+id/textView21"
+                            android:textSize="@dimen/text_size"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
         </LinearLayout>
 
         <LinearLayout

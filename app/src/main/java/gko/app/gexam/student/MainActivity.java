@@ -448,7 +448,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     public String[] getStudent(String strUser, String subjectName){
-        List < String > labels = new ArrayList<String>();
         // Select All Query
         String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id INNER JOIN subject su ON c.subject_id = su._id where st.username =? and su.subject_name =?";
 
@@ -563,13 +562,9 @@ public class MainActivity extends ActionBarActivity {
 
         } catch (Exception e) {
 
-            Log.d("GExam","password = "+ strTruePass);
-            Log.d("GExam","password = "+ strStatus);
-            Log.d("GExam","password = "+ strPhone);
-            Log.d("GExam","password = "+ strClass_name);
-            Log.d("GExam","password = "+ strEmail);
 
-            Toast.makeText(MainActivity.this, "No user "+ strTruePass,Toast.LENGTH_LONG).show();
+
+            Toast.makeText(MainActivity.this, "No user "+ strStudentUser,Toast.LENGTH_LONG).show();
 
             Log.d("GExam", "Error Login " + e.toString());
 

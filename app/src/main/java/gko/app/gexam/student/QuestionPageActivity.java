@@ -44,7 +44,7 @@ public class QuestionPageActivity extends ActionBarActivity {
     private String[] arrayQuestion,QuestionAnswer,AnswerOnly;
     private int counter = 0, exitCount =0, score=0;
 
-    private int question_amount = 4, teacher_id, subject_id, answer,interval_time;
+    private int question_amount, teacher_id, subject_id, answer,interval_time,question_amount_real;
 
     private SharedPreferences sp, spName;
     private SharedPreferences.Editor editor;
@@ -114,7 +114,12 @@ public class QuestionPageActivity extends ActionBarActivity {
         teacher_id = spName.getInt("teacher_id", -1);
         subject_id = spName.getInt("subject_id", -1);
         interval_time = spName.getInt("interval_time", -1);
+        question_amount = (spName.getInt("question_amount", -1) - 1) ;
+        question_amount_real = spName.getInt("question_amount", -1);
 
+
+
+        Log.i("GExam", "question_amount= " + (question_amount + 1));
 
         editor = sp.edit();
         editor.clear();
@@ -218,14 +223,18 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 }
 
-                Log.e("GExam", "total score = " + score);
+
+                int totalScore = (score * 50) / question_amount_real;
+
+                Log.e("GExam", "total score = " + totalScore);
+                Log.e("GExam", "total question_amount = " + (question_amount_real) );
 
                 Student_ID = spName.getInt("std_id", -1);
 
 
 
 
-                AddScoreToMySQL(score,Student_ID,subject_id,teacher_id);
+                AddScoreToMySQL(totalScore,Student_ID,subject_id,teacher_id);
                 Log.e("GExam", "Student_ID = " + Student_ID);
 
                 UpdateStudentStatus(0);
@@ -807,37 +816,37 @@ public class QuestionPageActivity extends ActionBarActivity {
 
     public void UpdateStudentStatus(int student_status) {
 
-        if (Build.VERSION.SDK_INT > 7) {
+    if (Build.VERSION.SDK_INT > 7) {
 
-            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(myPolicy);
+        StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(myPolicy);
 
-        }
+    }
 
-        //  Connect and Post
+    //  Connect and Post
 
-        try {
+    try {
 
-            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
-            objNameValuePairs.add(new BasicNameValuePair("student_status", String.valueOf(student_status)));
-
-
+        ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+        objNameValuePairs.add(new BasicNameValuePair("student_status", String.valueOf(student_status)));
 
 
-            HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
-            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
-            objHttpClient.execute(objHttpPost);
 
-            Log.d("GExam", "String score = " + String.valueOf(score));
 
-        } catch (Exception e) {
+        HttpClient objHttpClient = new DefaultHttpClient();
+        HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+        objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+        objHttpClient.execute(objHttpPost);
 
-            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
+        Log.d("GExam", "String score = " + String.valueOf(score));
 
-        }
+    } catch (Exception e) {
 
-    }   //  end of AddScoreToMySQL
+        Log.d("GExam", "Connect and Post Error ====>" + e.toString());
+
+    }
+
+}   //  end of AddScoreToMySQL
 
 
 

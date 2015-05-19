@@ -1,13 +1,18 @@
 package gko.app.gexam.committed;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -19,21 +24,33 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.com_fragment.ComFragActivity;
+import gko.app.gexam.committed.com_fragment.CommitteeSpinnerObject;
+import gko.app.gexam.student.FontsOverride;
+import gko.app.gexam.student.RuleActivity;
 import gko.app.gexam.student.SpinnerObject;
 
 public class Committy_login extends ActionBarActivity {
 
-    private EditText edtComUser, edtComPass;
+    private EditText edtTestcode;
     private Spinner spnCom;
     private CheckBox chbActiveCourse;
     private Button btnComLogin;
     private String CourseName;
+    private String testcodeType, testcode;
+    private int teacher_id, subject_id, class_id,course_id;
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
@@ -90,6 +107,12 @@ public class Committy_login extends ActionBarActivity {
 
         setContentView(R.layout.activity_committy_login);
 
+
+        FontsOverride.setDefaultFont(this, "DEFAULT", "phetsarath.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "phetsarath.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF", "phetsarath.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF", "phetsarath.ttf");
+
         sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         editor = sp.edit();
 
@@ -114,12 +137,14 @@ public class Committy_login extends ActionBarActivity {
 
                  CourseName = parent.getItemAtPosition(position).toString();
 
-                int course_id = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getCourse_id()));
+                int course_id = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getCourse_id()));
 
-                int interval_time = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getIntervaltime ()));
-                int question_amount = Integer.parseInt (String.valueOf(( (SpinnerObject) spnCom.getSelectedItem () ).getQuestionamount ()));
+                int interval_time = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getIntervaltime ()));
+                int question_amount = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getQuestionamount()));
 
-                String teacher_name = String.valueOf (( (SpinnerObject) spnCom.getSelectedItem () ).getTeachername ());
+
+
+                String teacher_name = String.valueOf (( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getTeachername ());
 
                 editor.putString("subject_name",parent.getItemAtPosition(position).toString());
                 editor.putString("teacher_name", teacher_name);
@@ -145,24 +170,94 @@ public class Committy_login extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                if (chbActiveCourse.isChecked() && CourseName != null) {
+                testcodeType = edtTestcode.getText().toString().trim();
 
+                if (!chbActiveCourse.isChecked()) {
 
-                    Intent intent = new Intent(Committy_login.this, ComFragActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+                    Toast.makeText(getApplicationContext(), "????????? Active Course", Toast.LENGTH_LONG).show();
+
+//                    Intent intent = new Intent(Committy_login.this, ComFragActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    startActivity(intent);
+//                    finish();
+
+                } else if (testcodeType.equals("")) {
+
+                    Toast.makeText(getApplicationContext(), "????????????????????? Course", Toast.LENGTH_LONG).show();
+
 
                 } else {
-
-                    Toast.makeText(getApplicationContext(), "Check Active Please", Toast.LENGTH_LONG).show();
-
+                    CheckTestcode();
 
                 }
 
             }
         });
 
+
+    }
+
+    private void CheckTestcode() {
+
+        try {
+
+
+            teacher_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getTeacher_id()));
+            subject_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getSubject_id()));
+            class_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getClass_id()));
+            course_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getCourse_id()));
+
+            Log.d("GExam", "class_id" + class_id);
+            Log.d("GExam", "teacher_id" + teacher_id);
+            Log.d("GExam", "subject_id" + subject_id);
+            Log.d("GExam", "course_id" + course_id);
+
+
+
+            testcode = getTestcode(teacher_id,subject_id,class_id);
+
+
+
+
+            if (testcodeType.equals(testcode)) {
+
+                Intent intent = new Intent(this, ComFragActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+                UpdateCourseStatus(course_id,1);
+
+                finish();
+
+
+            } else {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("?????????????!!!")
+                        .setMessage("???????????????????")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setCancelable(false)
+                        .show();
+
+            }
+
+        } catch (Exception e) {
+
+
+
+            Toast.makeText(this, "No Testcode "+ testcodeType,Toast.LENGTH_LONG).show();
+            Log.d("GExam", "testcode" + testcode);
+
+
+            Log.d("GExam", "Error Login " + e.toString());
+
+        }
 
     }
 
@@ -181,8 +276,8 @@ public class Committy_login extends ActionBarActivity {
 
     private void InitializeWidget() {
 
-        edtComUser = (EditText) findViewById(R.id.edtComUser);
-        edtComPass = (EditText) findViewById(R.id.edtComPass);
+        edtTestcode = (EditText) findViewById(R.id.edtTestcode);
+
         spnCom = (Spinner) findViewById(R.id.spnCom);
         chbActiveCourse = (CheckBox) findViewById(R.id.chbActiveCourse);
         btnComLogin = (Button) findViewById(R.id.btnComLogin);
@@ -192,27 +287,27 @@ public class Committy_login extends ActionBarActivity {
 
     private void SpinnerList() {
 
-        List<SpinnerObject> label = getAllLabelsSpinner();
-        ArrayAdapter<SpinnerObject> spinnerArrayAdapter = new ArrayAdapter<SpinnerObject>(this, android.R.layout.simple_spinner_item, label);
+        List<CommitteeSpinnerObject> label = getAllLabelsSpinner();
+        ArrayAdapter<CommitteeSpinnerObject> spinnerArrayAdapter = new ArrayAdapter<CommitteeSpinnerObject>(this, android.R.layout.simple_spinner_item, label);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
         spnCom.setAdapter(spinnerArrayAdapter);
 
     }
 
-    public List< SpinnerObject> getAllLabelsSpinner(){
-        List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
+    public List< CommitteeSpinnerObject> getAllLabelsSpinner(){
+        List < CommitteeSpinnerObject > labels = new ArrayList<CommitteeSpinnerObject>();
         // Select All Query
-        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id where c.status =?";
+        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id ";
 
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{"1"});
+        Cursor cursor = db.rawQuery(selectQuery,null);
 
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id"))));
+                labels.add (new CommitteeSpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id")),cursor.getInt(cursor.getColumnIndex("class_id"))));
 
             } while (cursor.moveToNext());
 
@@ -231,7 +326,84 @@ public class Committy_login extends ActionBarActivity {
     }
 
 
+    public String getTestcode(int teacher_id, int subject_id, int class_id){
+        // Select All Query
+        String selectQuery = "SELECT * FROM course where teacher_id ="+teacher_id + " AND subject_id = "+ subject_id+ " AND class_id=" + class_id;
 
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        cursor.moveToFirst();
+
+        Log.e("GExam", "cursor.count = " + cursor.getCount());
+
+
+
+        if (cursor != null) {
+
+
+
+
+
+
+
+
+
+            testcode = cursor.getString(cursor.getColumnIndex("test_code"));
+
+
+
+
+
+
+
+        }
+
+
+        cursor.close();
+
+        return testcode;
+    }
+
+
+    public void UpdateCourseStatus(int course_id, int course_status) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("course_status", String.valueOf(course_status)));
+            objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
+
+
+
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+
+
+        } catch (Exception e) {
+
+            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
 
 
 

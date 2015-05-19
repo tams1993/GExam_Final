@@ -11,7 +11,7 @@
     <string name="register"><u>ລົງທະບຽນ?</u></string>
     <string name="or">ຫຼືວ່າ </string>
     <string name="committee"><u>ກຳມະການ</u></string>
-    <string name="committee_no_underscore">ກຳມະການ</string>
+    <string name="committee_no_underscore"><b>ກຳມະການ</b></string>
     <string name="rule">ກົດລະບຽບ:  </string>
     <string name="Next">ຕໍ່ໄປ </string>
     <string name="course_detail">ລາຍລະອຽດ Course: </string>
@@ -29,6 +29,10 @@
     <string name="com_student_come">ມີໜ້າ</string>
     <string name="com_student_cheat">ຜິດກົດລະບຽບ</string>
     <string name="time">ເວລາໃນການສອບ: </string>
+    <string name="question_amount">ຈຳນວນຂໍ້ສອບ: </string>
+    <string name="amount">ຂໍ້</string>
+    <string name="subject">ວິຊາ: </string>
+    <string name="testcode">ກະລຸນາປ້ອນເລກລະຫັດລັບຂອງ course ສອບເສັງນັ້ນ: </string>
     <string name="minute"> ນາທີ</string>
     <string name="warning">ຂໍ້ຄວນລະວັງ!!!</string>
     <string name="warning_exit">- ຫ້າມອອກຈາກ Application ເກີນ 5 ຄັ້ງ. ຖ້າເກີນການສອບຈະສິ້ນສຸດທັນທີ.</string>
