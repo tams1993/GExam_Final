@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -134,60 +134,75 @@ public class MainActivity extends ActionBarActivity {
 
         this.deleteDatabase("GExam.db");
 
-        if (Online() == true) {
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-            new SimpleTask().execute(URL_JSON);
-            txtStatus.setText("ອອນໄລນ");
+        if (mWifi.isConnected()) {
 
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (Online()) {
+
+                new SimpleTask().execute(URL_JSON);
+                txtStatus.setText("ອອນໄລນ");
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
 
-                    strSubjectName = parent.getItemAtPosition(position).toString();
+                        strSubjectName = parent.getItemAtPosition(position).toString();
 
-                    int course_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
+                        int course_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
 
-                    int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
-                    int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
-                    int teacher_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeacher_id()));
-                    int subject_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getSubject_id()));
+                        int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
+                        int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
+                        int teacher_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeacher_id()));
+                        int subject_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getSubject_id()));
 
-                    String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
+                        String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
 
 //                    Toast.makeText(parent.getContext(),
 //                            "teacher_name : " + teacher_name,
 //                            Toast.LENGTH_SHORT).show();
 
-                    editor.putString("subject_name", parent.getItemAtPosition(position).toString());
-                    editor.putString("teacher_name", teacher_name);
-                    editor.putInt("course_id", course_id);
-                    editor.putInt("interval_time", interval_time);
-                    editor.putInt("question_amount", question_amount);
-                    editor.putInt("teacher_id", teacher_id);
-                    editor.putInt("subject_id", subject_id);
+                        editor.putString("subject_name", parent.getItemAtPosition(position).toString());
+                        editor.putString("teacher_name", teacher_name);
+                        editor.putInt("course_id", course_id);
+                        editor.putInt("interval_time", interval_time);
+                        editor.putInt("question_amount", question_amount);
+                        editor.putInt("teacher_id", teacher_id);
+                        editor.putInt("subject_id", subject_id);
 
 
-                    editor.commit();
+                        editor.commit();
 
 
-                }
+                    }
 
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
-                }
-            });
+                    }
+                });
 
 
-        } else if (Online() == false){
+            } else {
 
+                AlertDialoge.AlertConnection(this, ALERT_ERROR_TITLE, ALERT_ERROR_MESSAGE);
+
+
+
+            }
+
+
+        } if (!mWifi.isConnected()){
+            txtStatus.setText("ອອຟໄລນ");
+            Toast.makeText(this,"plese connect to wifi",Toast.LENGTH_LONG).show();
             AlertDialoge.AlertConnection(this, ALERT_ERROR_TITLE, ALERT_ERROR_MESSAGE);
 
-            txtStatus.setText("ອອຟໄລນ");
-
         }
+
+
 
 
 

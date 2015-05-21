@@ -56,7 +56,7 @@ public class StudentListFragment extends Fragment {
 
 
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
 
     private SharedPreferences sp;
 
@@ -121,9 +121,9 @@ public class StudentListFragment extends Fragment {
                 }
 
 
-                Toast.makeText(getActivity(),
-                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
-                        .show();
+//                Toast.makeText(getActivity(),
+//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+//                        .show();
 
                 AlertDialoge.AlertExit(getActivity(), ALERT_TITLE, ALERT_MESSAGE);
 
@@ -214,7 +214,7 @@ public class StudentListFragment extends Fragment {
         protected void onPostExecute(String jsonString)  {
             // Dismiss ProgressBar
 //            Log.d("Emergency", jsonString);
-            Toast.makeText(getActivity(), jsonString, Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), jsonString, Toast.LENGTH_LONG).show();
 
 
 

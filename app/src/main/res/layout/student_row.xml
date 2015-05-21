@@ -51,6 +51,7 @@
         android:id="@+id/chbIllegal"
         android:layout_gravity="center_vertical"
 
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginRight="30dp" />
 
 </LinearLayout>

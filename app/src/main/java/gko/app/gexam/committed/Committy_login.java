@@ -391,7 +391,7 @@ public class Committy_login extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.4/GExam/db_update.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

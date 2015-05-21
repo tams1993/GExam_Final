@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/com_student_cheat"
                 android:id="@+id/textView10"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="30dp"
                 android:textSize="@dimen/text_size" />
         </LinearLayout>
 

@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -58,6 +60,52 @@ public class QuestionPageActivity extends ActionBarActivity {
     private String ALERT_BACKPRESS_MESSAGE= "ທ່ານບໍ່ສາມາດກັບຄືນໄດ້ໃນຂະນະທີ່ເສັງຢູ່";
 
     private int QuestionID;
+    private Handler mHandler = new Handler();
+
+
+    private Runnable decor_view_settings = new Runnable()
+    {
+        public void run()
+        {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
+    };
+
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+
+        View decorView = getWindow().getDecorView();
+
+
+
+
+        if (hasFocus) {
+
+            decorView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+
+
+            mHandler.postDelayed(decor_view_settings, 500);
+
+        }
+
+
+    }
+
 
     @Override
     protected void onStop() {
@@ -385,6 +433,10 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
 
+
+
+
+
                 editor.putInt("answer_choice " + counter, checkedId);
                 editor.putString("answer_choice" + counter, selection);
                 editor.putString("specificAnswer" + counter, specificAnswer);
@@ -398,13 +450,9 @@ public class QuestionPageActivity extends ActionBarActivity {
                 Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
 
 
-//                if (selection.equals(specificAnswer)) {
-//
-//
-//                    score++;
-//
-//
-//                }
+
+
+
 
 
                 Log.e("GExam", "score = " + score);
