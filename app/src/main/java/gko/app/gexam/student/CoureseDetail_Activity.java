@@ -7,8 +7,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,6 +39,18 @@ public class CoureseDetail_Activity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1500);
+            getWindow().setEnterTransition(slide);
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+        }
         setContentView(R.layout.activity_courese_detail_);
 
         btnStart = (Button) findViewById(R.id.btnStart);
@@ -55,17 +72,18 @@ public class CoureseDetail_Activity extends ActionBarActivity {
 
                 if (cbConfirm.isChecked()) {
 
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(CoureseDetail_Activity.this, null);
 
-                    startActivity(new Intent(CoureseDetail_Activity.this, QuestionPageActivity.class ));
+                    startActivity(new Intent(CoureseDetail_Activity.this, QuestionPageActivity.class ),compat.toBundle());
 
-                    Toast.makeText(getApplicationContext(),"CheckBox is Checked",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"CheckBox is Checked",Toast.LENGTH_LONG).show();
 
 
 
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(),"CheckBox is unCheck",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"CheckBox is unCheck",Toast.LENGTH_LONG).show();
 
 
                     new AlertDialog.Builder(CoureseDetail_Activity.this)

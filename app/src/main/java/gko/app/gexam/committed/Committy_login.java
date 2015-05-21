@@ -11,7 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -104,6 +108,19 @@ public class Committy_login extends ActionBarActivity {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1500);
+            getWindow().setEnterTransition(slide);
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+
+        }
 
         setContentView(R.layout.activity_committy_login);
 
@@ -220,10 +237,11 @@ public class Committy_login extends ActionBarActivity {
 
 
             if (testcodeType.equals(testcode)) {
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Committy_login.this, null);
 
                 Intent intent = new Intent(this, ComFragActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                startActivity(intent,compat.toBundle());
 
                 UpdateCourseStatus(course_id,1);
 

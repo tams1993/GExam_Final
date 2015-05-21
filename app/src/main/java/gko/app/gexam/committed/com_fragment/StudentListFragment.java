@@ -3,6 +3,7 @@ package gko.app.gexam.committed.com_fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,7 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.zxing.client.android.CaptureActivity;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -75,7 +80,7 @@ public class StudentListFragment extends Fragment {
 
         View layout = inflater.inflate(R.layout.fragment_student_list, container, false);
 
-        sp = this.getActivity().getSharedPreferences("PREF_NAME",Context.MODE_PRIVATE);
+        sp = this.getActivity().getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
 
 
         course_id = sp.getInt("course_id_committee", -1);
@@ -88,6 +93,24 @@ public class StudentListFragment extends Fragment {
         adapter = new StudentAdapter(getActivity(),getAllStudent(course_id),"phetsarath.ttf");
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
+        fab.attachToRecyclerView(recyclerView);
+
+
+
+        fab.setImageResource(R.drawable.ic_basic3_086_qr_code_search_scan_128);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                startActivity(new Intent(getActivity(), CaptureActivity.class));
+                getActivity().finish();
+            }
+        });
+
+
+
 
 
 

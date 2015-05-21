@@ -4,10 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +40,21 @@ public class RuleActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1500);
+            getWindow().setEnterTransition(slide);
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+
+        }
+
         setContentView(R.layout.activity_rule);
 
         Table table = new Table(this);
@@ -48,10 +69,13 @@ public class RuleActivity extends ActionBarActivity {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.ruleList);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RuleAdapter(RuleActivity.this, RuleArray);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
 
 
 
@@ -66,11 +90,12 @@ public class RuleActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(RuleActivity.this, null);
 
                     Intent intent = new Intent(RuleActivity.this, QRActivity.class);
 
 
-                    startActivity(intent);
+                    startActivity(intent,compat.toBundle());
 
 
 

@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="student">ນັກສຶກສາ</string>
+    <string name="student"><b>ນັກສຶກສາ</b></string>
     <string name="username">ລົງຊື່ເຂົ້າໃຊ້: </string>
     <string name="password">ລະຫັດຜ່ານ: </string>
     <string name="course">Course: </string>
@@ -12,9 +12,11 @@
     <string name="or">ຫຼືວ່າ </string>
     <string name="committee"><u>ກຳມະການ</u></string>
     <string name="committee_no_underscore"><b>ກຳມະການ</b></string>
-    <string name="rule">ກົດລະບຽບ:  </string>
+    <string name="rule"><b>ກົດລະບຽບ </b></string>
+    <string name="rule_notbold">ກົດລະບຽບ:</string>
+    <string name="student_choice">ນັກຮຽນເລືອກ: </string>
     <string name="Next">ຕໍ່ໄປ </string>
-    <string name="course_detail">ລາຍລະອຽດ Course: </string>
+    <string name="course_detail"><b>ລາຍລະອຽດ Course </b></string>
     <string name="course_name">ວິຊາເສັງ: </string>
     <string name="by">ໂດຍ ອ.ຈ: </string>
     <string name="detail">ລາຍລະອຽດ: </string>

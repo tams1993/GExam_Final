@@ -10,6 +10,9 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +39,7 @@ import gko.app.gexam.student.generator.AlertDialoge;
 
 public class QuestionPageActivity extends ActionBarActivity {
 
-    private TextView txtQuestion, txtTime;
+    private TextView txtQuestion, txtTime,txtStudentAnswer;
 
     private Button btnNextQ, btnBackQ, btnSubmit;
     private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE = "ກະລຸນາລໍຖ້າຄະແນນຈາກອາຈານ",Question, Answer1, Answer2, Answer3,Answer4,
@@ -147,10 +150,24 @@ public class QuestionPageActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1500);
+            getWindow().setEnterTransition(slide);
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+        }
+
         setContentView(R.layout.activity_question_page);
 
         txtQuestion = (TextView) findViewById(R.id.txtQuestion);
         txtTime = (TextView) findViewById(R.id.txtTime);
+        txtStudentAnswer = (TextView) findViewById(R.id.txtStdentAnswer);
 
         btnBackQ = (Button) findViewById(R.id.btnBackQ);
         btnNextQ = (Button) findViewById(R.id.btnNextQ);
@@ -301,6 +318,7 @@ public class QuestionPageActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 counter--;
+                txtStudentAnswer.setText("");
 
 
                 if (counter < 0) {
@@ -338,6 +356,7 @@ public class QuestionPageActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 counter++;
+                txtStudentAnswer.setText("");
 
 
 
@@ -378,6 +397,7 @@ public class QuestionPageActivity extends ActionBarActivity {
                 if (answer != -1) {
 
 
+
                     ((RadioButton) rgp.getChildAt(answer)).setChecked(true);
 
                 }
@@ -404,6 +424,8 @@ public class QuestionPageActivity extends ActionBarActivity {
                 RadioButton radioButton = new RadioButton(this);
                 radioButton.setText(answer[i]);
                 radioButton.setId(i);
+//                radioButton.setBackground(getDrawable(R.drawable.custom_radiogroup_divider));
+                radioButton.invalidate();
                 RadioGroup.LayoutParams rprms = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
 
 
@@ -430,6 +452,8 @@ public class QuestionPageActivity extends ActionBarActivity {
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
 
                 String selection =(String) radioButton.getText();
+
+                txtStudentAnswer.setText(selection);
 
 
 
@@ -598,6 +622,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         rgp.removeAllViews();
+
 
 
 

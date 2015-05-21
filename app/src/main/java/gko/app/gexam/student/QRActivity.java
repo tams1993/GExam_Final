@@ -11,8 +11,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -66,6 +71,19 @@ public class QRActivity extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1500);
+            getWindow().setEnterTransition(slide);
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+        }
+
         setContentView(R.layout.activity_qr);
 
         Button btnProceed = (Button) findViewById(R.id.btnProceed);
@@ -233,9 +251,10 @@ public class QRActivity extends Activity implements OnClickListener{
 
                 if (status == 1) {
 
+                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(QRActivity.this, null);
 
                     Intent intent = new Intent(QRActivity.this, CoureseDetail_Activity.class);
-                    startActivity(intent);
+                    startActivity(intent,compat.toBundle());
 
 
 

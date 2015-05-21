@@ -11,9 +11,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +67,7 @@ public class MainActivity extends ActionBarActivity {
     private String std_id;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
+    private RelativeLayout mRoot;
 
 
 
@@ -117,6 +125,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+            getWindow().setExitTransition(transition);
+
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -236,8 +251,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, null);
+
                 Intent intent = new Intent(MainActivity.this, Committy_login.class);
-                startActivity(intent);
+                startActivity(intent,compat.toBundle());
 
 //                callLoginDialog();
 
@@ -469,7 +486,7 @@ public class MainActivity extends ActionBarActivity {
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{strUser,subjectName});
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{strUser, subjectName});
 
         cursor.moveToFirst();
 
@@ -554,8 +571,9 @@ public class MainActivity extends ActionBarActivity {
 
             if (strStudentPass.equals(strTruePass)) {
 
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, null);
                 Intent intent = new Intent(MainActivity.this, RuleActivity.class);
-                startActivity(intent);
+                startActivity(intent,compat.toBundle());
 
 
             } else {
@@ -587,6 +605,8 @@ public class MainActivity extends ActionBarActivity {
 
 
     }
+
+
 
     public void StudentSharedPrefference() {
 

@@ -13,10 +13,10 @@
     <item name="darkorange" type="color">#FFFF8800</item>
     <item name="darkred" type="color">#FFCC0000</item>
 
-    <color name="ColorPrimary">#B2EBF2</color>
-    <color name="ColorPrimaryDark">#4DD0E1</color>
-    <color name="tabsScrollColor">#00BCD4</color>
-    <color name="accentColor">#00BCD4</color>
+    <color name="ColorPrimary">#03a9f4</color>
+    <color name="ColorPrimaryDark">#0091ea</color>
+    <color name="tabsScrollColor">#03a9f4</color>
+    <color name="accentColor">#ff4081</color>
     <color name="ToolbarTextPrimary">@color/black</color>
     <color name="ToolbarTextSecondary">#616161</color>
 
