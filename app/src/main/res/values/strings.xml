@@ -28,6 +28,7 @@
     <string name="com_rule">ກົດລະບຽບ</string>
     <string name="com_detail">ລາຍລະອຽດ</string>
     <string name="com_student_list">ລາຍຊື່ນັກສຶກສາ</string>
+    <string name="com_student_no_per_list">ລາຍຊື່ນັກສຶກສາບໍ່ມີສິດສອບ</string>
     <string name="com_student_come">ມີໜ້າ</string>
     <string name="com_student_cheat">ຜິດກົດລະບຽບ</string>
     <string name="time">ເວລາໃນການສອບ: </string>

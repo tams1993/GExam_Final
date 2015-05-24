@@ -154,10 +154,11 @@ public class Committy_login extends ActionBarActivity {
 
                  CourseName = parent.getItemAtPosition(position).toString();
 
-                int course_id = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getCourse_id()));
+                int course_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getCourse_id()));
 
-                int interval_time = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getIntervaltime ()));
-                int question_amount = Integer.parseInt (String.valueOf(( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getQuestionamount()));
+                int interval_time = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getIntervaltime()));
+                int question_amount = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getQuestionamount()));
+                class_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getClass_id()));
 
 
 
@@ -165,6 +166,7 @@ public class Committy_login extends ActionBarActivity {
 
                 editor.putString("subject_name",parent.getItemAtPosition(position).toString());
                 editor.putString("teacher_name", teacher_name);
+                editor.putInt("class_id", class_id);
 
                 editor.putInt("interval_time", interval_time);
                 editor.putInt("question_amount", question_amount);

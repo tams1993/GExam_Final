@@ -15,7 +15,7 @@
 
     <color name="ColorPrimary">#03a9f4</color>
     <color name="ColorPrimaryDark">#0091ea</color>
-    <color name="tabsScrollColor">#03a9f4</color>
+    <color name="tabsScrollColor">#ff4081</color>
     <color name="accentColor">#ff4081</color>
     <color name="ToolbarTextPrimary">@color/black</color>
     <color name="ToolbarTextSecondary">#616161</color>

@@ -39,9 +39,9 @@ public class ComFragActivity extends ActionBarActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[]={"ກົດລະບຽບ","ລາຍລະອຽດ","ລາຍຊື່ນັກສຶກສາ"};
 
-    int icons[] = {R.drawable.ic_action_paste,R.drawable.ic_action_info,R.drawable.ic_action_group};
+    int icons[] = {R.drawable.ic_action_paste,R.drawable.ic_action_info,R.drawable.ic_action_error,R.drawable.ic_action_group};
 
-    int Numboftabs = 3;
+    int Numboftabs = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +128,7 @@ public class ComFragActivity extends ActionBarActivity {
 
     public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        int icons[] = {R.drawable.ic_action_paste,R.drawable.ic_action_info,R.drawable.ic_action_group};
+        int icons[] = {R.drawable.ic_action_paste,R.drawable.ic_action_info,R.drawable.ic_action_error,R.drawable.ic_action_group};
         CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
         int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
@@ -163,6 +163,14 @@ public class ComFragActivity extends ActionBarActivity {
                 return tabDetail;
 
             }
+            if (position == 2)       // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+            {
+
+                StudentNoPermissionFragment studentNoPermissionFragment = new StudentNoPermissionFragment();
+                return studentNoPermissionFragment;
+
+            }
+
             else {
 
                 StudentListFragment tabStudentList = new StudentListFragment();
