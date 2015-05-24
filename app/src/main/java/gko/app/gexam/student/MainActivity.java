@@ -611,7 +611,7 @@ public class MainActivity extends ActionBarActivity {
                     .show();
 
 
-            Log.d("GExam", "Error Login " + e.toString());
+            Log.d("GExam", "Error Login  " + e.toString());
 
         }
 
