@@ -6,11 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@drawable/layout_bg"
     android:padding="2dp">
 
 
-    <gko.app.gexam.student.CutomFontTextView
+    <TextView
         android:id="@+id/textView13"
         android:text="-"
         android:layout_width="wrap_content"
@@ -23,7 +22,7 @@
         android:maxLines="3"
         android:textSize="@dimen/text_size" />
 
-    <gko.app.gexam.student.CutomFontTextView
+    <TextView
         android:id="@+id/StudentlistText"
         android:text="dummyText"
         android:layout_width="0dp"

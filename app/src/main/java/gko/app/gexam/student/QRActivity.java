@@ -52,7 +52,7 @@ public class QRActivity extends Activity implements OnClickListener{
     private String LOG_TAG = "GenerateQRCode";
 
     private Handler handler = new Handler();
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
     private Runnable refresh;
@@ -75,12 +75,12 @@ public class QRActivity extends Activity implements OnClickListener{
         if (Build.VERSION.SDK_INT >= 21) {
 
             Slide slide = new Slide();
-            slide.setDuration(1500);
+            slide.setDuration(1000);
             getWindow().setEnterTransition(slide);
 
-            TransitionInflater inflater = TransitionInflater.from(this);
-            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
-            getWindow().setExitTransition(transition);
+//            TransitionInflater inflater = TransitionInflater.from(this);
+//            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+//            getWindow().setExitTransition(transition);
 
         }
 
@@ -188,7 +188,7 @@ public class QRActivity extends Activity implements OnClickListener{
             objPD = new ProgressDialog(QRActivity.this);
             objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             objPD.setTitle("Loading...");
-            objPD.setMessage("???????????????...");
+            objPD.setMessage("???????????...");
             objPD.setCancelable(false);
             objPD.setIndeterminate(false);
 

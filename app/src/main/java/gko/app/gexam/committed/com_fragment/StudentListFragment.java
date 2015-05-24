@@ -61,7 +61,7 @@ public class StudentListFragment extends Fragment {
 
 
 
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private SharedPreferences sp;
 
@@ -219,7 +219,7 @@ public class StudentListFragment extends Fragment {
             objPD = new ProgressDialog(getActivity());
             objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             objPD.setTitle("Loading...");
-            objPD.setMessage("???????????????...");
+            objPD.setMessage("???????????...");
             objPD.setCancelable(false);
             objPD.setIndeterminate(false);
 

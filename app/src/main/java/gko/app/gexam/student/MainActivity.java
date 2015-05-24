@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.4/gexam/db_connect.php";
+    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -125,13 +125,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-
-            TransitionInflater inflater = TransitionInflater.from(this);
-            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
-            getWindow().setExitTransition(transition);
-
-        }
+//        if (Build.VERSION.SDK_INT >= 21) {
+//
+//            TransitionInflater inflater = TransitionInflater.from(this);
+//            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+//            getWindow().setExitTransition(transition);
+//
+//        }
 
         setContentView(R.layout.activity_main);
 
@@ -597,7 +597,19 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-            Toast.makeText(MainActivity.this, "No user "+ strStudentUser,Toast.LENGTH_LONG).show();
+            new AlertDialog.Builder(this)
+                    .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
+                    .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setCancelable(false)
+                    .show();
+
 
             Log.d("GExam", "Error Login " + e.toString());
 

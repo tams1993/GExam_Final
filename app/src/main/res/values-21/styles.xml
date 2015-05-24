@@ -15,7 +15,9 @@
         <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:colorAccent">@color/accentColor</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowTransitionBackgroundFadeDuration">5000</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">1000</item>
+        <item name="android:colorControlHighlight">@color/colorHighlight</item>
+
 
 
 

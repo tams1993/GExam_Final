@@ -112,12 +112,12 @@ public class Committy_login extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= 21) {
 
             Slide slide = new Slide();
-            slide.setDuration(1500);
+            slide.setDuration(1000);
             getWindow().setEnterTransition(slide);
 
-            TransitionInflater inflater = TransitionInflater.from(this);
-            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
-            getWindow().setExitTransition(transition);
+//            TransitionInflater inflater = TransitionInflater.from(this);
+//            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+//            getWindow().setExitTransition(transition);
 
 
         }
@@ -254,7 +254,7 @@ public class Committy_login extends ActionBarActivity {
 
                 new AlertDialog.Builder(this)
                         .setTitle("?????????????!!!")
-                        .setMessage("???????????????????")
+                        .setMessage("???????????????????????????")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // continue with delete
@@ -411,7 +411,7 @@ public class Committy_login extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.4/GExam/db_update.php");
+            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

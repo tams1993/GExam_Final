@@ -43,12 +43,12 @@ public class CoureseDetail_Activity extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= 21) {
 
             Slide slide = new Slide();
-            slide.setDuration(1500);
+            slide.setDuration(1000);
             getWindow().setEnterTransition(slide);
 
-            TransitionInflater inflater = TransitionInflater.from(this);
-            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
-            getWindow().setExitTransition(transition);
+//            TransitionInflater inflater = TransitionInflater.from(this);
+//            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+//            getWindow().setExitTransition(transition);
 
         }
         setContentView(R.layout.activity_courese_detail_);
