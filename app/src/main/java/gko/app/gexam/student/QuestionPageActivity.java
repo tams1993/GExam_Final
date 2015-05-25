@@ -47,7 +47,7 @@ public class QuestionPageActivity extends ActionBarActivity {
             , ALERT_EXIT_TITILE = "ການສອບເສັງຖືກຍຸດຕິ!!!", specificQuestion, specificAnswer, specificCorrectAnswer;
 
     private String[] arrayQuestion,QuestionAnswer,AnswerOnly;
-    private int counter = 0, exitCount =0, score=0;
+    private int counter = 0, exitCount =0, score=0, course_id=0, std_id=0;
 
     private int question_amount, teacher_id, subject_id, answer,interval_time,question_amount_real;
 
@@ -187,7 +187,7 @@ public class QuestionPageActivity extends ActionBarActivity {
         Log.i("GExam", "question_amount= " + (question_amount + 1));
 
         editor = sp.edit();
-        editor.clear();
+//        editor.clear();
 
 //        int question_amount = sp.getInt("question_amount",-1);
 
@@ -268,17 +268,17 @@ public class QuestionPageActivity extends ActionBarActivity {
                     int spQuestion_ID = sp.getInt("Question_ID " + i, -1);
                     int spanswer_choice_ID = sp.getInt("answer_choice_ID" + i, -1);
 
-                    int course_id = spName.getInt("course_id", -1);
-                    int std_id = spName.getInt("std_id", -1);
+                     course_id = spName.getInt("course_id", -1);
+                     std_id = spName.getInt("std_id", -1);
 
                     AddStudentChoiceToMySQL(course_id,std_id ,spQuestion_ID,spanswer_choice_ID);
 
-
-                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
-                    Log.e("GExam", "std_id= " + String.valueOf(sp.getInt("std_id", -1)));
-                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
-                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
-
+//
+//                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
+//                    Log.e("GExam", "std_id= " + String.valueOf(std_id));
+//                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
+//                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
+//
 
                     if (spChoice.equals(spAnswer)) {
 
@@ -291,8 +291,8 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 int totalScore = (score * 50) / question_amount_real;
 
-                Log.e("GExam", "total score = " + totalScore);
-                Log.e("GExam", "total question_amount = " + (question_amount_real) );
+//                Log.e("GExam", "total score = " + totalScore);
+//                Log.e("GExam", "total question_amount = " + (question_amount_real) );
 
                 Student_ID = spName.getInt("std_id", -1);
 
@@ -300,7 +300,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
                 AddScoreToMySQL(totalScore,Student_ID,subject_id,teacher_id);
-                Log.e("GExam", "Student_ID = " + Student_ID);
+                Log.e("GExam", "std_id in btnSubmit = " + Student_ID);
 
                 UpdateStudentStatus(0);
 
@@ -468,20 +468,20 @@ public class QuestionPageActivity extends ActionBarActivity {
                 editor.commit();
 
                 // find the radiobutton by returned id
-                Toast.makeText(QuestionPageActivity.this, radioButton
-                        .getText(), Toast.LENGTH_SHORT).show();
-
-                Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
-
-
-
-
-
-
-
-                Log.e("GExam", "score = " + score);
-                Log.e("GExam", "selection = " + selection);
-                Log.e("GExam", "specificAnswer = " + specificAnswer);
+//                Toast.makeText(QuestionPageActivity.this, radioButton
+//                        .getText(), Toast.LENGTH_SHORT).show();
+//
+//                Log.d("GExam", "Question: " + (counter + 1) + " = " + String.valueOf(sp.getInt("answer_choice " + (counter), -1)));
+//
+//
+//
+//
+//
+//
+//
+//                Log.e("GExam", "score = " + score);
+//                Log.e("GExam", "selection = " + selection);
+//                Log.e("GExam", "specificAnswer = " + specificAnswer);
 
 
 
@@ -836,7 +836,10 @@ public class QuestionPageActivity extends ActionBarActivity {
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
-            Log.d("GExam", "String score = " + String.valueOf(score));
+//            Log.d("GExam", "String score = " + String.valueOf(score));
+//            Log.d("GExam", "String std_id = " + String.valueOf(Student_id));
+//            Log.d("GExam", "String subject_id = " + String.valueOf(subject_id));
+//            Log.d("GExam", "String teacher_id = " + String.valueOf(teacher_id));
 
         } catch (Exception e) {
 

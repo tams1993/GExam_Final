@@ -24,23 +24,24 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_margin="20dp">
+            android:layout_margin="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/course_name"
                 android:id="@+id/textView5"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Course Name"
                 android:id="@+id/txtCourseFragment"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -48,22 +49,48 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp">
+            android:layout_margin="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/by"
                 android:id="@+id/textView14"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Course Name"
                 android:id="@+id/teacherNameFragment"
                 android:layout_marginLeft="20dp"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp" >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/classname"
+                android:id="@+id/textView23"
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Course Name"
+                android:id="@+id/txtFragClassName"
+                android:layout_marginLeft="20dp"
+                android:textSize="@dimen/text_size"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout

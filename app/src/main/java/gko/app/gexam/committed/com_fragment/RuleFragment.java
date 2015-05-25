@@ -56,12 +56,16 @@ public class RuleFragment extends Fragment {
 
         String subject_name = sp.getString("subject_name", "NO value");
         String teacher_name = sp.getString("teacher_name", "No value");
+        String classname = sp.getString("classname", "No value");
+
 
         TextView txtCourse = (TextView) v.findViewById(R.id.txtCourseFragment);
         TextView txtTeacherName = (TextView) v.findViewById(R.id.teacherNameFragment);
+        TextView txtFragClassName = (TextView) v.findViewById(R.id.txtFragClassName);
 
         txtCourse.setText(subject_name);
         txtTeacherName.setText(teacher_name);
+        txtFragClassName.setText(classname);
 
 
 

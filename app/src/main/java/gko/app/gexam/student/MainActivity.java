@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -64,10 +66,11 @@ public class MainActivity extends ActionBarActivity {
                     ALERT_ERROR_TITLE = "ການເຊື່ອມຕໍ່ຜິດພາດ!!!",ALERT_ERROR_MESSAGE = "ກະລຸນາກວດອຸປະກອນຂອງທ່ານວ່າເຊື່ອມຕໍ່ອິນເຕີເນັດຫຼືຍັງກ່ອນເຂົ້ານຳໃຊ້";
 
 
-    private String std_id;
+    private String std_id,subject_name;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
     private RelativeLayout mRoot;
+
 
 
 
@@ -136,6 +139,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtUser = (EditText) findViewById(R.id.edtUser);
         edtPass = (EditText) findViewById(R.id.edtPass);
@@ -166,29 +170,7 @@ public class MainActivity extends ActionBarActivity {
 
                         strSubjectName = parent.getItemAtPosition(position).toString();
 
-                        int course_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
 
-                        int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
-                        int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
-                        int teacher_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeacher_id()));
-                        int subject_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getSubject_id()));
-
-                        String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
-
-//                    Toast.makeText(parent.getContext(),
-//                            "teacher_name : " + teacher_name,
-//                            Toast.LENGTH_SHORT).show();
-
-                        editor.putString("subject_name", parent.getItemAtPosition(position).toString());
-                        editor.putString("teacher_name", teacher_name);
-                        editor.putInt("course_id", course_id);
-                        editor.putInt("interval_time", interval_time);
-                        editor.putInt("question_amount", question_amount);
-                        editor.putInt("teacher_id", teacher_id);
-                        editor.putInt("subject_id", subject_id);
-
-
-                        editor.commit();
 
 
                     }
@@ -345,7 +327,7 @@ public class MainActivity extends ActionBarActivity {
 
         protected void onPostExecute(String jsonString)  {
             // Dismiss ProgressBar
-//            Log.d("Emergency", jsonString);
+//            Log.d("GExam", jsonString);
 //            Toast.makeText(MainActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
             json_to_sQlite.Student_Illegal(jsonString, MainActivity.this);
@@ -362,10 +344,11 @@ public class MainActivity extends ActionBarActivity {
             json_to_sQlite.Teacher(jsonString, MainActivity.this);
             json_to_sQlite.Answer_Option(jsonString, MainActivity.this);
 
-            SpinnerList();
+
 
             objPD.dismiss();
 
+            SpinnerList();
 
         }
     }
@@ -375,7 +358,13 @@ public class MainActivity extends ActionBarActivity {
         List<SpinnerObject> label = getAllLabelsSpinner();
         ArrayAdapter<SpinnerObject> spinnerArrayAdapter = new ArrayAdapter<SpinnerObject>(this, android.R.layout.simple_spinner_item, label);
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+
         spinner.setAdapter(spinnerArrayAdapter);
+
+//        MyArrayAdapter adapter = new MyArrayAdapter(this, android.R.layout.simple_spinner_item, label);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        spinner.setAdapter(adapter);
 
     }
 
@@ -433,7 +422,7 @@ public class MainActivity extends ActionBarActivity {
     public List< SpinnerObject> getAllLabelsSpinner(){
         List < SpinnerObject > labels = new ArrayList<SpinnerObject>();
         // Select All Query
-            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id where c.status =?";
+            String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id INNER JOIN classrooms cl On c.class_id = cl._id where c.status =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
@@ -443,7 +432,7 @@ public class MainActivity extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id"))));
+                labels.add (new SpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id")),cursor.getString(cursor.getColumnIndex("class"))));
 
             } while (cursor.moveToNext());
 
@@ -479,14 +468,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public String[] getStudent(String strUser, String subjectName){
+    public String[] getStudent(String strUser, int course_id){
         // Select All Query
-        String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id INNER JOIN subject su ON c.subject_id = su._id where st.username =? and su.subject_name =?";
+        String selectQuery = "SELECT * FROM student_unblock s INNER JOIN course c on s.course_id = c._id INNER JOIN students st on s.std_id = st._id INNER JOIN subject su ON c.subject_id = su._id where st.username =? and c._id =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{strUser, subjectName});
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{strUser, String.valueOf(course_id)});
 
         cursor.moveToFirst();
 
@@ -543,9 +532,9 @@ public class MainActivity extends ActionBarActivity {
 
         try {
 
+            int course_id_inSpinner = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
 
-
-            String arrayData[] = getStudent(strStudentUser,strSubjectName);
+            String arrayData[] = getStudent(strStudentUser,course_id_inSpinner);
             strTruePass = arrayData[7];
             strStatus = arrayData[0];
             strStd_id = arrayData[1];
@@ -575,12 +564,38 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, RuleActivity.class);
                 startActivity(intent,compat.toBundle());
 
+                int course_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getCourse_id()));
+
+                int interval_time = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getIntervaltime()));
+                int question_amount = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getQuestionamount()));
+                int teacher_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeacher_id()));
+                int subject_id = Integer.parseInt(String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getSubject_id()));
+                String subject_name = ((SpinnerObject) spinner.getSelectedItem()).getSubject_name();
+                String classname = ((SpinnerObject) spinner.getSelectedItem()).getClassname();
+
+
+                String teacher_name = String.valueOf(((SpinnerObject) spinner.getSelectedItem()).getTeachername());
+
+
+
+                editor.putString("subject_name", subject_name);
+                editor.putString("classname", classname);
+                editor.putString("teacher_name", teacher_name);
+                editor.putInt("course_id", course_id);
+                editor.putInt("interval_time", interval_time);
+                editor.putInt("question_amount", question_amount);
+                editor.putInt("teacher_id", teacher_id);
+                editor.putInt("subject_id", subject_id);
+
+
+                editor.commit();
+
 
             } else {
 
                 new AlertDialog.Builder(this)
                         .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
-                        .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
+                        .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງໃນ course ນີ້")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // continue with delete
@@ -599,7 +614,7 @@ public class MainActivity extends ActionBarActivity {
 
             new AlertDialog.Builder(this)
                     .setTitle("ເກີດຂໍ້ຜິດພາດ!!!")
-                    .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງ")
+                    .setMessage("ບໍ່ມີຊື່ຜູ້ໃຊ້ ຫຼືລະຫັດບໍ່ຖືກຕ້ອງໃນ course ນີ້")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
@@ -658,5 +673,31 @@ public class MainActivity extends ActionBarActivity {
 
         return result;
     }
+
+
+    private class MyArrayAdapter extends ArrayAdapter<SpinnerObject> {
+
+
+        Typeface myFont = Typeface.createFromAsset(getAssets(), "phetsarath.ttf");
+
+
+        public MyArrayAdapter(Context context, int textViewResourceId, List<SpinnerObject> spinnerObjects) {
+            super(context, textViewResourceId, spinnerObjects);
+        }
+
+        public TextView getView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getView(position, convertView, parent);
+            view.setTypeface(myFont);
+            return view;
+        }
+
+        public TextView getDropDownView(int position, View convertView, ViewGroup parent) {
+            TextView view = (TextView) super.getDropDownView(position, convertView, parent);
+            view.setTypeface(myFont);
+            return view;
+        }
+
+    }
+
 
 }

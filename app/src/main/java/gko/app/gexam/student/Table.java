@@ -92,7 +92,7 @@ public class Table {
     public static final String COLUMN_TEACHER_USERNAME = "username";
     public static final String COLUMN_TEACHER_PASSWORD = "password";
     public static final String COLUMN_TEACHER_INVITE_CODE = "invite_code";
-    public static final String COLUMN_TEACHER_ACTIVE = "active";
+
 
 
 
@@ -143,7 +143,7 @@ public class Table {
 
     }
 
-    public long addStudent_unblock(int id, String std_id, int course_id, int status) {
+    public long addStudent_unblock(int id, int std_id, int course_id, int status) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_STUDENT_UNBLOCK_ID, id);
@@ -223,7 +223,7 @@ public class Table {
 
     }
 
-    public long addTeacher(int id, String name, String surname, int phone,String email, String username, String password, String invite_code, int active) {
+    public long addTeacher(int id, String name, String surname, int phone,String email, String username, String password, String invite_code) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_TEACHER_ID, id);
@@ -234,7 +234,7 @@ public class Table {
         contentValues.put(COLUMN_TEACHER_USERNAME, username);
         contentValues.put(COLUMN_TEACHER_PASSWORD, password);
         contentValues.put(COLUMN_TEACHER_INVITE_CODE, invite_code);
-        contentValues.put(COLUMN_TEACHER_ACTIVE, active);
+
 
 
 

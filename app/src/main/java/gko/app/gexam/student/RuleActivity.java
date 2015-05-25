@@ -148,12 +148,15 @@ public class RuleActivity extends ActionBarActivity {
 
         String subject_name = sp.getString("subject_name", "NO value");
         String teacher_name = sp.getString("teacher_name", "No value");
+        String classname = sp.getString("classname", "No value");
 
         TextView txtCourse = (TextView) findViewById(R.id.txtCourse);
         TextView txtTeacherName = (TextView) findViewById(R.id.teacherName);
+        TextView txtClassName = (TextView) findViewById(R.id.txtClassName);
 
         txtCourse.setText(subject_name);
         txtTeacherName.setText(teacher_name);
+        txtClassName.setText(classname);
 
 
 

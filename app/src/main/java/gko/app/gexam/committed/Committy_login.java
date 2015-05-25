@@ -158,13 +158,17 @@ public class Committy_login extends ActionBarActivity {
 
                 int interval_time = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getIntervaltime()));
                 int question_amount = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getQuestionamount()));
+                String subject_name = ((CommitteeSpinnerObject) spnCom.getSelectedItem()).getSubject_name();
+                String classname = ((CommitteeSpinnerObject) spnCom.getSelectedItem()).getClassname();
+
                 class_id = Integer.parseInt(String.valueOf(((CommitteeSpinnerObject) spnCom.getSelectedItem()).getClass_id()));
 
 
 
                 String teacher_name = String.valueOf (( (CommitteeSpinnerObject) spnCom.getSelectedItem () ).getTeachername ());
 
-                editor.putString("subject_name",parent.getItemAtPosition(position).toString());
+                editor.putString("subject_name",subject_name);
+                editor.putString("classname",classname);
                 editor.putString("teacher_name", teacher_name);
                 editor.putInt("class_id", class_id);
 
@@ -317,7 +321,7 @@ public class Committy_login extends ActionBarActivity {
     public List< CommitteeSpinnerObject> getAllLabelsSpinner(){
         List < CommitteeSpinnerObject > labels = new ArrayList<CommitteeSpinnerObject>();
         // Select All Query
-        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id ";
+        String selectQuery = "SELECT * FROM course c INNER JOIN subject s on c.subject_id = s._id INNER JOIN teacher t ON c.teacher_id = t._id INNER JOIN classrooms cl On c.class_id = cl._id ";
 
 
         OpenHelper openHelper = new OpenHelper(this);
@@ -327,7 +331,7 @@ public class Committy_login extends ActionBarActivity {
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
             do {
-                labels.add (new CommitteeSpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id")),cursor.getInt(cursor.getColumnIndex("class_id"))));
+                labels.add (new CommitteeSpinnerObject(cursor.getInt(0),cursor.getString(10),cursor.getString(cursor.getColumnIndex("name")),cursor.getInt(2),cursor.getInt(3),cursor.getInt(cursor.getColumnIndex("subject_id")),cursor.getInt(cursor.getColumnIndex("teacher_id")),cursor.getInt(cursor.getColumnIndex("class_id")),cursor.getString(cursor.getColumnIndex("class"))));
 
             } while (cursor.moveToNext());
 

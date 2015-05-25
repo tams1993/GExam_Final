@@ -19,6 +19,7 @@
     <string name="course_detail"><b>ລາຍລະອຽດ Course </b></string>
     <string name="course_name">ວິຊາເສັງ: </string>
     <string name="by">ໂດຍ ອ.ຈ: </string>
+    <string name="classname">ຫ້ອງ: </string>
     <string name="detail">ລາຍລະອຽດ: </string>
     <string name="confirm">ຢືນຢັນ: </string>
     <string name="tick_to_confirm">ຕິກເພື່ອຢືນຢັນເລີ່ມສອບເສັງ </string>

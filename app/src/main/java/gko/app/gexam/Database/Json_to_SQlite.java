@@ -110,13 +110,13 @@ public class Json_to_SQlite {
 
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int student_unblock_id = jsonObject1.getInt("id");
-                String std_id = jsonObject1.getString("std_id");
+                int std_id = jsonObject1.getInt("std_id");
                 int course_id = jsonObject1.getInt("course_id");
                 int status = jsonObject1.getInt("status");
 
                 new Table(context).addStudent_unblock(student_unblock_id, std_id, course_id,status);
 
-                Log.d("ERROR", "JSON to SQLITE: COMPLETE");
+                Log.d("GExam", "JSON to SQLITE student_unblock: COMPLETE");
 
             }
 
@@ -243,9 +243,9 @@ public class Json_to_SQlite {
                 String username = jsonObject1.getString("username");
                 String password = jsonObject1.getString("password");
                 String invite_code = jsonObject1.getString("invite_code");
-                int active = jsonObject1.getInt("active");
 
-                new Table(context).addTeacher(id, name, surname, phone, email, username, password, invite_code,active);
+
+                new Table(context).addTeacher(id, name, surname, phone, email, username, password, invite_code);
 
                 Log.d("ERROR","JSON to SQLITE: COMPLETE");
 
@@ -362,7 +362,7 @@ public void Students(String strJSON, Context context) {
                 int id = jsonObject1.getInt("id");
                 String name = jsonObject1.getString("name");
                 String surname = jsonObject1.getString("surname");
-                int phone = jsonObject1.getInt("phone");
+//                int phone = jsonObject1.getInt("phone");
                 String email = jsonObject1.getString("email");
                 String username = jsonObject1.getString("username");
                 String password = jsonObject1.getString("password");
@@ -370,7 +370,7 @@ public void Students(String strJSON, Context context) {
                 String student_id = jsonObject1.getString("student_id");
                 int class_id = jsonObject1.getInt("class_id");
 
-                new Table(context).addStudents(id, name,surname,phone,email,username,password,photo,student_id,class_id);
+                new Table(context).addStudents(id, name,surname,0,email,username,password,photo,student_id,class_id);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 

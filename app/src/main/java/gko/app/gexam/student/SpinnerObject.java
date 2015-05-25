@@ -17,8 +17,9 @@ public class SpinnerObject {
     private String teachername;
     private String subject_code;
     private String subject_name;
+    private String classname;
 
-    public SpinnerObject(int course_id, String subject_name, String teachername, int Intervaltime, int questionamount, int subject_id , int teacher_id) {
+    public SpinnerObject(int course_id, String subject_name, String teachername, int Intervaltime, int questionamount, int subject_id , int teacher_id, String classname) {
         this.course_id = course_id;
         this.subject_name = subject_name;
         this.teachername = teachername;
@@ -26,11 +27,14 @@ public class SpinnerObject {
         this.questionamount = questionamount;
         this.subject_id = subject_id;
         this.teacher_id = teacher_id;
+        this.classname = classname;
     }
 
     public int getSubject_id() {
         return subject_id;
     }
+
+
 
     public int getTeacher_id() {
         return teacher_id;
@@ -69,6 +73,12 @@ public class SpinnerObject {
         return subject_code;
     }
 
+    public String getClassname() {
+
+
+        return classname;
+    }
+
     public String getSubject_name() {
 
         return subject_name;
@@ -77,7 +87,7 @@ public class SpinnerObject {
     @Override
     public String toString()
     {
-        return subject_name;
+        return subject_name+" by: "+teachername+ " class: " + classname;
     }
 
 

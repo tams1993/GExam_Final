@@ -16,10 +16,11 @@ public class CommitteeSpinnerObject {
     private int subject_id;
     private int class_id;
     private String teachername;
+    private String classname;
 
     private String subject_name;
 
-    public CommitteeSpinnerObject(int course_id, String subject_name, String teachername, int Intervaltime, int questionamount, int subject_id , int teacher_id, int class_id) {
+    public CommitteeSpinnerObject(int course_id, String subject_name, String teachername, int Intervaltime, int questionamount, int subject_id , int teacher_id, int class_id, String classname) {
         this.course_id = course_id;
         this.subject_name = subject_name;
         this.teachername = teachername;
@@ -28,6 +29,11 @@ public class CommitteeSpinnerObject {
         this.subject_id = subject_id;
         this.teacher_id = teacher_id;
         this.class_id = class_id;
+        this.classname = classname;
+    }
+
+    public String getClassname() {
+        return classname;
     }
 
     public int getClass_id() {
@@ -72,7 +78,7 @@ public class CommitteeSpinnerObject {
     @Override
     public String toString()
     {
-        return subject_name;
+        return subject_name+" by: "+teachername+ " class: " + classname;
     }
 
 }
