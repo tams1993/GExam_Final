@@ -52,7 +52,7 @@ public class QuestionPageActivity extends ActionBarActivity {
     private int question_amount, teacher_id, subject_id, answer,interval_time,question_amount_real;
 
     private SharedPreferences sp, spName;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor, editorName;
 
     private CountDownTimer objCountDown;
 
@@ -141,6 +141,11 @@ public class QuestionPageActivity extends ActionBarActivity {
 
             AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_EXIT_TITILE, ALERT_EXIT_MESSAGE);
             objCountDown.cancel();
+            editor.clear();
+            editorName.clear();
+
+            editor.commit();
+            editorName.commit();
 
 
         }
@@ -187,7 +192,10 @@ public class QuestionPageActivity extends ActionBarActivity {
         Log.i("GExam", "question_amount= " + (question_amount + 1));
 
         editor = sp.edit();
-//        editor.clear();
+        editorName = spName.edit();
+
+
+
 
 //        int question_amount = sp.getInt("question_amount",-1);
 
@@ -245,6 +253,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         txtQuestion.setText(counter+1+"/"+(question_amount+1)+" "+Question);
+        editor.putInt("Question_ID " + counter, QuestionID);
 //        Log.d("counter", "counter = " + counter+ "question = " + Question);
 
 
@@ -291,8 +300,8 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 int totalScore = (score * 50) / question_amount_real;
 
-//                Log.e("GExam", "total score = " + totalScore);
-//                Log.e("GExam", "total question_amount = " + (question_amount_real) );
+                Log.e("GExam", "total score = " + totalScore);
+                Log.e("GExam", "total question_amount = " + (question_amount_real) );
 
                 Student_ID = spName.getInt("std_id", -1);
 
@@ -307,6 +316,10 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 objCountDown.cancel();
                 editor.clear();
+                editorName.clear();
+
+                editor.commit();
+                editorName.clear();
 
 
 
@@ -693,6 +706,56 @@ public class QuestionPageActivity extends ActionBarActivity {
                 txtTime.setText("Time's up!!!");
                 AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
 
+                for (int i = 0; i <= question_amount; i++) {
+
+                    String spAnswer = sp.getString("specificAnswer" + i, "no Answer");
+                    String spChoice = sp.getString("answer_choice" + i, "no Choice");
+
+                    int spQuestion_ID = sp.getInt("Question_ID " + i, -1);
+                    int spanswer_choice_ID = sp.getInt("answer_choice_ID" + i, -1);
+
+                    course_id = spName.getInt("course_id", -1);
+                    std_id = spName.getInt("std_id", -1);
+
+                    AddStudentChoiceToMySQL(course_id,std_id ,spQuestion_ID,spanswer_choice_ID);
+
+//
+//                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
+//                    Log.e("GExam", "std_id= " + String.valueOf(std_id));
+//                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
+//                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
+//
+
+                    if (spChoice.equals(spAnswer)) {
+
+                        score++;
+
+                    }
+
+                }
+
+
+                int totalScore = (score * 50) / question_amount_real;
+
+//                Log.e("GExam", "total score = " + totalScore);
+//                Log.e("GExam", "total question_amount = " + (question_amount_real) );
+
+                Student_ID = spName.getInt("std_id", -1);
+
+
+
+
+                AddScoreToMySQL(totalScore,Student_ID,subject_id,teacher_id);
+                Log.e("GExam", "std_id in btnSubmit = " + Student_ID);
+
+                UpdateStudentStatus(0);
+
+                editor.clear();
+                editorName.clear();
+
+                editorName.commit();
+                editor.commit();
+
 
 
             }
@@ -832,7 +895,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
@@ -871,7 +934,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
@@ -910,7 +973,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         HttpClient objHttpClient = new DefaultHttpClient();
-        HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+        HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_add_data.php");
         objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
         objHttpClient.execute(objHttpPost);
 

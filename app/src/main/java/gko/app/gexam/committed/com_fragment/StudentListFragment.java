@@ -61,7 +61,7 @@ public class StudentListFragment extends Fragment {
 
 
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://gexam.esy.es/GExam/db_connect.php";
 
     private SharedPreferences sp;
 
@@ -332,7 +332,7 @@ public class StudentListFragment extends Fragment {
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_add_data.php");
+            HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_add_data.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

@@ -483,7 +483,7 @@ public final class CaptureActivity extends ActionBarActivity implements SurfaceH
 
 
             HttpClient objHttpClient = new DefaultHttpClient();
-            HttpPost objHttpPost = new HttpPost("http://192.168.1.5/GExam/db_update.php");
+            HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_update.php");
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 

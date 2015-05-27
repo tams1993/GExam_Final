@@ -149,10 +149,12 @@ public class RuleActivity extends ActionBarActivity {
         String subject_name = sp.getString("subject_name", "NO value");
         String teacher_name = sp.getString("teacher_name", "No value");
         String classname = sp.getString("classname", "No value");
+        int std_id = sp.getInt("std_id", -1);
 
         TextView txtCourse = (TextView) findViewById(R.id.txtCourse);
         TextView txtTeacherName = (TextView) findViewById(R.id.teacherName);
         TextView txtClassName = (TextView) findViewById(R.id.txtClassName);
+        Log.d("GExam", "std_id = " + String.valueOf(std_id));
 
         txtCourse.setText(subject_name);
         txtTeacherName.setText(teacher_name);

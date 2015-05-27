@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
-    public static final String URL_JSON = "http://192.168.1.5/gexam/db_connect.php";
+    public static final String URL_JSON = "http://gexam.esy.es/GExam/db_connect.php";
 
     private Runnable decor_view_settings = new Runnable()
     {
@@ -156,7 +156,7 @@ public class MainActivity extends ActionBarActivity {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        if (mWifi.isConnected()) {
+//        if (mWifi.isConnected()) {
 
             if (Online()) {
 
@@ -192,12 +192,12 @@ public class MainActivity extends ActionBarActivity {
             }
 
 
-        } if (!mWifi.isConnected()){
-            txtStatus.setText("ອອຟໄລນ");
-            Toast.makeText(this,"plese connect to wifi",Toast.LENGTH_LONG).show();
-            AlertDialoge.AlertConnection(this, ALERT_ERROR_TITLE, ALERT_ERROR_MESSAGE);
-
-        }
+//        } if (!mWifi.isConnected()){
+//            txtStatus.setText("ອອຟໄລນ");
+//            Toast.makeText(this,"plese connect to wifi",Toast.LENGTH_LONG).show();
+//            AlertDialoge.AlertConnection(this, ALERT_ERROR_TITLE, ALERT_ERROR_MESSAGE);
+//
+//        }
 
 
 

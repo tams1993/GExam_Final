@@ -66,7 +66,7 @@ import gko.app.gexam.R;
                 contact.setSelected(cb.isChecked());
                 students.get(position).setSelected(cb.isChecked());
 
-                Toast.makeText(v.getContext(), currentStudent.student + "have been check", Toast.LENGTH_LONG).show();
+//                Toast.makeText(v.getContext(), currentStudent.student + "have been check", Toast.LENGTH_LONG).show();
 
             }
         });
