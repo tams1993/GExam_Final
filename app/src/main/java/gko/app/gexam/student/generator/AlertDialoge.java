@@ -66,6 +66,8 @@ public static void Alert(final Activity activity,String title, String message ) 
         alert11.show();
 
 
+
+
     }
 
 

@@ -1,9 +1,11 @@
 package gko.app.gexam.student;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -264,63 +266,8 @@ public class QuestionPageActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
 
-
-
-
-                for (int i = 0; i <= question_amount; i++) {
-
-                    String spAnswer = sp.getString("specificAnswer" + i, "no Answer");
-                    String spChoice = sp.getString("answer_choice" + i, "no Choice");
-
-                    int spQuestion_ID = sp.getInt("Question_ID " + i, -1);
-                    int spanswer_choice_ID = sp.getInt("answer_choice_ID" + i, -1);
-
-                     course_id = spName.getInt("course_id", -1);
-                     std_id = spName.getInt("std_id", -1);
-
-                    AddStudentChoiceToMySQL(course_id,std_id ,spQuestion_ID,spanswer_choice_ID);
-
-//
-//                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
-//                    Log.e("GExam", "std_id= " + String.valueOf(std_id));
-//                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
-//                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
-//
-
-                    if (spChoice.equals(spAnswer)) {
-
-                        score++;
-
-                }
-
-                }
-
-
-                int totalScore = (score * 50) / question_amount_real;
-
-                Log.e("GExam", "total score = " + totalScore);
-                Log.e("GExam", "total question_amount = " + (question_amount_real) );
-
-                Student_ID = spName.getInt("std_id", -1);
-
-
-
-
-                AddScoreToMySQL(totalScore,Student_ID,subject_id,teacher_id);
-                Log.e("GExam", "std_id in btnSubmit = " + Student_ID);
-
-                UpdateStudentStatus(0);
-
-
-                objCountDown.cancel();
-                editor.clear();
-                editorName.clear();
-
-                editor.commit();
-                editorName.clear();
-
+                new SimpleTask().execute();
 
 
             }
@@ -750,11 +697,11 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 UpdateStudentStatus(0);
 
-                editor.clear();
-                editorName.clear();
-
-                editorName.commit();
-                editor.commit();
+//                editor.clear();
+//                editorName.clear();
+//
+//                editorName.commit();
+//                editor.commit();
 
 
 
@@ -899,10 +846,10 @@ public class QuestionPageActivity extends ActionBarActivity {
             objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
             objHttpClient.execute(objHttpPost);
 
-//            Log.d("GExam", "String score = " + String.valueOf(score));
-//            Log.d("GExam", "String std_id = " + String.valueOf(Student_id));
-//            Log.d("GExam", "String subject_id = " + String.valueOf(subject_id));
-//            Log.d("GExam", "String teacher_id = " + String.valueOf(teacher_id));
+            Log.d("GExam", "String score = " + String.valueOf(score));
+            Log.d("GExam", "String std_id = " + String.valueOf(Student_id));
+            Log.d("GExam", "String subject_id = " + String.valueOf(subject_id));
+            Log.d("GExam", "String teacher_id = " + String.valueOf(teacher_id));
 
         } catch (Exception e) {
 
@@ -986,6 +933,115 @@ public class QuestionPageActivity extends ActionBarActivity {
     }
 
 }   //  end of AddScoreToMySQL
+
+
+    private class SimpleTask extends AsyncTask<String, Void, String> {
+
+
+        ProgressDialog objPD;
+        @Override
+        protected void onPreExecute() {
+            // Create Show ProgressBar
+
+
+            objPD = new ProgressDialog(QuestionPageActivity.this);
+            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            objPD.setTitle("Loading...");
+            objPD.setMessage("ກຳລັງສົ່ງຂໍ້ມູນ...");
+            objPD.setCancelable(false);
+            objPD.setIndeterminate(false);
+
+            objPD.show();
+
+        }
+
+        protected String doInBackground(String... urls) {
+
+
+
+
+
+
+
+            for (int i = 0; i <= question_amount; i++) {
+
+                String spAnswer = sp.getString("specificAnswer" + i, "no Answer");
+                String spChoice = sp.getString("answer_choice" + i, "no Choice");
+
+                int spQuestion_ID = sp.getInt("Question_ID " + i, -1);
+                int spanswer_choice_ID = sp.getInt("answer_choice_ID" + i, -1);
+
+                course_id = spName.getInt("course_id", -1);
+                std_id = spName.getInt("std_id", -1);
+
+                AddStudentChoiceToMySQL(course_id,std_id ,spQuestion_ID,spanswer_choice_ID);
+
+//
+//                    Log.e("GExam", "course_id= " + String.valueOf(spName.getInt("course_id", -1)));
+//                    Log.e("GExam", "std_id= " + String.valueOf(std_id));
+//                    Log.e("GExam", "spQuestion_ID= " +  String.valueOf(spQuestion_ID));
+//                    Log.e("GExam", "spanswer_choice_ID= " +  String.valueOf(spanswer_choice_ID));
+//
+
+                if (spChoice.equals(spAnswer)) {
+
+                    score++;
+
+                }
+
+            }
+
+
+            int totalScore = (score * 50) / question_amount_real;
+
+            Log.e("GExam", "total score = " + totalScore);
+            Log.e("GExam", "total question_amount = " + (question_amount_real));
+
+            Student_ID = spName.getInt("std_id", -1);
+
+
+
+
+            AddScoreToMySQL(totalScore, Student_ID, subject_id, teacher_id);
+            Log.e("GExam", "std_id in btnSubmit = " + Student_ID);
+
+            UpdateStudentStatus(0);
+
+
+
+
+
+
+            return null;
+        }
+
+        protected void onPostExecute(String jsonString)  {
+            // Dismiss ProgressBar
+//            Log.d("Emergency", jsonString);
+//            Toast.makeText(QRActivity.this, jsonString, Toast.LENGTH_LONG).show();
+
+
+
+            objCountDown.cancel();
+            editor.clear();
+            editorName.clear();
+
+            editor.commit();
+            editorName.clear();
+
+
+
+            objPD.dismiss();
+
+            AlertDialoge.AlertExit(QuestionPageActivity.this, ALERT_TITLE, ALERT_MESSAGE);
+
+
+        }
+
+
+
+
+    }
 
 
 
