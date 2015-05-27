@@ -65,6 +65,8 @@
             android:id="@+id/btnProceed"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:background="@color/ColorPrimaryDark"
+            android:textColor="@color/abc_secondary_text_material_dark"
             android:layout_weight="1"
             android:text="@string/proceed_button"
             android:textSize="@dimen/text_size"

@@ -33,6 +33,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/all_student"
+                android:id="@+id/textView24"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/com_student_come"
+                android:id="@+id/txtAllStudent"
+                android:textSize="@dimen/text_size"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ຄົນ"
+                android:id="@+id/textView25"
+                android:textSize="@dimen/text_size"
+                android:layout_marginRight="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/com_student_come"
                 android:id="@+id/textView9"
                 android:layout_marginRight="20dp"
@@ -76,7 +99,9 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Submit"
+            android:text="ສົ່ງລາຍຊື່"
+            android:background="@color/ColorPrimaryDark"
+            android:textColor="@color/abc_secondary_text_material_dark"
             android:id="@+id/btnCommitteeSubmit"
             android:layout_alignParentBottom="true"
             android:layout_weight="1" />

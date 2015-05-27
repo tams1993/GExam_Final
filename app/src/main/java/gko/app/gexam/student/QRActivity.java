@@ -218,6 +218,23 @@ public class QRActivity extends Activity implements OnClickListener{
 
             objPD.dismiss();
 
+            if (status == 1) {
+
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(QRActivity.this, null);
+
+                Intent intent = new Intent(QRActivity.this, CoureseDetail_Activity.class);
+                startActivity(intent,compat.toBundle());
+
+
+
+            } else {
+
+                TextView txtWait = (TextView) findViewById(R.id.txtWait);
+                txtWait.setText(R.string.wait);
+
+
+            }
+
 
         }
 
@@ -250,22 +267,7 @@ public class QRActivity extends Activity implements OnClickListener{
 
                 Log.d("GExam", "status = " + status);
 
-                if (status == 1) {
 
-                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(QRActivity.this, null);
-
-                    Intent intent = new Intent(QRActivity.this, CoureseDetail_Activity.class);
-                    startActivity(intent,compat.toBundle());
-
-
-
-                } else {
-
-                    TextView txtWait = (TextView) findViewById(R.id.txtWait);
-                    txtWait.setText(R.string.wait);
-
-
-                }
                     }
                 }, 3000);
 

@@ -35,6 +35,7 @@
     <string name="time">ເວລາໃນການສອບ: </string>
     <string name="question_amount">ຈຳນວນຂໍ້ສອບ: </string>
     <string name="amount">ຂໍ້</string>
+    <string name="all_student">ທັງໝົດ: </string>
     <string name="subject">ວິຊາ: </string>
     <string name="testcode">ກະລຸນາປ້ອນເລກລະຫັດລັບຂອງ course ສອບເສັງນັ້ນ: </string>
     <string name="minute"> ນາທີ</string>

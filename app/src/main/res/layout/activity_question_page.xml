@@ -24,7 +24,8 @@
             android:layout_gravity="right"
             android:padding="5dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:layout_marginBottom="5dp" />
 
 
         <LinearLayout
@@ -33,7 +34,8 @@
             android:layout_height="0dp"
             android:background="@drawable/layout_bg"
 
-            android:layout_weight="1.5">
+            android:layout_weight="1.5"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -88,7 +90,8 @@
             android:background="@drawable/layout_bg"
             android:id="@+id/radioGroup"
             android:layout_gravity="center"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp">
 
 
         </RadioGroup>
@@ -97,20 +100,26 @@
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom|center_horizontal">
+            android:gravity="bottom|center_horizontal"
+            android:layout_marginBottom="5dp">
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/ColorPrimaryDark"
+                android:textColor="@color/abc_secondary_text_material_dark"
                 android:text="Back"
                 android:id="@+id/btnBackQ"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginRight="5dp" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/ColorPrimaryDark"
+                android:textColor="@color/abc_secondary_text_material_dark"
                 android:text="Next"
                 android:id="@+id/btnNextQ"
                 android:layout_weight="1" />
@@ -119,6 +128,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/ColorPrimaryDark"
+            android:textColor="@color/abc_secondary_text_material_dark"
             android:text="Submit"
             android:id="@+id/btnSubmit"
             android:layout_gravity="center_horizontal"

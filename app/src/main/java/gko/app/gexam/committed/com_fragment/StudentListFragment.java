@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.client.android.CaptureActivity;
@@ -56,6 +57,7 @@ public class StudentListFragment extends Fragment {
     private RecyclerView recyclerView;
     private StudentAdapter adapter;
     private Button btnSubmit;
+    private TextView txtAllStudent;
     private CheckBox chbPresent;
     private String ALERT_TITLE = "????????????????", ALERT_MESSAGE= "????????????????????. ???????????????????????? ???????????????????????????????????????????????";
 
@@ -88,6 +90,7 @@ public class StudentListFragment extends Fragment {
         Log.d("GExam","course_id = " + course_id);
 
 
+        txtAllStudent = (TextView) layout.findViewById(R.id.txtAllStudent);
         chbPresent = (CheckBox) layout.findViewById(R.id.chbPresent);
         recyclerView = (RecyclerView) layout.findViewById(R.id.studentList);
         adapter = new StudentAdapter(getActivity(),getAllStudent(course_id),"phetsarath.ttf");
@@ -123,32 +126,7 @@ public class StudentListFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String data = "";
-
-                List<Student> studentList = adapter.getStudentList();
-
-
-                for (int i = 0; i < studentList.size(); i++) {
-                    Student singleStudent = studentList.get(i);
-
-
-                    if (singleStudent.isSelected()) {
-
-                        data = data + "\n" + singleStudent.getStd_id();
-
-
-                        AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
-
-                    }
-
-                }
-
-
-//                Toast.makeText(getActivity(),
-//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
-//                        .show();
-
-                AlertDialoge.AlertExit(getActivity(), ALERT_TITLE, ALERT_MESSAGE);
+                new InsertDataTask().execute();
 
 
             }
@@ -180,6 +158,8 @@ public class StudentListFragment extends Fragment {
         Cursor cursor = db.rawQuery(selectQuery,null);
 
         Log.d("GExam", "All Student =  " + String.valueOf(cursor.getCount()));
+        txtAllStudent.setText(String.valueOf(cursor.getCount()));
+
 
         // looping through all rows and adding to list
         if ( cursor.moveToFirst () ) {
@@ -253,6 +233,9 @@ public class StudentListFragment extends Fragment {
 
 
 
+
+
+
         public String JSON() {
 
             InputStream objInputStream = null;
@@ -310,6 +293,83 @@ public class StudentListFragment extends Fragment {
     }
 
 
+    public class InsertDataTask extends AsyncTask<String, Void, String> {
+
+
+        ProgressDialog objPD;
+        @Override
+        protected void onPreExecute() {
+            // Create Show ProgressBar
+
+
+            objPD = new ProgressDialog(getActivity());
+            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            objPD.setTitle("Loading...");
+            objPD.setMessage("??????????????????????????????????...");
+            objPD.setCancelable(false);
+            objPD.setIndeterminate(false);
+
+            objPD.show();
+
+        }
+
+        protected String doInBackground(String... urls) {
+
+
+            String data = "";
+
+            List<Student> studentList = adapter.getStudentList();
+
+
+            for (int i = 0; i < studentList.size(); i++) {
+                Student singleStudent = studentList.get(i);
+
+
+                if (singleStudent.isSelected()) {
+
+                    data = data + "\n" + singleStudent.getStd_id();
+
+
+                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
+
+                }
+
+            }
+
+
+//                Toast.makeText(getActivity(),
+//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+//                        .show();
+
+            String testcode = sp.getString("testcode", "No value");
+
+            UpdateCourseStatus(testcode);
+
+
+            return null;
+        }
+
+        protected void onPostExecute(String jsonString)  {
+            // Dismiss ProgressBar
+
+
+            AlertDialoge.AlertExit(getActivity(), ALERT_TITLE, ALERT_MESSAGE);
+
+
+            objPD.dismiss();
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
 
     public void AddStudentIllegalToMySQL(int status, int std_id, int course_id) {
 
@@ -328,6 +388,41 @@ public class StudentListFragment extends Fragment {
             objNameValuePairs.add(new BasicNameValuePair("status", String.valueOf(status)));
             objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
             objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
+
+
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://gexam.esy.es/GExam/db_add_data.php");
+            objHttpPost.setEntity(new UrlEncodedFormEntity(objNameValuePairs, "UTF-8"));
+            objHttpClient.execute(objHttpPost);
+
+
+
+        } catch (Exception e) {
+
+            Log.d("GExam", "Connect and Post Error ====>" + e.toString());
+
+        }
+
+    }   //  end of AddScoreToMySQL
+
+
+    public void UpdateCourseStatus(String testcode) {
+
+        if (Build.VERSION.SDK_INT > 7) {
+
+            StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(myPolicy);
+
+        }
+
+        //  Connect and Post
+
+        try {
+
+            ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
+            objNameValuePairs.add(new BasicNameValuePair("testcode", testcode));
+
 
 
 

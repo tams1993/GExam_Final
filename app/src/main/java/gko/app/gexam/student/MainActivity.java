@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -59,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
     private Button btnLogin;
     private Spinner spinner,spnCom;
     private EditText edtUser, edtPass;
-    private TextView txtCom, txtStatus;
+    private TextView txtCom, txtStatus, txtRegister;
     private Handler mHandler = new Handler();
     private CheckBox chbActiveCourse;
     private String strSubjectName, strStudentUser, strStudentPass, strTruePass, strStatus, strStd_id, strTest_code, strName,strSurname,strPhone, strEmail, strClass_name,
@@ -143,6 +145,7 @@ public class MainActivity extends ActionBarActivity {
         btnLogin = (Button) findViewById(R.id.btnLogin);
         edtUser = (EditText) findViewById(R.id.edtUser);
         edtPass = (EditText) findViewById(R.id.edtPass);
+        txtRegister = (TextView) findViewById(R.id.txtRegister);
         spinner = (Spinner) findViewById(R.id.spinner);
         txtCom = (TextView) findViewById(R.id.txtCommittee);
         chbActiveCourse = (CheckBox) findViewById(R.id.chbActiveCourse);
@@ -236,9 +239,19 @@ public class MainActivity extends ActionBarActivity {
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, null);
 
                 Intent intent = new Intent(MainActivity.this, Committy_login.class);
-                startActivity(intent,compat.toBundle());
+                startActivity(intent, compat.toBundle());
 
 //                callLoginDialog();
+
+            }
+        });
+
+        txtRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://gexam.esy.es"));
+                startActivity(browserIntent);
 
             }
         });

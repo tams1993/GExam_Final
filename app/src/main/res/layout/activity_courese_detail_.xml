@@ -235,6 +235,8 @@
             android:layout_height="wrap_content"
             android:text="@string/start"
             android:id="@+id/btnStart"
+            android:background="@color/ColorPrimaryDark"
+            android:textColor="@color/abc_secondary_text_material_dark"
             android:layout_gravity="center_horizontal"
             android:textSize="@dimen/text_size"
             android:layout_alignParentBottom="true"

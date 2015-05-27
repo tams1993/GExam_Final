@@ -98,9 +98,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
+                android:background="@color/ColorPrimaryDark"
                 android:id="@+id/btnLogin"
                 android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/text_size" />
+                android:textSize="@dimen/text_size"
+                android:textColor="#ffffffff" />
 
         </LinearLayout>
 

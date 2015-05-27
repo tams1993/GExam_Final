@@ -247,9 +247,12 @@ public class Committy_login extends ActionBarActivity {
 
                 Intent intent = new Intent(this, ComFragActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent,compat.toBundle());
+                startActivity(intent, compat.toBundle());
 
-                UpdateCourseStatus(course_id,1);
+                UpdateCourseStatus(course_id, 1);
+
+                editor.putString("testcode", testcodeType);
+                editor.commit();
 
                 finish();
 
