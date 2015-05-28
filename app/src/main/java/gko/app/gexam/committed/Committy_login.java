@@ -14,12 +14,11 @@ import android.os.StrictMode;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.transition.Slide;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,8 +42,6 @@ import gko.app.gexam.R;
 import gko.app.gexam.committed.com_fragment.ComFragActivity;
 import gko.app.gexam.committed.com_fragment.CommitteeSpinnerObject;
 import gko.app.gexam.student.FontsOverride;
-import gko.app.gexam.student.RuleActivity;
-import gko.app.gexam.student.SpinnerObject;
 
 public class Committy_login extends ActionBarActivity {
 
@@ -106,6 +103,8 @@ public class Committy_login extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 
         super.onCreate(savedInstanceState);
 
@@ -123,6 +122,9 @@ public class Committy_login extends ActionBarActivity {
         }
 
         setContentView(R.layout.activity_committy_login);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
 
         FontsOverride.setDefaultFont(this, "DEFAULT", "phetsarath.ttf");
