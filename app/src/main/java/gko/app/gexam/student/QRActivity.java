@@ -180,7 +180,40 @@ public class QRActivity extends Activity implements OnClickListener{
 
     }
 
-    private class SimpleTask extends AsyncTask<String, Void, String> {
+    public int getStatus(int student_id, int course_id){
+        // Select All Query
+        String selectQuery = "SELECT * FROM student_unblock where std_id =? AND course_id =?";
+
+
+        OpenHelper openHelper = new OpenHelper(this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(student_id), String.valueOf(course_id)});
+
+        cursor.moveToFirst();
+
+
+
+        Log.d("GExam", "cursor.size = " + cursor.getCount());
+
+
+
+        if (cursor != null) {
+
+
+            status = cursor.getInt(cursor.getColumnIndex("status"));
+
+
+        }
+
+        Log.d("GExam", "STATUS = " + String.valueOf(status));
+
+
+        cursor.close();
+
+        return status;
+    }
+
+    public class SimpleTask extends AsyncTask<String, Void, String> {
 
 
         ProgressDialog objPD;
@@ -203,7 +236,7 @@ public class QRActivity extends Activity implements OnClickListener{
         protected String doInBackground(String... urls) {
 
 
-
+            deleteAll();
             return JSON();
         }
 
@@ -213,10 +246,14 @@ public class QRActivity extends Activity implements OnClickListener{
 //            Toast.makeText(QRActivity.this, jsonString, Toast.LENGTH_LONG).show();
 
 
-            deleteAll();
+
+
 
 
             json_to_sQlite.Student_Unblock(jsonString, QRActivity.this);
+
+
+            status = getStatus(Student_ID,course_id);
 
             objPD.dismiss();
 
@@ -241,6 +278,40 @@ public class QRActivity extends Activity implements OnClickListener{
         }
 
 
+        public int getStatus(int student_id, int course_id){
+            // Select All Query
+            String selectQuery = "SELECT * FROM student_unblock where std_id =? AND course_id =?";
+
+
+            OpenHelper openHelper = new OpenHelper(QRActivity.this);
+            SQLiteDatabase db = openHelper.getReadableDatabase();
+            Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(student_id), String.valueOf(course_id)});
+
+            cursor.moveToFirst();
+
+
+
+            Log.d("GExam", "cursor.size = " + cursor.getCount());
+
+
+
+            if (cursor != null) {
+
+
+                status = cursor.getInt(cursor.getColumnIndex("status"));
+
+
+            }
+
+            Log.d("GExam", "STATUS = " + String.valueOf(status));
+
+
+            cursor.close();
+
+            return status;
+        }
+
+
 
 
     }
@@ -260,20 +331,22 @@ public class QRActivity extends Activity implements OnClickListener{
 
 
 
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                         status = getStatus(Student_ID,course_id);
-
-                Log.d("GExam", "status = " + status);
-                Log.d("GExam", "course_id = " + course_id);
 
 
-
-                    }
-                }, 3000);
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//
+//
+//                Log.d("GExam", "status = " + status);
+//                Log.d("GExam", "course_id = " + course_id);
+//
+//
+//
+//                    }
+//                }, 3000);
 
 
 
@@ -336,38 +409,7 @@ public class QRActivity extends Activity implements OnClickListener{
 
     }
 
-    public int getStatus(int student_id, int course_id){
-        // Select All Query
-        String selectQuery = "SELECT * FROM student_unblock where std_id =? AND course_id =?";
 
-
-        OpenHelper openHelper = new OpenHelper(this);
-        SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(student_id), String.valueOf(course_id)});
-
-        cursor.moveToFirst();
-
-
-
-        Log.d("GExam", "cursor.size = " + cursor.getCount());
-
-
-
-        if (cursor != null) {
-
-
-            status = cursor.getInt(cursor.getColumnIndex("status"));
-
-
-        }
-
-        Log.d("GExam", "STATUS = " + String.valueOf(status));
-
-
-        cursor.close();
-
-        return status;
-    }
 
     public void deleteAll()
     {

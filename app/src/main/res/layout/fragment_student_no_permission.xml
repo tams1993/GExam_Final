@@ -22,7 +22,7 @@
             android:textIsSelectable="false"
             android:textSize="@dimen/header"
             android:layout_marginTop="20dp"
-            android:textColor="#ffff1819" />
+            android:textColor="@color/accentColor" />
 
         <LinearLayout
             android:orientation="horizontal"
