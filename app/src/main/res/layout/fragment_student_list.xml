@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -96,15 +97,26 @@
 
         </FrameLayout>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="ສົ່ງລາຍຊື່"
-            android:background="@color/ColorPrimaryDark"
-            android:textColor="@color/abc_secondary_text_material_dark"
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:text="ສົ່ງລາຍຊື່"-->
+            <!--android:background="@color/ColorPrimaryDark"-->
+            <!--android:textColor="@color/abc_secondary_text_material_dark"-->
+            <!--android:id="@+id/btnCommitteeSubmit"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_weight="1" />-->
+
+        <com.xgc1986.ripplebutton.widget.RippleButton
             android:id="@+id/btnCommitteeSubmit"
-            android:layout_alignParentBottom="true"
-            android:layout_weight="1" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ສົ່ງລາຍຊື່"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size"
+            app:buttonColor="#0091ea"
+            app:rippleColor="#ff4081" />
 
     </LinearLayout>
 

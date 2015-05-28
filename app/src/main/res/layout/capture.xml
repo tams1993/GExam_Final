@@ -15,6 +15,7 @@
  limitations under the License.
  -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
@@ -36,13 +37,25 @@
         android:text="@string/msg_default_status"
         android:textColor="#ffffffff"/>
 
-    <Button
+    <!--<Button-->
 
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="ສະແກນ"-->
+        <!--android:id="@+id/button"-->
+        <!--android:layout_gravity="end|bottom" />-->
+
+    <com.xgc1986.ripplebutton.widget.RippleButton
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ສະແກນ"
-        android:id="@+id/button"
-        android:layout_gravity="end|bottom" />
+        android:textColor="#ffffffff"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size"
+        app:buttonColor="#0091ea"
+        android:layout_gravity="end|bottom"
+        app:rippleColor="#ff4081" />
 
 
 

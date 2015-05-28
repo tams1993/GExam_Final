@@ -58,6 +58,7 @@ public class QRActivity extends Activity implements OnClickListener{
     private Runnable refresh;
     private int Student_ID;
     private int status;
+    private int course_id;
 
     @Override
     protected void onPause() {
@@ -91,6 +92,7 @@ public class QRActivity extends Activity implements OnClickListener{
 
         SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
         Student_ID = sp.getInt("std_id", -1);
+        course_id = sp.getInt("course_id", -1);
 
         Log.d("GExam", "std_id = " + Student_ID);
 
@@ -263,9 +265,11 @@ public class QRActivity extends Activity implements OnClickListener{
                     @Override
                     public void run() {
 
-                         status = getStatus(Student_ID);
+                         status = getStatus(Student_ID,course_id);
 
                 Log.d("GExam", "status = " + status);
+                Log.d("GExam", "course_id = " + course_id);
+
 
 
                     }
@@ -332,14 +336,14 @@ public class QRActivity extends Activity implements OnClickListener{
 
     }
 
-    public int getStatus(int student_id){
+    public int getStatus(int student_id, int course_id){
         // Select All Query
-        String selectQuery = "SELECT * FROM student_unblock where std_id =?";
+        String selectQuery = "SELECT * FROM student_unblock where std_id =? AND course_id =?";
 
 
         OpenHelper openHelper = new OpenHelper(this);
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(student_id)});
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(student_id), String.valueOf(course_id)});
 
         cursor.moveToFirst();
 

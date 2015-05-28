@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.zxing.client.android.CaptureActivity;
 import com.melnykov.fab.FloatingActionButton;
+import com.xgc1986.ripplebutton.widget.RippleButton;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,7 +57,7 @@ public class StudentListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private StudentAdapter adapter;
-    private Button btnSubmit;
+    private RippleButton btnSubmit;
     private TextView txtAllStudent;
     private CheckBox chbPresent;
     private String ALERT_TITLE = "????????????????", ALERT_MESSAGE= "????????????????????. ???????????????????????? ???????????????????????????????????????????????";
@@ -121,7 +122,12 @@ public class StudentListFragment extends Fragment {
 
 //        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "phetsarath.ttf");
 
-        btnSubmit = (Button) layout.findViewById(R.id.btnCommitteeSubmit);
+        btnSubmit = (RippleButton) layout.findViewById(R.id.btnCommitteeSubmit);
+        int buttonColor = getResources().getColor(R.color.ColorPrimaryDark);
+        int rippleColor = getResources().getColor(R.color.accentColor);
+
+        btnSubmit.setColors(buttonColor,rippleColor);
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
