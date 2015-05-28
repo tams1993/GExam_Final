@@ -1,7 +1,10 @@
 package gko.app.gexam.committed.com_fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -17,6 +20,7 @@ import android.text.style.ImageSpan;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -24,6 +28,18 @@ import android.widget.ImageView;
 import com.google.zxing.client.android.CaptureActivity;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import gko.app.gexam.Database.Json_to_SQlite;
+import gko.app.gexam.Database.OpenHelper;
 import gko.app.gexam.R;
 import gko.app.gexam.committed.com_fragment.tab.SlidingTabLayout;
 import gko.app.gexam.student.FontsOverride;
@@ -43,6 +59,9 @@ public class ComFragActivity extends ActionBarActivity {
 
     int Numboftabs = 4;
 
+    private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
+    public static final String URL_JSON = "http://gexam.esy.es/GExam/db_connect.php";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +69,8 @@ public class ComFragActivity extends ActionBarActivity {
 
 
         setContentView(R.layout.activity_com_frag);
+
+        new SimpleTask().execute();
 
 
 
@@ -205,6 +226,124 @@ public class ComFragActivity extends ActionBarActivity {
         public int getCount() {
             return NumbOfTabs;
         }
+    }
+
+    private class SimpleTask extends AsyncTask<String, Void, String> {
+
+
+        ProgressDialog objPD;
+        @Override
+        protected void onPreExecute() {
+            // Create Show ProgressBar
+
+
+            objPD = new ProgressDialog(ComFragActivity.this);
+            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            objPD.setTitle("Loading...");
+            objPD.setMessage("ກະລຸນາລໍຖ້າ...");
+            objPD.setCancelable(false);
+            objPD.setIndeterminate(false);
+
+
+
+
+            objPD.show();
+
+        }
+
+        protected String doInBackground(String... urls) {
+
+            deleteAll();
+
+            return JSON();
+        }
+
+        protected void onPostExecute(String jsonString)  {
+            // Dismiss ProgressBar
+//            Log.d("Emergency", jsonString);
+//            Toast.makeText(getActivity(), jsonString, Toast.LENGTH_LONG).show();
+
+
+
+
+
+            json_to_sQlite.Student_Unblock(jsonString, ComFragActivity.this);
+
+            objPD.dismiss();
+
+
+        }
+
+
+
+
+
+
+
+        public String JSON() {
+
+            InputStream objInputStream = null;
+            String strJSON = "";
+
+            try {
+
+                HttpClient objHttpClient = new DefaultHttpClient();
+                HttpPost objHttpPost = new HttpPost(URL_JSON);
+                HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
+                HttpEntity objHttpEntity = objHttpResponse.getEntity();
+                objInputStream = objHttpEntity.getContent();
+
+                Log.d("GExam", "Connected HTTP Success !");
+
+
+            } catch (Exception e) {
+
+                Log.d("GExam", "Error Connect to : " + e.toString());
+            }
+
+
+            //create strJSON
+            try {
+
+                BufferedReader objBufferesReader = new BufferedReader(new InputStreamReader(objInputStream, "UTF-8"));
+                StringBuilder objStrBuilder = new StringBuilder();
+                String strLine = null;
+
+                while ((strLine = objBufferesReader.readLine()) != null) {
+                    objStrBuilder.append(strLine);
+                }
+
+                objInputStream.close();
+                strJSON = objStrBuilder.toString();
+
+                Log.d("Emergency", "Connected JSON Success !");
+
+
+            } catch (Exception e) {
+                Log.d("Emergency", "Error Convert To JSON :" + e.toString());
+            }
+
+
+            return strJSON;
+
+        }
+
+
+
+
+
+
+
+    }
+
+    public void deleteAll() {
+
+        OpenHelper openHelper = new OpenHelper(ComFragActivity.this);
+        SQLiteDatabase db = openHelper.getReadableDatabase();
+        db.execSQL("delete from student_unblock");
+//        db.execSQL("TRUNCATE table student_unblock");
+        db.close();
+
     }
 
 }

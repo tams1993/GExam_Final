@@ -88,7 +88,8 @@ public class StudentListFragment extends Fragment {
 
         course_id = sp.getInt("course_id_committee", -1);
 
-        Log.d("GExam","course_id = " + course_id);
+        Log.d("GExam", "course_id = " + course_id);
+
 
 
         txtAllStudent = (TextView) layout.findViewById(R.id.txtAllStudent);
@@ -154,6 +155,12 @@ public class StudentListFragment extends Fragment {
 
 
     public List<Student> getAllStudent(int course_id){
+
+
+
+
+//        new SimpleTask().execute(URL_JSON);
+
         List < Student > labels = new ArrayList<Student>();
         // Select All Query
         String selectQuery = "SELECT * FROM student_unblock sub INNER JOIN students st ON sub.std_id = st._id INNER JOIN course c ON c._id = sub.course_id where course_id =" + course_id;
@@ -181,9 +188,9 @@ public class StudentListFragment extends Fragment {
         }
 
 
-//        deleteAll();
 
-        new SimpleTask().execute(URL_JSON);
+
+
 
         // closing connection
         cursor.close();
@@ -193,110 +200,113 @@ public class StudentListFragment extends Fragment {
         return labels;
     }
 
-    private class SimpleTask extends AsyncTask<String, Void, String> {
-
-
-        ProgressDialog objPD;
-        @Override
-        protected void onPreExecute() {
-            // Create Show ProgressBar
-
-
-            objPD = new ProgressDialog(getActivity());
-            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            objPD.setTitle("Loading...");
-            objPD.setMessage("???????????...");
-            objPD.setCancelable(false);
-            objPD.setIndeterminate(false);
-
-            objPD.show();
-
-        }
-
-        protected String doInBackground(String... urls) {
-
-
-
-            return JSON();
-        }
-
-        protected void onPostExecute(String jsonString)  {
-            // Dismiss ProgressBar
-//            Log.d("Emergency", jsonString);
-//            Toast.makeText(getActivity(), jsonString, Toast.LENGTH_LONG).show();
-
-
-
-
-
-            json_to_sQlite.Student_Unblock(jsonString, getActivity());
-
-            objPD.dismiss();
-
-
-        }
-
-
-
-
-
-
-
-        public String JSON() {
-
-            InputStream objInputStream = null;
-            String strJSON = "";
-
-            try {
-
-                HttpClient objHttpClient = new DefaultHttpClient();
-                HttpPost objHttpPost = new HttpPost(URL_JSON);
-                HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
-                HttpEntity objHttpEntity = objHttpResponse.getEntity();
-                objInputStream = objHttpEntity.getContent();
-
-                Log.d("GExam", "Connected HTTP Success !");
-
-
-            } catch (Exception e) {
-
-                Log.d("GExam", "Error Connect to : " + e.toString());
-            }
-
-
-            //create strJSON
-            try {
-
-                BufferedReader objBufferesReader = new BufferedReader(new InputStreamReader(objInputStream, "UTF-8"));
-                StringBuilder objStrBuilder = new StringBuilder();
-                String strLine = null;
-
-                while ((strLine = objBufferesReader.readLine()) != null) {
-                    objStrBuilder.append(strLine);
-                }
-
-                objInputStream.close();
-                strJSON = objStrBuilder.toString();
-
-                Log.d("Emergency", "Connected JSON Success !");
-
-
-            } catch (Exception e) {
-                Log.d("Emergency", "Error Convert To JSON :" + e.toString());
-            }
-
-
-            return strJSON;
-
-        }
-
-
-
-
-
-
-
-    }
+//    private class SimpleTask extends AsyncTask<String, Void, String> {
+//
+//
+//        ProgressDialog objPD;
+//        @Override
+//        protected void onPreExecute() {
+//            // Create Show ProgressBar
+//
+//
+//            objPD = new ProgressDialog(getActivity());
+//            objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            objPD.setTitle("Loading...");
+//            objPD.setMessage("???????????...");
+//            objPD.setCancelable(false);
+//            objPD.setIndeterminate(false);
+//
+//
+//
+//
+//            objPD.show();
+//
+//        }
+//
+//        protected String doInBackground(String... urls) {
+//
+//        deleteAll();
+//
+//            return JSON();
+//        }
+//
+//        protected void onPostExecute(String jsonString)  {
+//            // Dismiss ProgressBar
+////            Log.d("Emergency", jsonString);
+////            Toast.makeText(getActivity(), jsonString, Toast.LENGTH_LONG).show();
+//
+//
+//
+//
+//
+//            json_to_sQlite.Student_Unblock(jsonString, getActivity());
+//
+//            objPD.dismiss();
+//
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//        public String JSON() {
+//
+//            InputStream objInputStream = null;
+//            String strJSON = "";
+//
+//            try {
+//
+//                HttpClient objHttpClient = new DefaultHttpClient();
+//                HttpPost objHttpPost = new HttpPost(URL_JSON);
+//                HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
+//                HttpEntity objHttpEntity = objHttpResponse.getEntity();
+//                objInputStream = objHttpEntity.getContent();
+//
+//                Log.d("GExam", "Connected HTTP Success !");
+//
+//
+//            } catch (Exception e) {
+//
+//                Log.d("GExam", "Error Connect to : " + e.toString());
+//            }
+//
+//
+//            //create strJSON
+//            try {
+//
+//                BufferedReader objBufferesReader = new BufferedReader(new InputStreamReader(objInputStream, "UTF-8"));
+//                StringBuilder objStrBuilder = new StringBuilder();
+//                String strLine = null;
+//
+//                while ((strLine = objBufferesReader.readLine()) != null) {
+//                    objStrBuilder.append(strLine);
+//                }
+//
+//                objInputStream.close();
+//                strJSON = objStrBuilder.toString();
+//
+//                Log.d("Emergency", "Connected JSON Success !");
+//
+//
+//            } catch (Exception e) {
+//                Log.d("Emergency", "Error Convert To JSON :" + e.toString());
+//            }
+//
+//
+//            return strJSON;
+//
+//        }
+//
+//
+//
+//
+//
+//
+//
+//    }
 
 
     public class InsertDataTask extends AsyncTask<String, Void, String> {
@@ -311,7 +321,7 @@ public class StudentListFragment extends Fragment {
             objPD = new ProgressDialog(getActivity());
             objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             objPD.setTitle("Loading...");
-            objPD.setMessage("??????????????????????????????????...");
+            objPD.setMessage("???????????...");
             objPD.setCancelable(false);
             objPD.setIndeterminate(false);
 

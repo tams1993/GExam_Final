@@ -133,7 +133,7 @@ public class StudentNoPermissionFragment extends Fragment {
     public List<StudentNoPermission> getAllStudentNoPermission(int classID){
         List < StudentNoPermission > labels = new ArrayList<StudentNoPermission>();
         // Select All Query
-        String selectQuery = "SELECT * FROM students st LEFT JOIN student_unblock su ON su.std_id = st._id Where class_id = "+classID +" AND su.status IS NULL";
+        String selectQuery = "SELECT st.name, st.surname FROM students st LEFT JOIN student_unblock su ON su.std_id = st._id Where class_id = "+classID +" AND su.status IS NULL";
 
 
         OpenHelper openHelper = new OpenHelper(getActivity());
