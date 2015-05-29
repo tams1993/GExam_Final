@@ -133,7 +133,32 @@ public class StudentListFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                new InsertDataTask().execute();
+//                new InsertDataTask().execute();
+
+                String data = "";
+
+                List<Student> studentList = adapter.getStudentList();
+
+
+                for (int i = 0; i < studentList.size(); i++) {
+                    Student singleStudent = studentList.get(i);
+
+
+                    if (singleStudent.isSelected()) {
+
+                        data = data + "\n" + singleStudent.getStudent() +singleStudent.getAgaints_rule();
+
+
+//                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
+
+                    }
+
+                }
+
+
+                Toast.makeText(getActivity(),
+                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+                        .show();
 
 
             }
@@ -321,7 +346,7 @@ public class StudentListFragment extends Fragment {
             objPD = new ProgressDialog(getActivity());
             objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             objPD.setTitle("Loading...");
-            objPD.setMessage("???????????...");
+            objPD.setMessage("ກະລຸນາລໍຖ້າ...");
             objPD.setCancelable(false);
             objPD.setIndeterminate(false);
 
@@ -343,23 +368,23 @@ public class StudentListFragment extends Fragment {
 
                 if (singleStudent.isSelected()) {
 
-                    data = data + "\n" + singleStudent.getStd_id();
+                    data = data + "\n" + singleStudent.getAgaints_rule();
 
 
-                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
+//                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
 
                 }
 
             }
 
 
-//                Toast.makeText(getActivity(),
-//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
-//                        .show();
+                Toast.makeText(getActivity(),
+                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+                        .show();
 
             String testcode = sp.getString("testcode", "No value");
 
-            UpdateCourseStatus(testcode);
+//            UpdateCourseStatus(testcode);
 
 
             return null;

@@ -5,11 +5,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,21 +56,51 @@ import gko.app.gexam.R;
         }
 
     @Override
-    public void onBindViewHolder(StudentViewHolder holder, final int position) {
+    public void onBindViewHolder(final StudentViewHolder holder, final int position) {
 
         final Student currentStudent = students.get(position);
         holder.studentName.setText(currentStudent.student);
 
-        holder.chbIllegal.setChecked(students.get(position).isSelected());
+
+            holder.chbIllegal.setChecked(students.get(position).isSelected());
         holder.chbIllegal.setTag(students.get(position));
         holder.chbIllegal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 CheckBox cb = (CheckBox) v;
-                Student contact = (Student) cb.getTag();
+                final Student contact = (Student) cb.getTag();
                 contact.setSelected(cb.isChecked());
                 students.get(position).setSelected(cb.isChecked());
+
+                if (cb.isChecked()) {
+                    holder.editText.setEnabled(true);
+                }else {
+
+                    holder.editText.setEnabled(false);
+                }
+
+
+
+                holder.editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        String Illegal = holder.editText.getText().toString();
+                        contact.setAgaints_rule(Illegal);
+                        Log.d("GExam", currentStudent.student + " " + Illegal);
+
+                    }
+                });
 
 //                Toast.makeText(v.getContext(), currentStudent.student + "have been check", Toast.LENGTH_LONG).show();
 
@@ -104,6 +140,7 @@ import gko.app.gexam.R;
 
         TextView studentName;
         CheckBox chbPresent, chbIllegal;
+        EditText editText;
 
         public StudentViewHolder(View itemView) {
 
@@ -113,8 +150,14 @@ import gko.app.gexam.R;
 
             this.studentName.setTypeface(typeface);
 
+            editText = (EditText) itemView.findViewById(R.id.edtAgaintsRule);
             chbPresent = (CheckBox) itemView.findViewById(R.id.chbPresent);
             chbIllegal = (CheckBox) itemView.findViewById(R.id.chbIllegal);
+
+            editText.setEnabled(false);
+
+
+
 
         }
     }

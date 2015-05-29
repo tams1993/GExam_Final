@@ -6,6 +6,7 @@ package gko.app.gexam.committed.com_fragment;
 public class Student {
 
     String student;
+    String againts_rule;
     private boolean isSelected;
     private int status;
     private int std_id;
@@ -41,7 +42,14 @@ public class Student {
         this.isSelected = isSelected;
     }
 
+    public String getAgaints_rule() {
+        return againts_rule;
+    }
 
+    public void setAgaints_rule(String againts_rule) {
+
+        this.againts_rule = againts_rule;
+    }
 
     @Override
     public String toString() {

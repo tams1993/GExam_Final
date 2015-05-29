@@ -83,7 +83,7 @@
                     android:entries="@array/country_arrays"
                     android:prompt="@string/country_prompt"
                     android:id="@+id/spnCom"
-                    android:layout_weight="1" />
+                    android:layout_weight="6" />
 
             </LinearLayout>
 

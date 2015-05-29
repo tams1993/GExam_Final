@@ -59,6 +59,18 @@
         <item>New Zealand</item>
         <item>India</item>
     </string-array>
+
+    <string-array name="againt_rule">
+        <item>ກ່າຍກັນ</item>
+        <item>ວົນແຊວ</item>
+        <item>ເຄື່ອງບໍ່ຖືກລະບຽບ</item>
+        <item>ຜົມຍາວ</item>
+        <item>ເກີບຜິດລະບຽບ</item>
+        <item>ໂສ້ງຂາເດັບ</item>
+        <item>ເສື້ອບໍ່ມີກາໂຮງຮຽນ</item>
+
+    </string-array>
+
     <string name="title_activity_rule">RuleActivity</string>
     <string name="active">Active:</string>
     <string name="active_course">ເປີດ Course ສອບເສັງ</string>
