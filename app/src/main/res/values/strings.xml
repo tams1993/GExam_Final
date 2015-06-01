@@ -16,7 +16,7 @@
     <string name="rule_notbold">ກົດລະບຽບ:</string>
     <string name="student_choice">ນັກຮຽນເລືອກ: </string>
     <string name="Next">ຕໍ່ໄປ </string>
-    <string name="course_detail"><b>ລາຍລະອຽດ Course </b></string>
+    <string name="course_detail"><b><u>ລາຍລະອຽດ Course </u></b></string>
     <string name="course_name">ວິຊາເສັງ: </string>
     <string name="by">ໂດຍ ອ.ຈ: </string>
     <string name="classname">ຫ້ອງ: </string>

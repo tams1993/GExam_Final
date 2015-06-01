@@ -60,7 +60,7 @@ public class StudentListFragment extends Fragment {
     private RippleButton btnSubmit;
     private TextView txtAllStudent;
     private CheckBox chbPresent;
-    private String ALERT_TITLE = "????????????????", ALERT_MESSAGE= "????????????????. ??????????????????????????????????????????????????????.";
+    private String ALERT_TITLE = "ການສອບເສັງສົມບູນ", ALERT_MESSAGE= "ການສອບເສັງສົມບູນ. ລາຍຊື່ນັກສຶກສາຈະຖືກສົ່ງໄປຍັງຖານຂໍ້ມູນຂອງອາຈານປະຈຳວິຊາ.";
 
 
 
@@ -133,32 +133,32 @@ public class StudentListFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-//                new InsertDataTask().execute();
+                new InsertDataTask().execute();
 
-                String data = "";
-
-                List<Student> studentList = adapter.getStudentList();
-
-
-                for (int i = 0; i < studentList.size(); i++) {
-                    Student singleStudent = studentList.get(i);
-
-
-                    if (singleStudent.isSelected()) {
-
-                        data = data + "\n" + singleStudent.getStudent() +singleStudent.getAgaints_rule();
-
-
-//                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
-
-                    }
-
-                }
-
-
-                Toast.makeText(getActivity(),
-                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
-                        .show();
+//                String data = "";
+//
+//                List<Student> studentList = adapter.getStudentList();
+//
+//
+//                for (int i = 0; i < studentList.size(); i++) {
+//                    Student singleStudent = studentList.get(i);
+//
+//
+//                    if (singleStudent.isSelected()) {
+//
+//                        data = data + "\n" + singleStudent.getStudent() +singleStudent.getAgaints_rule();
+//
+//
+////                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
+//
+//                    }
+//
+//                }
+//
+//
+//                Toast.makeText(getActivity(),
+//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+//                        .show();
 
 
             }
@@ -371,20 +371,20 @@ public class StudentListFragment extends Fragment {
                     data = data + "\n" + singleStudent.getAgaints_rule();
 
 
-//                    AddStudentIllegalToMySQL(1,singleStudent.getStd_id(),course_id);
+                    AddStudentIllegalToMySQL(1,singleStudent.getAgaints_rule(),singleStudent.getStd_id(),course_id);
 
                 }
 
             }
 
 
-                Toast.makeText(getActivity(),
-                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
-                        .show();
+//                Toast.makeText(getActivity(),
+//                        "Selected Students: \n" + data, Toast.LENGTH_LONG)
+//                        .show();
 
             String testcode = sp.getString("testcode", "No value");
 
-//            UpdateCourseStatus(testcode);
+            UpdateCourseStatus(testcode);
 
 
             return null;
@@ -412,7 +412,7 @@ public class StudentListFragment extends Fragment {
 
 
 
-    public void AddStudentIllegalToMySQL(int status, int std_id, int course_id) {
+    public void AddStudentIllegalToMySQL(int status, String Againts_rule,int std_id, int course_id) {
 
         if (Build.VERSION.SDK_INT > 7) {
 
@@ -427,8 +427,9 @@ public class StudentListFragment extends Fragment {
 
             ArrayList<NameValuePair> objNameValuePairs = new ArrayList<NameValuePair>();
             objNameValuePairs.add(new BasicNameValuePair("status", String.valueOf(status)));
-            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
+            objNameValuePairs.add(new BasicNameValuePair("againts_rule", Againts_rule));
             objNameValuePairs.add(new BasicNameValuePair("course_id", String.valueOf(course_id)));
+            objNameValuePairs.add(new BasicNameValuePair("std_id", String.valueOf(std_id)));
 
 
 

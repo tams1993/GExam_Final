@@ -42,6 +42,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -389,7 +392,16 @@ public class MainActivity extends ActionBarActivity {
         try {
 
             HttpClient objHttpClient = new DefaultHttpClient();
+
+
+            HttpParams params = objHttpClient.getParams();
+            HttpConnectionParams.setConnectionTimeout(params, 10*1000);
+            HttpConnectionParams.setSoTimeout(params, 10000);
+
             HttpPost objHttpPost = new HttpPost(URL_JSON);
+
+
+
             HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
             HttpEntity objHttpEntity = objHttpResponse.getEntity();
             objInputStream = objHttpEntity.getContent();
@@ -399,8 +411,13 @@ public class MainActivity extends ActionBarActivity {
 
         } catch (Exception e) {
 
+
+
+
+
             Log.d("GExam", "Error Connect to : " + e.toString());
         }
+
 
 
         //create strJSON
@@ -421,6 +438,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         } catch (Exception e) {
+
             Log.d("Emergency", "Error Convert To JSON :" + e.toString());
         }
 

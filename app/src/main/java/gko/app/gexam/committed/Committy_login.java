@@ -199,7 +199,7 @@ public class Committy_login extends ActionBarActivity {
 
                 if (!chbActiveCourse.isChecked()) {
 
-                    Toast.makeText(getApplicationContext(), "????????? Active Course", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "???????????? Active Course", Toast.LENGTH_LONG).show();
 
 //                    Intent intent = new Intent(Committy_login.this, ComFragActivity.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -208,7 +208,7 @@ public class Committy_login extends ActionBarActivity {
 
                 } else if (testcodeType.equals("")) {
 
-                    Toast.makeText(getApplicationContext(), "????????????????????? Course", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "???????????????????? Course", Toast.LENGTH_LONG).show();
 
 
                 } else {
@@ -263,7 +263,7 @@ public class Committy_login extends ActionBarActivity {
 
                 new AlertDialog.Builder(this)
                         .setTitle("?????????????!!!")
-                        .setMessage("???????????????????????????")
+                        .setMessage("?????????????????????? course ???")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // continue with delete

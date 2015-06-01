@@ -300,11 +300,11 @@ public class Json_to_SQlite {
 
                 JSONObject jsonObject1 = jsonArrayClassrooms.getJSONObject(i);
                 int id = jsonObject1.getInt("id");
-                int course_id = jsonObject1.getInt("course_id");
-                String rule = jsonObject1.getString("rule");
-                int teacher_id = jsonObject1.getInt("teacher_id");
 
-                new Table(context).addExam_Rule(id, course_id,rule,teacher_id);
+                String rule = jsonObject1.getString("rule");
+
+
+                new Table(context).addExam_Rule(id,rule);
 
                 Log.d("ERROR", "JSON to SQLITE: COMPLETE");
 

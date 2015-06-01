@@ -24,7 +24,7 @@ public class OpenHelper extends SQLiteOpenHelper {
     private static final String DATABASE_CREATE_SUBJECT= "create table subject (_id integer primary key, " + " subject_name VARCHAR(255), credit INT(5), code VARCHAR(255))";
     private static final String DATABASE_CREATE_STUDENT_ILLEGAL = "create table student_illegal (_id integer primary key, " + " std_id VARCHAR(255), course_id INT(10))";
     private static final String DATABASE_CREATE_EXAM_QUESTION = "create table exam_question (_id integer primary key, " + " course_id INT(10), question_id INT(10), student_ans_id int(10))";
-    private static final String DATABASE_CREATE_EXAM_RULE = "create table exam_rule (_id integer primary key, " + " course_id INT(10), rule VARCHAR(255), teacher_id INT(10))";
+    private static final String DATABASE_CREATE_EXAM_RULE = "create table exam_rule (_id integer primary key, " + " rule VARCHAR(255))";
     private static final String DATABASE_CREATE_QUESTION = "create table questions (_id integer primary key, " + " question VARCHAR(255), teacher_id INT(10),photo VARCHAR(255), subject_id INT(10))";
     private static final String DATABASE_CREATE_STUDENTS = "create table students (_id integer primary key, " + " phone INT(10), name VARCHAR(255), surname VARCHAR(255),photo VARCHAR(255),email VARCHAR(255),username VARCHAR(255),password VARCHAR(255), student_id VARCHAR(255),class_id INT(20))";
     private static final String DATABASE_CREATE_TEACHERS = "create table teacher (_id integer primary key, " + " phone INT, name VARCHAR(255), surname VARCHAR(255),invite_code VARCHAR(255),email VARCHAR(255),username VARCHAR(255),password VARCHAR(255))";

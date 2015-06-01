@@ -258,13 +258,13 @@ public class Table {
 
     }
 
-public long addExam_Rule(int id, int course_id, String rule, int teacher_id) {
+public long addExam_Rule(int id,String rule) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_EXAM_RULE_ID, id);
-        contentValues.put(COLUMN_EXAM_RULE_TEST_CODE, course_id);
+
         contentValues.put(COLUMN_EXAM_RULE_RULE, rule);
-        contentValues.put(COLUMN_EXAM_RULE_TEACHER_ID, teacher_id);
+
 
 
 
@@ -362,7 +362,7 @@ public long addStudents(int id, String name, String surname, int phone, String e
 
 
 
-            String selectQuery = "SELECT rule FROM exam_rule r INNER JOIN course c on r.course_id = c._id";
+            String selectQuery = "SELECT rule FROM exam_rule";
 
 
 

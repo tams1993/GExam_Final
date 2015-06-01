@@ -55,7 +55,7 @@ public class StudentNoPermissionFragment extends Fragment {
 
     private SharedPreferences sp;
 
-    private int class_id;
+    private int class_id,course_id;
 
 //    private Json_to_SQlite json_to_sQlite = new Json_to_SQlite();
 
@@ -74,13 +74,15 @@ public class StudentNoPermissionFragment extends Fragment {
 
 
         class_id = sp.getInt("class_id", -1);
+        course_id = sp.getInt("course_id_committee", -1);
 //
         Log.d("GExam","class_id = " + class_id);
+        Log.d("GExam","course_id_committee = " + course_id);
 
 
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.studentNoPerRecycler);
-        adapter = new StudentNoPermissionAdapter(getActivity(), getAllStudentNoPermission(class_id));
+        adapter = new StudentNoPermissionAdapter(getActivity(), getAllStudentNoPermission(course_id,class_id));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -128,15 +130,15 @@ public class StudentNoPermissionFragment extends Fragment {
 //    }
 
 
-    public List<StudentNoPermission> getAllStudentNoPermission(int classID){
+    public List<StudentNoPermission> getAllStudentNoPermission(int course_id , int classID){
         List < StudentNoPermission > labels = new ArrayList<StudentNoPermission>();
         // Select All Query
-        String selectQuery = "SELECT st.name, st.surname FROM students st LEFT JOIN student_unblock su ON su.std_id = st._id Where class_id = "+classID +" AND su.status IS NULL";
+        String selectQuery = "SELECT * FROM students WHERE _id not in (SELECT std_id from student_unblock su left join students st on su.std_id = st._id where course_id =?) AND class_id =?";
 
 
         OpenHelper openHelper = new OpenHelper(getActivity());
         SQLiteDatabase db = openHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
+        Cursor cursor = db.rawQuery(selectQuery,new String[]{String.valueOf(course_id), String.valueOf(classID)});
 
         Log.d("GExam", "All Student =  " + String.valueOf(cursor.getCount()));
 
