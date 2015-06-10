@@ -40,7 +40,7 @@
     <string name="testcode">ກະລຸນາປ້ອນເລກລະຫັດລັບຂອງ course ສອບເສັງນັ້ນ: </string>
     <string name="minute"> ນາທີ</string>
     <string name="warning">ຂໍ້ຄວນລະວັງ!!!</string>
-    <string name="warning_exit">- ຫ້າມອອກຈາກ Application ເກີນ 5 ຄັ້ງ. ຖ້າເກີນການສອບຈະສິ້ນສຸດທັນທີ.</string>
+    <string name="warning_exit">- ຫ້າມອອກຈາກ Application ເກີນ 3 ຄັ້ງ. ຖ້າເກີນການສອບຈະສິ້ນສຸດທັນທີ.</string>
     <string name="warning_check">- ກວດສອບວ່າຕອບໝົດທຸກຂໍ້ກ່ອນກົດປຸ່ມ "ສົ່ງຄຳຕອບ"</string>
     <string name="press_start_to_test">- ເມື່ອກົດປຸ່ມ "ເລີ່ມເສັງ" ຈະນຳໄປສູ່ໜ້າທີ່ນັກສຶກສາໃຊ້ໃນການຕອບຄຳຖາມ</string>
     <string name="please_wait">ກະລຸນາເປີດໜ້ານີ້ໄວ້ເພື່ອໃຫ້ຄະນະກຳມະການສະແກນເພື່ອເປີດການສອບເສັງໃຫ້</string>

@@ -225,7 +225,7 @@ public class QRActivity extends Activity implements OnClickListener{
             objPD = new ProgressDialog(QRActivity.this);
             objPD.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             objPD.setTitle("Loading...");
-            objPD.setMessage("???????????...");
+            objPD.setMessage("ກະລຸນາລໍຖ້າ...");
             objPD.setCancelable(false);
             objPD.setIndeterminate(false);
 
