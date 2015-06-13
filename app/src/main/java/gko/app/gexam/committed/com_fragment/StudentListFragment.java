@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -96,8 +97,12 @@ public class StudentListFragment extends Fragment {
         chbPresent = (CheckBox) layout.findViewById(R.id.chbPresent);
         recyclerView = (RecyclerView) layout.findViewById(R.id.studentList);
         adapter = new StudentAdapter(getActivity(),getAllStudent(course_id),"phetsarath.ttf");
+
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
         fab.attachToRecyclerView(recyclerView);
 

@@ -187,8 +187,8 @@ public class QuestionPageActivity extends ActionBarActivity {
 
         teacher_id = spName.getInt("teacher_id", -1);
         subject_id = spName.getInt("subject_id", -1);
-//        interval_time = spName.getInt("interval_time", -1);
-        interval_time = 1;
+        interval_time = spName.getInt("interval_time", -1);
+//        interval_time = 1;
         question_amount = (spName.getInt("question_amount", -1) - 1) ;
         question_amount_real = spName.getInt("question_amount", -1);
 
@@ -293,7 +293,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
                 } else {
 
-                    Log.d("counter", "counter = " + counter+ "question = " + Question);
+                    Log.d("counter", "counter = " + counter + "question = " + Question);
 
                     QuestionAnswerPerPage(counter);
 
@@ -303,6 +303,7 @@ public class QuestionPageActivity extends ActionBarActivity {
                 int answer = sp.getInt("answer_choice " + (counter), -1);
 
                 if (answer != -1) {
+
 
 
 
@@ -341,7 +342,7 @@ public class QuestionPageActivity extends ActionBarActivity {
                 } else {
 
                     counter = 0;
-                    Log.d("counter", "counter = " + counter+ "question = " + Question);
+                    Log.d("counter", "counter = " + counter + "question = " + Question);
 
                     QuestionAnswerPerPage(counter);
 
@@ -409,10 +410,13 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
 
+
                 // get selected radio button from radioGroup
                 int selectedId = rgp.getCheckedRadioButtonId();
 
                 RadioButton radioButton = (RadioButton) findViewById(checkedId);
+
+                radioButton.setChecked(true);
 
                 String selection =(String) radioButton.getText();
 
@@ -590,6 +594,7 @@ public class QuestionPageActivity extends ActionBarActivity {
 
 
         rgp.removeAllViews();
+
 
 
 

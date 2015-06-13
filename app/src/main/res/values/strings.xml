@@ -6,7 +6,7 @@
     <string name="student"><b>ນັກສຶກສາ</b></string>
     <string name="username">ລົງຊື່ເຂົ້າໃຊ້: </string>
     <string name="password">ລະຫັດຜ່ານ: </string>
-    <string name="course">Course: </string>
+    <string name="course">ເລືອກ Course: </string>
     <string name="login">ເຂົ້າລະບົບ</string>
     <string name="register"><u>ລົງທະບຽນ?</u></string>
     <string name="or">ຫຼືວ່າ </string>
