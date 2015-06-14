@@ -61,70 +61,97 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @Override
     public void onBindViewHolder(final StudentViewHolder holder, final int position) {
 
+
+
+
+
         final Student currentStudent = students.get(position);
         holder.studentName.setText(currentStudent.student);
         holder.chbIllegal.setTag(students.get(position));
         holder.editText.setTag(students.get(position));
 
+
+holder.editText.setText(currentStudent.getAgaints_rule());
+
+        if (currentStudent.isSelected()) {
+            holder.editText.setEnabled(true);
+           // holder.editText.setText(currentStudent.getAgaints_rule());
+        }else{
+            holder.editText.setEnabled(false);
+        }
+
+
+
+
         holder.chbIllegal.setChecked(students.get(position).isSelected());
 
-
-        holder.chbIllegal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                CheckBox cb = (CheckBox) v;
-
-                final Student contact = (Student) cb.getTag();
-
-                contact.setSelected(cb.isChecked());
-                students.get(position).setSelected(cb.isChecked());
+       
 
 
-                if (cb.isChecked()) {
-                    holder.editText.setEnabled(true);
+//        holder.chbIllegal.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                CheckBox cb = (CheckBox) v;
+//
+//            final     Student contact = (Student) cb.getTag();
+//
+//                contact.setSelected(cb.isChecked());
+//                students.get(position).setSelected(cb.isChecked());
+//
+//
+//
+//                if (cb.isChecked()) {
+//
+//
+//                    holder.editText.setEnabled(true);
+//                    holder.editText.addTextChangedListener(new TextWatcher() {
+//                        @Override
+//                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                        }
+//
+//                        @Override
+//                        public void afterTextChanged(Editable s) {
+//
+//
+//                            String Illegal = holder.editText.getText().toString();
+//                            contact.setAgaints_rule(s.toString());
+//                            Log.d("GExam", currentStudent.student + " " + Illegal);
+//                           // currentStudent.setAgaints_rule(Illegal);
+//
+//                            Log.e("Test", "Current " + position);
+//
+//                          // students.get((Integer) holder.editText.getTag()).setAgaints_rule(Illegal);
+//
+//
+//                        }
+//                    });
+//
+//
+////                    holder.chbIllegal.setTag(students.get(position));
+////                    holder.editText.setTag(students.get(position));
+//
+//
+//                }
+//
+//
+//            }
+//        });
 
-                    holder.editText.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-
-
-                            String Illegal = holder.editText.getText().toString();
-                            contact.setAgaints_rule(Illegal);
-                            Log.d("GExam", currentStudent.student + " " + Illegal);
-
-
-                        }
-                    });
-
-                    holder.chbIllegal.setOnClickListener(null);
-                    holder.chbIllegal.setTag(students.get(position));
-
-
-                } else {
-
-                    holder.editText.setEnabled(false);
-                }
-
-
-            }
-        });
 
 
         if (currentStudent.getStatus() == 1) {
 
 
             holder.chbPresent.setChecked(true);
+
 
 
         } else if (currentStudent.getStatus() == 0) {
@@ -161,7 +188,43 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             chbPresent = (CheckBox) itemView.findViewById(R.id.chbPresent);
             chbIllegal = (CheckBox) itemView.findViewById(R.id.chbIllegal);
 
-            editText.setEnabled(false);
+//            editText.setEnabled(false);
+
+            chbIllegal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    int position = Integer.parseInt( v.getTag().toString());
+//                    CheckBox cb = (CheckBox) v;
+//                    students.get(position).setSelected(cb.isChecked());
+                    CheckBox cb = (CheckBox) v;
+                    Student s = (Student) v.getTag();
+                    Log.e("GExam", String.valueOf(cb.isChecked()));
+                    s.setSelected(cb.isChecked());
+                    StudentViewHolder.this.editText.setEnabled(cb.isChecked());
+
+                }
+            });
+
+            editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                            Student student = (Student) StudentViewHolder.this.editText.getTag();
+
+                           student.setAgaints_rule(s.toString());
+                        }
+                    });
+
 
 
         }
