@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.transition.Fade;
+import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
@@ -141,6 +142,19 @@ public class MainActivity extends ActionBarActivity {
 //
 //        }
 
+        if (Build.VERSION.SDK_INT >= 21) {
+
+            Slide slide = new Slide();
+            slide.setDuration(1000);
+            getWindow().setEnterTransition(slide);
+
+//            TransitionInflater inflater = TransitionInflater.from(this);
+//            Transition transition = inflater.inflateTransition(R.transition.transtion_main_activity);
+//            getWindow().setExitTransition(transition);
+
+
+        }
+
         setContentView(R.layout.activity_main);
 
 
@@ -157,7 +171,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        this.deleteDatabase("GExam.db");
+//        this.deleteDatabase("GExam.db");
 
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -166,7 +180,8 @@ public class MainActivity extends ActionBarActivity {
 
             if (Online()) {
 
-                new SimpleTask().execute(URL_JSON);
+//                new SimpleTask().execute(URL_JSON);
+                SpinnerList();
                 txtStatus.setText("ອອນໄລນ");
 
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -175,8 +190,6 @@ public class MainActivity extends ActionBarActivity {
 
 
                         strSubjectName = parent.getItemAtPosition(position).toString();
-
-
 
 
                     }

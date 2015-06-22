@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.widget.TextView;
 
 import gko.app.gexam.student.FontsOverride;
 import gko.app.gexam.student.MainActivity;
@@ -98,6 +100,8 @@ public static void Alert(final Activity activity,String title, String message ) 
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
+
+
 
 
     }

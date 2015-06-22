@@ -1,6 +1,24 @@
 <resources>
     <string name="app_name">GExam</string>
 
+    <string name="progress_txt">
+  <![CDATA[
+  <b><font face="phetsarath">ກຳລັງໂຫຼດຂໍ້ມູນ..."</font></b>
+    ]]>
+ </string>
+
+     <string name="progress_title">
+  <![CDATA[
+  <b><font face="phetsarath">ການເຊື່ອມຕໍ່ຜິດພາດ!!!"</font></b>
+    ]]>
+ </string>
+
+     <string name="progress_message">
+  <![CDATA[
+  <font face="phetsarath">ກະລຸນາກວດອຸປະກອນຂອງທ່ານວ່າເຊື່ອມຕໍ່ອິນເຕີເນັດຫຼືຍັງກ່ອນເຂົ້ານຳໃຊ້</font>
+    ]]>
+ </string>
+
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="student"><b>ນັກສຶກສາ</b></string>
@@ -83,5 +101,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_com_frag">ComFragActivity</string>
     <string name="title_activity_com_scan">ScannerActivity</string>
+    <string name="title_activity_splashscreen">Splashscreen</string>
 
 </resources>
