@@ -120,8 +120,9 @@ public class Splashscreen extends ActionBarActivity {
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+
                                     finish();
+                                    dialog.dismiss();
                                 }
                             }).show();
 //                    TextView textView = (TextView) dialog.findViewById(android.R.id.message);
@@ -202,6 +203,7 @@ public class Splashscreen extends ActionBarActivity {
             Intent intent = new Intent(Splashscreen.this, MainActivity.class);
             startActivity(intent);
             finish();
+            objPD.dismiss();
 
 
 
